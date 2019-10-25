@@ -5,7 +5,7 @@ using DL.Models;
 
 namespace DL.Interfaces
 {
-    interface IPlayerSrv
+    public interface IPlayerSrv
     {
         void InitPlayer(Player player);
         List<Player> GetAllPlayers();

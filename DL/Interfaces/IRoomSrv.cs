@@ -4,7 +4,7 @@ using System.Text;
 using DL.Models;
 namespace DL.Interfaces
 {
-    interface IRoomSrv
+   public interface IRoomSrv
     {
         Room GetRoom(string name);
         List<Room> GetAllRooms();

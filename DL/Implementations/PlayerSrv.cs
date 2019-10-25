@@ -52,10 +52,10 @@ namespace DL.Implementations
         {
             return _ds.Players.Remove(p);
         }
-
+     
         public bool checkPlayer(string name)
         {
-
+            
             //  int a = DataStor._players.Count;
             if (_ds.Players.Count == 0) return false;
             var items = _ds.Players.Where(u => u.login == name);
@@ -63,7 +63,7 @@ namespace DL.Implementations
             foreach (var pl in items)
             {
                 TimeSpan ts = DateTime.Now - pl.date;
-                if (ts.TotalMinutes > 5)
+                if (ts.TotalMinutes > Parameters.KeepLoginCokies)
                     _ds.Players.Remove(pl);
                 else flPlayerExist = true;
             }

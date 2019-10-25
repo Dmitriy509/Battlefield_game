@@ -5,7 +5,7 @@ using DL.Interfaces;
 using DL.Implementations;
 namespace DL
 {
-    class DataManager
+   public class DataManager
     {
         IPlayerSrv _ps;
         IRoomSrv _rs;
