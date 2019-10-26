@@ -4,9 +4,10 @@ using System.Text;
 using System.Linq;
 using System.Threading.Tasks;
 using BL.Interfaces;
-using DL.Models;
 using BL.Models;
 using DL;
+using DL.Models;
+
 using static DL.Enums.StateEnums;
 namespace BL.Services
 {

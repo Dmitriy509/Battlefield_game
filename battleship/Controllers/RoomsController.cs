@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using BL.Interfaces;
 using BL.Services;
-
+using BL.Models;
 namespace battleship.Controllers
 {
     public class RoomsController : Controller
@@ -30,8 +30,9 @@ namespace battleship.Controllers
             {
                 return null;
             }
-            return Json(_rs.GetInfoRooms(playername));
-            // return Json(new { roomnames = list.Select(u => u.n).ToList(), player_count = list.Select(u => u.pcount).ToList() });
+            RoomsList res = _rs.GetInfoRooms(playername);
+           // return Json(_rs.GetInfoRooms(playername));
+             return Json(new { roomnames = res.RoomNames, player_count = res.Player_Count });
 
         }
 
@@ -72,7 +73,7 @@ namespace battleship.Controllers
                 // ViewBag.errmsg = "";
                 //return Redirect("Login");
             }
-            string[] res = _rs.CreateRoom(roomname, playername);
+            string[] res = _rs.EnterTheRoom(roomname, playername);
             if (res[0] == "Rooms")
             {
                 ViewBag.errmsg = res[1];

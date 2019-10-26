@@ -47,7 +47,7 @@
 
     }
 
-    $.post("/Default/GetShipsCoords", { playername: login, Xarr: Xcoords, Yarr: Ycoords })
+    $.post("/SetShips/GetShipsCoords", { playername: login, Xarr: Xcoords, Yarr: Ycoords })
         .done(function (data1) {
             document.getElementById('user1').innerText = login + "- Готов";
             document.getElementById('readybtn').disabled = true;
