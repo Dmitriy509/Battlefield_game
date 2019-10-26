@@ -48,16 +48,13 @@ namespace battleship.Controllers
             return View();
         }
 
-        public IActionResult Rooms(string username)
-        {
-            return View();
-        }
 
         [HttpPost]
-        public IActionResult Signin(string playername)
+        public ActionResult Signin(string playername)
         {
+           
 
-            if(playername==""&&playername==null)
+            if (playername==""||playername==null)
             {
                 ViewBag.errormsg = "Ошибка, попробуйте еще раз!";
                 return View("Login");
@@ -67,13 +64,17 @@ namespace battleship.Controllers
             string res = _ls.SignIn(playername);
             if(res=="Rooms")
             {
-               addCookies(playername);
-               ViewBag.playername = playername;
+                addCookies(playername);
+                ViewBag.playername = playername;
+               //   return RedirectToAction("Rooms", "Rooms");
+                return Redirect("~/Rooms/Rooms");
+               // return Redirect("Rooms");
             }
 
             ViewBag.errormsg = "Игрок с таким именем уже есть на сервере!";
             return View("Login");
 
         }
+
     }
 }

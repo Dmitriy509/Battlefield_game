@@ -1,0 +1,9 @@
+D:\git_projects\battleship\DL\bin\Debug\netcoreapp2.1\DL.deps.json
+D:\git_projects\battleship\DL\bin\Debug\netcoreapp2.1\DL.dll
+D:\git_projects\battleship\DL\bin\Debug\netcoreapp2.1\DL.pdb
+D:\git_projects\battleship\DL\obj\Debug\netcoreapp2.1\DL.csprojAssemblyReference.cache
+D:\git_projects\battleship\DL\obj\Debug\netcoreapp2.1\DL.csproj.CoreCompileInputs.cache
+D:\git_projects\battleship\DL\obj\Debug\netcoreapp2.1\DL.AssemblyInfoInputs.cache
+D:\git_projects\battleship\DL\obj\Debug\netcoreapp2.1\DL.AssemblyInfo.cs
+D:\git_projects\battleship\DL\obj\Debug\netcoreapp2.1\DL.dll
+D:\git_projects\battleship\DL\obj\Debug\netcoreapp2.1\DL.pdb
