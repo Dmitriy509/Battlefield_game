@@ -11,9 +11,12 @@ namespace DL.Enums
             signin,
             editships,
             readytoplay,
-            playing,
-            endgame,
-            readytoreplay
+            playing,            
+            readytoreplay,
+            winner,
+            loser,
+            giveup
+
         }
 
         public enum Game_States : sbyte
@@ -28,7 +31,6 @@ namespace DL.Enums
         //0-туман, 1-пусто, 2-корабль, 3-раненый, 4-промах
         public enum Field_Cell_States : sbyte
         {
-            haze = 0,
             empty = 1,
             ship = 2,
             injured = 3,

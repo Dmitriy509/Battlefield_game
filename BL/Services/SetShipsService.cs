@@ -92,7 +92,7 @@ namespace BL.Services
                 try
                 {
                     p2res = p2.login + " - Готов";
-                    return "GameView";
+                    return "/Game/StartGame";
                 }
                 catch
                 {

@@ -1,0 +1,89 @@
+﻿<html>
+<head>
+
+    <script src="~/lib/jquery/dist/jquery.min.js" type="text/javascript"></script>
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/css/ShipsAndFieldStyles.css" rel="stylesheet" />
+    <script src="~/js/getcookies.js"></script>
+</head>
+<body>
+
+
+    <h2>GameView</h2><br />
+
+    <div style="margin-left:8%;">
+        <div style="display:inline-block; width:370pt; height:330pt; vertical-align: top;">
+            <h1 id="user1" style="display:inline-block;">@ViewBag.player1name</h1>
+            <h1 id="moveuser1" style="display:inline-block;">aaa</h1>
+
+            <table id="battlefield1" class="battlefield">
+
+                @for (var i = 0; i < 10; i++)
+                {
+                    @:<tr>
+                        for (var j = 0; j < 10; j++)
+                    {
+                            <!--     <td onclick="cellClick(this);" onmouseover="this.style = 'background-color: rgb(180,254,255)'" onmouseout="this.style = 'background-color: rgb(225,254,255)'"></td>-->
+       
+                                @:<td></td>
+                            
+
+                    }
+                    @:</tr>
+                }
+            </table>
+
+
+            <div id="vivod"></div>
+            <div id="shipscount1"></div>
+        </div>
+        <div style="display:inline-block; width:370pt; height:330pt; vertical-align: top;">
+            <h1 id="user2" style="display:inline-block;">@ViewBag.player2name</h1>
+            <h1 id="moveuser2" style="display:inline-block;">aaa</h1>
+            <h1 id="user2status" style="display:inline-block;"></h1>
+            <table id="battlefield2" class="battlefield">
+                @for (var i = 0; i < 10; i++)
+                {
+                    @:<tr>
+                        for (var j = 0; j < 10; j++)
+                    {
+                            <!--     <td onclick="cellClick(this);" onmouseover="this.style = 'background-color: rgb(180,254,255)'" onmouseout="this.style = 'background-color: rgb(225,254,255)'"></td>-->
+
+                            <td onclick="fireclick(this)" ; id="td1"></td>
+
+
+                    }
+                    @:</tr>
+                }
+            </table>
+            <div id="vivod"></div>
+            <div id="shipscount2"></div>
+        </div>
+    </div>
+    <div>
+        <input type='button' id="giveupbtn" value='сдаться' style="top:80%; height:45pt; width:110pt; " />
+
+
+    </div>
+
+
+    <script>
+
+        var login = get_cookie("Login");
+                                // document.getElementById('user1').innerText = login
+        //  document.getElementById('playerNameSend').innerText = login
+  
+ 
+        
+            //   Html.Raw(Json.Encode(ViewBag.mytags));
+          //  alert(per[0][0]);
+    </script>
+    <script src="~/js/updateGameProcess.js"></script>
+    <script>
+        updateBattleField("battlefield1", @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(@ViewBag.p1field)), true)
+        updateBattleField("battlefield2", @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(@ViewBag.p2field)), false)
+    </script>
+ 
+</body>
+</html>
+
