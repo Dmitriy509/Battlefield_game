@@ -37,6 +37,8 @@ namespace battleship.Controllers
 
         public IActionResult Login()
         {
+          
+
             string name = getCookies();
             if (name != null)
             {
@@ -52,7 +54,7 @@ namespace battleship.Controllers
         [HttpPost]
         public ActionResult Signin(string playername)
         {
-           
+
 
             if (playername==""||playername==null)
             {

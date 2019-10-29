@@ -10,7 +10,7 @@ using static DL.Enums.StateEnums;
 
 namespace BL.Services
 {
-    public class GameService:IGameService
+    public class GameService : IGameService
     {
         DataManager _dm;
         public GameService()
@@ -20,7 +20,7 @@ namespace BL.Services
 
         public string StartGame(string playername)
         {
-        
+
             //ViewBag.coordsField = _gamesrv.Ps.GetPlayer(playername).field;
             ////(sbyte)Moves_States.undefined;
             Player player = _dm.Ps.GetPlayer(playername, true);
@@ -54,7 +54,7 @@ namespace BL.Services
             Player player = _dm.Ps.GetPlayer(playername, true);
             Room r = player.room;
             Player player2 = _dm.Rs.GetPlayer2(player);
-            res.player2name= player2.login;
+            res.player2name = player2.login;
             res.player1name = playername;
             res.player1field = player.field;
             res.player2field = player2.field;
@@ -63,11 +63,11 @@ namespace BL.Services
 
 
 
-        public string  GetPlayer2name(string playername)
+        public string GetPlayer2name(string playername)
         {
             Player player = _dm.Ps.GetPlayer(playername, true);
-          //  Room r = player.room;
-            return  _dm.Rs.GetPlayer2(player).login;
+            //  Room r = player.room;
+            return _dm.Rs.GetPlayer2(player).login;
         }
 
 
@@ -85,8 +85,8 @@ namespace BL.Services
             Room r = p1.room;
             Player p2 = _dm.Rs.GetPlayer2(p1);
 
-            var gamestates = new Dictionary<sbyte, Func<string>>(3);
-  
+
+
 
             Action playermove = () =>
             {
@@ -121,33 +121,51 @@ namespace BL.Services
                 _dm.Ps.InitPlayer(p2);
                 return "ResultWindow";
             };
+
+
             Func<string> endofgame = () =>
             {
-                if (p1.state == (sbyte)Player_States.giveup)
-                    p2.state = (sbyte)Player_States.winner;
-                else
-                if (p2.state == (sbyte)Player_States.giveup)
-                    p1.state = (sbyte)Player_States.winner;
-                else
-                if (p1.shipcount.Sum(u => u) == 0)
-                {
-                    if (p1 == r.player1)
-                    {
-                        p2.state = (sbyte)Player_States.winner;
-                        p1.state = (sbyte)Player_States.loser;
-                    }
-                    else
-                    {
-                        p2.state = (sbyte)Player_States.loser;
-                        p1.state = (sbyte)Player_States.winner;
 
+                if (p1.state == (sbyte)Player_States.playing)
+                {
+                    switch (p2.state)
+                    {
+                        case (sbyte)Player_States.playing:
+                            {
+                                if (p1.shipcount.Sum(u => u) == 0)
+                                {
+                                    p1.state = (sbyte)Player_States.loser;
+                                    p2.state = (sbyte)Player_States.winner;
+                                }
+
+                                else
+                                {
+                                    p1.state = (sbyte)Player_States.winner;
+                                    p2.state = (sbyte)Player_States.loser;
+                                }
+                                break;
+                            }
+                        case (sbyte)Player_States.giveup:
+                        case (sbyte)Player_States.loser:
+                            p1.state = (sbyte)Player_States.winner;
+                            break;
+                        case (sbyte)Player_States.winner:
+                            p1.state = (sbyte)Player_States.loser;
+                            break;
                     }
+
                 }
 
-                   // r.status = (sbyte)Game_States.endofgame;
-                    res.player2status = "";
-                 //   res.curmovestate = (sbyte)Moves_States.undefined;
-                    return "ResultWindow";             
+                if (p1.state == (sbyte)Player_States.winner) res.curmovestate = (sbyte)Moves_States.winner;
+                else res.curmovestate = (sbyte)Moves_States.loser;
+
+                res.player2status = "";
+
+                //  res.player2status = "";
+                //   res.curmovestate = (sbyte)Moves_States.undefined;
+                // resultsofgame();
+
+                return "results";
 
             };
 
@@ -163,12 +181,12 @@ namespace BL.Services
                     return "";
                 }
 
-                if (p1.shipcount.Sum(u => u) == 0 || p2.shipcount.Sum(u => u) == 0||p1.state== (sbyte)Player_States.giveup || p2.state == (sbyte)Player_States.giveup)
+                if (p1.shipcount.Sum(u => u) == 0 || p2.shipcount.Sum(u => u) == 0 || p1.state == (sbyte)Player_States.giveup || p2.state == (sbyte)Player_States.giveup)
                 {
+                    // r.status = (sbyte)Game_States.endofgame;
                     r.status = (sbyte)Game_States.endofgame;
-                    res.player2status = "";
-                    res.curmovestate = (sbyte)Moves_States.undefined;
-                    return "";
+                    return endofgame();
+
                 }
 
                 playermove();
@@ -196,12 +214,13 @@ namespace BL.Services
             };
 
 
-
+            var gamestates = new Dictionary<sbyte, Func<string>>(4);
             gamestates.Add((sbyte)Game_States.playing, playing);
             gamestates.Add((sbyte)Game_States.endofgame, endofgame);
             gamestates.Add((sbyte)Game_States.playerdisconnected, playerdisconnect);
+            //    gamestates.Add((sbyte)Game_States.resultsofgame, resultsofgame);
             res.gamestatus = gamestates[(sbyte)r.status]();
-   
+
             return res;
 
         }
@@ -348,7 +367,5 @@ namespace BL.Services
             Player p2 = _dm.Rs.GetPlayer2(p1);
             p2.state = (sbyte)Player_States.winner;
         }
-
-
-    }
+        }
 }

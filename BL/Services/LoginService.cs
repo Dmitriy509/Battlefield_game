@@ -71,7 +71,7 @@ namespace BL.Services
             playerstates.Add((sbyte)Player_States.editships, editships);
             playerstates.Add((sbyte)Player_States.readytoplay, editships);
             playerstates.Add((sbyte)Player_States.playing, playing);
-            playerstates.Add((sbyte)Player_States.endgame, endgame);
+          //  playerstates.Add((sbyte)Player_States.endgame, endgame);
             playerstates.Add((sbyte)Player_States.readytoreplay, readytoreplay);
 
             return playerstates[p.state]();

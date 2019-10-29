@@ -7,7 +7,8 @@ namespace DL.Interfaces
 {
     public interface IPlayerSrv
     {
-        void InitPlayer(Player player);
+        void InitPlayer(Player player, bool froom = true, bool fstate = true);
+
         List<Player> GetAllPlayers();
         Player GetPlayer(string name, bool update = false);
         bool DeletePlayer(string name);

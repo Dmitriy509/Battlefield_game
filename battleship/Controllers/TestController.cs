@@ -20,6 +20,39 @@ namespace battleship.Controllers
             _dm = new DataManager();
         }
 
+        public IActionResult test()
+        {
+            _dm.Ps.AddPlayer("Petya");
+            _dm.Ps.AddPlayer("jora");
+            Player p1 = _dm.Ps.GetPlayer("Petya", true);
+            Player p2 = _dm.Ps.GetPlayer("jora", true);
+            Room r = _dm.Rs.AddRoom("komnata");
+            _dm.Rs.AddPlayer(p1, r);
+            _dm.Rs.AddPlayer(p2, r);
+            p1.room = r;
+            p2.room = r;
+
+            if (r != null)
+            {
+             
+                if (p2 != null) _dm.Ps.InitPlayer(p2);
+                _dm.Rs.DeleteRoom(r);
+            }
+            _dm.Ps.InitPlayer(p1);
+
+
+            Player p11 = _dm.Ps.GetPlayer("Petya", true);
+
+            if (p11.room == null)
+            {
+                _dm.Ps.InitPlayer(p11);
+            }
+
+
+
+            return Redirect("~/Rooms/Rooms");
+        }
+
 
 
         public JsonResult Ready(string playername)

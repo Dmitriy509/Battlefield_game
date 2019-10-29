@@ -16,11 +16,11 @@ namespace DL.Implementations
             _ds = ds;
         }
 
-        public void InitPlayer(Player player)
+        public void InitPlayer(Player player, bool froom = true, bool fstate=true)
         {
 
-            player.room = null;
-            player.state = (sbyte)Player_States.signin;
+          if(froom)  player.room = null;
+          if(fstate)  player.state = (sbyte)Player_States.signin;
             player.date = DateTime.Now;
 
             for (int i = 0; i < 10; i++)

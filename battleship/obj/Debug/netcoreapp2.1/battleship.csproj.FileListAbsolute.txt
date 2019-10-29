@@ -28,3 +28,4 @@ D:\git_projects\battleship\battleship\obj\Debug\netcoreapp2.1\Razor\Views\Login\
 D:\git_projects\battleship\battleship\obj\Debug\netcoreapp2.1\Razor\Views\Rooms\Rooms.g.cshtml.cs
 D:\git_projects\battleship\battleship\obj\Debug\netcoreapp2.1\Razor\Views\setships\FieldEditorView.g.cshtml.cs
 D:\git_projects\battleship\battleship\obj\Debug\netcoreapp2.1\Razor\Views\Game\GameView.g.cshtml.cs
+D:\git_projects\battleship\battleship\obj\Debug\netcoreapp2.1\Razor\Views\Game\ResultGameView.g.cshtml.cs

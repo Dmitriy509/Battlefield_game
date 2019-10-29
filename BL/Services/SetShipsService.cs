@@ -26,7 +26,7 @@ namespace BL.Services
             Room r = p1.room;
             Player p2 = _dm.Rs.GetPlayer2(p1);
             string p2res = "";
-            var gamestates = new Dictionary<sbyte, Func<string>>(3);
+      
             //gamestates.Add((sbyte)Game_States.waitingplayer)
             Func<string> waitingplayer = () =>
             {
@@ -103,10 +103,28 @@ namespace BL.Services
                     return "";
                 }
             };
-
+            Func<string> endofgame = () =>
+            {
+               if(p1.state==(sbyte)Player_States.readytoreplay)
+                 {
+                    p1.state = (sbyte)Player_States.editships;
+                }
+                //if(p2.state == (sbyte)Player_States.readytoreplay)
+                //{
+                //    p2.state = (sbyte)Player_States.editships;
+                //}
+                if(p1.state == (sbyte)Player_States.editships&&p2.state == (sbyte)Player_States.editships)
+                {
+                    r.status = (sbyte)Game_States.editships;
+                }
+                p2res = "Ожидаем игрока";
+                return "";
+            };
+            var gamestates = new Dictionary<sbyte, Func<string>>(4);
             gamestates.Add((sbyte)Game_States.waitingplayer, waitingplayer);
             gamestates.Add((sbyte)Game_States.editships, editships);
             gamestates.Add((sbyte)Game_States.readytoplay, readytoplay);
+            gamestates.Add((sbyte)Game_States.endofgame, endofgame);
             r.updTime = DateTime.Now;
             return new string[] { gamestates[r.status](), p2res };
 
@@ -122,6 +140,9 @@ namespace BL.Services
                 //   return "Login";
                 return false;
             }
+
+            
+
             for (int i = 0; i < Xarr.Length; i++)
             {
                 player.field[Yarr[i]][Xarr[i]] = (sbyte)Field_Cell_States.ship;

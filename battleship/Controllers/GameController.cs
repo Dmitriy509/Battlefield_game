@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using BL.Interfaces;
 using BL.Services;
 using BL.Models;
+using static DL.Enums.StateEnums;
 //using System.Text.Encodings.Web;
 namespace battleship.Controllers
 {
@@ -66,7 +67,10 @@ namespace battleship.Controllers
         {
  
             GameProcessData res = _gs.GameProcessStateMachine(playername, curmovestate);
-
+            if(res.gamestatus== "results")
+            {
+                return Json(new {gamestatus = res.gamestatus, gameresult = res.curmovestate==(sbyte)Moves_States.winner?"Победа":"Поражение"});
+            }
             //_gamesrv.Sts.GameStateMachine(playername, ref curmovestate, _gamesrv, ref p2res, ref sendfield, ref shipsc);
             return Json(new { player2status = res.player2status, gamestatus = res.gamestatus, movestate = res.curmovestate, field = res.PlayerField, shipcount = res.shipscount });
         }
@@ -78,10 +82,9 @@ namespace battleship.Controllers
 
             _gs.GiveUp(playername);
 
-            
+         
             return Json(new {});
         }
-
 
     }
 }
