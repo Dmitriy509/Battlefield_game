@@ -32,7 +32,7 @@ namespace BL.Services
 
             if (r.player1.state == r.player2.state)
                 r.status = (sbyte)Game_States.playing;
-
+           
             if (player == r.player1) //determine who goes first
                 if (r.movepriority == (sbyte)Moves_States.undefined)
                 {
@@ -58,6 +58,7 @@ namespace BL.Services
             res.player1name = playername;
             res.player1field = player.field;
             res.player2field = player2.field;
+            res.waitreplay = Parameters.WaitReplayGame;
             return res;
         }
 
@@ -122,7 +123,6 @@ namespace BL.Services
                 return "ResultWindow";
             };
 
-
             Func<string> endofgame = () =>
             {
 
@@ -168,10 +168,6 @@ namespace BL.Services
                 return "results";
 
             };
-
-
-
-
             Func<string> playing = () =>
             {
                 if (getTimeSpan(p2.date, 10))
@@ -208,13 +204,40 @@ namespace BL.Services
                         return resetgame();
                     }
                 };
+                if (p2.state == (sbyte)Player_States.readytoplay)
+                {
+                    p1.state = (sbyte)Player_States.playing;
+                    p2.state = (sbyte)Player_States.playing;
+                }
+
                 res.player2status = "";
                 r.status = (sbyte)Game_States.playing;
                 return "";
             };
 
+            Func<string> readytoplay = () =>
+            {
+                if (getTimeSpan(p2.date, 10))
+                {
+                    res.player2status = "Игрок отключился ожидаем подключения";
+                    r.status = (sbyte)Game_States.playerdisconnected;
+                    return "";
+                }
+                
+
+                //if (p1.state == (sbyte)Player_States.readytoplay)
+                //    p1.state = (sbyte)Player_States.playing;
+
+          //      if (p1.state == (sbyte)Player_States.playing && p2.state == (sbyte)Player_States.playing)
+                 //   return playing();
+
+
+                res.player2status = "Ожидаем игрока";
+                return "";
+            };
 
             var gamestates = new Dictionary<sbyte, Func<string>>(4);
+            gamestates.Add((sbyte)Game_States.readytoplay, readytoplay);
             gamestates.Add((sbyte)Game_States.playing, playing);
             gamestates.Add((sbyte)Game_States.endofgame, endofgame);
             gamestates.Add((sbyte)Game_States.playerdisconnected, playerdisconnect);

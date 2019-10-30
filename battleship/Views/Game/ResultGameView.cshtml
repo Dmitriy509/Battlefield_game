@@ -4,7 +4,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h2 class="modal-title" id="gamestatus" style="margin-left:46%"></h2>
-                <h2 id="time" style="display:inline-block;">20</h2>
+                <h2 id="time" style="display:inline-block;"></h2>
                 <input id="statushidden" type='hidden' value="" />
             </div>
             <div class="modal-body">
@@ -40,7 +40,7 @@
     let player2statusR = document.getElementById("player2statusRes");
     //let status = document.getElementById("statushidden").value;
     let replBtn = document.getElementById('replaybtn');
-    let tick = 4;
+    let tick = @ViewBag.waitreplay;
     let ready = false;
 
     function replay(b) {

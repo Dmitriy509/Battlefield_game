@@ -19,6 +19,8 @@ namespace BL.Services
         public string updateGameResult(string playername, bool fltimeisup)
         {
             Player player = _dm.Ps.GetPlayer(playername, true);
+
+
             Room room = player.room;
 
 
@@ -52,8 +54,10 @@ namespace BL.Services
                 case (sbyte)Player_States.readytoreplay:
                     Player player2 = _dm.Rs.GetPlayer2(player);
                     if (player2.state == (sbyte)Player_States.readytoreplay)
+                    {
+                        room.status = (sbyte)Game_States.readytoreplay;
                         return "Готов";
-
+                    }
                     break;
 
             }

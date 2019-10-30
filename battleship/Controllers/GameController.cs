@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using BL.Interfaces;
 using BL.Services;
 using BL.Models;
+
 using static DL.Enums.StateEnums;
 //using System.Text.Encodings.Web;
 namespace battleship.Controllers
@@ -34,7 +35,7 @@ namespace battleship.Controllers
                 ViewBag.player2name = res.player2name;
                 ViewBag.p1field = res.player1field;
                 ViewBag.p2field = res.player2field;
-      
+                ViewBag.waitreplay = res.waitreplay;
                 return View();
         }
 

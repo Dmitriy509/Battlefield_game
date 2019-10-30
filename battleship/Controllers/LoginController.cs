@@ -44,7 +44,7 @@ namespace battleship.Controllers
             {
                 //service
               string res =  _ls.Login(name);
-              if(res!="") return View(res);
+              if(res!="") return Redirect(res);
 
             }
             return View();

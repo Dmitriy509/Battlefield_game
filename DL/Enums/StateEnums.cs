@@ -28,7 +28,7 @@ namespace DL.Enums
             endofgame = 4,
             playerdisconnected = 5,
       //      resultsofgame =6,
-        //    waitingreplay = 6
+            readytoreplay = 6
         }
         //0-туман, 1-пусто, 2-корабль, 3-раненый, 4-промах
         public enum Field_Cell_States : sbyte

@@ -8,7 +8,7 @@ using static DL.Enums.StateEnums;
 
 namespace BL.Services
 {
-    public class LoginService: ILoginService
+    public class LoginService: commonSrv, ILoginService
     {
         DataManager _dm;
         public LoginService()
@@ -28,52 +28,266 @@ namespace BL.Services
             return "";
         }
 
+
+        
+        //bool checkRoom(Room r, Player p)
+        //{
+        //    if (r != null)
+        //    {
+        //        if (getInterval(r.updTime, Parameters.WaitReconnect, '>'))
+        //        {
+        //            _dm.Rs.DeleteRoom(r);
+        //            _dm.Ps.InitPlayer(p);
+        //            return false;
+        //        }
+        //        return true;
+        //    }
+
+        //    return false;
+        //}
+
         private string LoginStateMachine(Player p)
         {
+            Room r = p.room;
             Func<string> signin = () =>
-            {
+            { 
+                if(r!=null)
+                {        
+                    if(getInterval(r.updTime, Parameters.PlayerDisconnect, '>'))
+                    { 
+                        _dm.Rs.DeleteRoom(r);
+                    }
+                }
                 _dm.Ps.InitPlayer(p);
-                return "Rooms";
+                return "~/Rooms/Rooms";
             };
+
             Func<string> editships = () =>
             {
-                TimeSpan ts = DateTime.Now - p.date;
-                if (ts.TotalMinutes > Parameters.WaitReconnect)
+
+                if (r != null)
+                {
+
+                  if (getInterval(r.updTime, Parameters.WaitReconnect, '>'))
+                    {
+                        _dm.Rs.DeleteRoom(r);
+                        _dm.Ps.InitPlayer(p);
+                        return "~/Rooms/Rooms";
+                    }
+
+                    if (getInterval(p.date, Parameters.WaitReconnect, '>'))
+                    {
+                        _dm.Ps.InitPlayer(p);
+                        return "~/Rooms/Rooms";
+                    }
+
+                }
+                else
                 {
                     _dm.Ps.InitPlayer(p);
-                    return "Rooms";
+                    return "~/Rooms/Rooms";
                 }
-                return "FieldEditorView";
-            };
-            Func<string> playing = () =>
-            {
-                TimeSpan ts = DateTime.Now - p.date;
-                if (ts.TotalMinutes > Parameters.WaitReconnect)
+
+                switch (r.status) //valid game states
                 {
-                    _dm.Ps.InitPlayer(p);
-                    return "Rooms";
+                    case (sbyte)Game_States.editships: break;
+                    case (sbyte)Game_States.waitingplayer: break;
+                    case (sbyte)Game_States.readytoreplay: break;
+                    default:
+                        _dm.Ps.InitPlayer(p);
+                        return "~/Rooms/Rooms"; 
                 }
-                return "GameView";
+
+
+
+                return "~/SetShips/FieldEditorView";
             };
-            Func<string> endgame = () =>
-            {
- 
-                return "";
-            };
-            Func<string> readytoreplay = () =>
+
+            Func<string> readytoplay = () =>
             {
 
-                return "";
+                if (r != null)
+                {
+
+                    if (getInterval(r.updTime, Parameters.WaitReconnect, '>'))
+                    {
+                        _dm.Rs.DeleteRoom(r);
+                        _dm.Ps.InitPlayer(p);
+                        return "~/Rooms/Rooms";
+                    }
+
+                    if (getInterval(p.date, Parameters.WaitReconnect, '>'))
+                    {
+                        _dm.Ps.InitPlayer(p);
+                        return "~/Rooms/Rooms";
+                    }
+
+                }
+                else
+                {
+                    _dm.Ps.InitPlayer(p);
+                    return "~/Rooms/Rooms";
+                }
+
+
+                switch (r.status) //valid game states
+                {
+                    case (sbyte)Game_States.readytoplay: break;
+                    case (sbyte)Game_States.playerdisconnected:break;
+                    default:
+                        _dm.Ps.InitPlayer(p);
+                        return "~/Rooms/Rooms";
+                }
+
+                return "~/Game/StartGame";
             };
+       
+            Func<string> playing = () =>
+            {
+                if (r != null)
+                {
+
+                    if (getInterval(r.updTime, Parameters.WaitReconnect, '>'))
+                    {
+                        _dm.Rs.DeleteRoom(r);
+                        _dm.Ps.InitPlayer(p);
+                        return "~/Rooms/Rooms";
+                    }
+
+                    if (getInterval(p.date, Parameters.WaitReconnect, '>'))
+                    {
+                        _dm.Ps.InitPlayer(p);
+                        return "~/Rooms/Rooms";
+                    }
+
+                }
+                else
+                {
+                    _dm.Ps.InitPlayer(p);
+                    return "~/Rooms/Rooms";
+                }
+
+
+                switch (r.status) //valid game states
+                {
+                    case (sbyte)Game_States.playing: break;
+                    case (sbyte)Game_States.playerdisconnected: break;
+                    case (sbyte)Game_States.readytoplay: break;
+                    default:
+                        _dm.Ps.InitPlayer(p);
+                        return "~/Rooms/Rooms";
+                }
+
+                return "~/Game/GameView";
+            };
+
+            Func<string> readytoreplay = () =>
+            {
+                if (r != null)
+                {
+
+                    if (getInterval(r.updTime, Parameters.WaitReconnect, '>'))
+                    {
+                        _dm.Rs.DeleteRoom(r);
+                        _dm.Ps.InitPlayer(p);
+                        return "~/Rooms/Rooms";
+                    }
+
+                    if (getInterval(p.date, Parameters.WaitReconnect, '>'))
+                    {
+                        _dm.Ps.InitPlayer(p);
+                        return "~/Rooms/Rooms";
+                    }
+
+                }
+                else
+                {
+                    _dm.Ps.InitPlayer(p);
+                    return "~/Rooms/Rooms";
+                }
+
+
+                switch (r.status) //valid game states
+                {
+                    case (sbyte)Game_States.readytoreplay:
+                        //editships
+                        break;
+                    case (sbyte)Game_States.endofgame:
+                        //go to endofgame
+                        break;
+                    default:
+                        _dm.Ps.InitPlayer(p);
+                        return "~/Rooms/Rooms";
+                }
+
+
+
+                return "~/SetShips/FieldEditorView";
+            };
+
+            Func<string> winner = () =>
+            {
+                if (r != null)
+                {
+
+                    if (getInterval(r.updTime, Parameters.WaitReconnect, '>'))
+                    {
+                        _dm.Rs.DeleteRoom(r);
+                        _dm.Ps.InitPlayer(p);
+                        return "~/Rooms/Rooms";
+                    }
+
+                    if (getInterval(p.date, Parameters.WaitReconnect, '>'))
+                    {
+                        _dm.Ps.InitPlayer(p);
+                        return "~/Rooms/Rooms";
+                    }
+
+                }
+                else
+                {
+                    _dm.Ps.InitPlayer(p);
+                    return "~/Rooms/Rooms";
+                }
+
+
+                switch (r.status) //valid game states
+                {
+                    case (sbyte)Game_States.endofgame:
+                    
+                        break;
+                    default:
+                        _dm.Ps.InitPlayer(p);
+                        return "~/Rooms/Rooms";
+                }
+
+
+                return "~/SetShips/FieldEditorView";
+      
+            };
+
+            Func<string> loser = () =>
+            {
+                return winner();
+
+            };
+
+            Func<string> giveup = () =>
+            {
+                return winner();
+
+            };
+
 
             var playerstates = new Dictionary<sbyte, Func<string>>(4);
             playerstates.Add((sbyte)Player_States.signin, signin);
             playerstates.Add((sbyte)Player_States.editships, editships);
             playerstates.Add((sbyte)Player_States.readytoplay, editships);
             playerstates.Add((sbyte)Player_States.playing, playing);
-          //  playerstates.Add((sbyte)Player_States.endgame, endgame);
             playerstates.Add((sbyte)Player_States.readytoreplay, readytoreplay);
-
+            playerstates.Add((sbyte)Player_States.winner, winner);
+            playerstates.Add((sbyte)Player_States.loser, loser);
+            playerstates.Add((sbyte)Player_States.giveup, giveup);
             return playerstates[p.state]();
 
    

@@ -103,16 +103,36 @@ namespace BL.Services
                     return "";
                 }
             };
-            Func<string> endofgame = () =>
+            Func<string> readytoreplay = () =>
             {
-               if(p1.state==(sbyte)Player_States.readytoreplay)
+
+                TimeSpan ts = DateTime.Now - p2.date;
+                if (ts.TotalSeconds > 10)
+                {
+                    if (ts.TotalSeconds < 60)
+                    {
+                        p2res = "Игрок отключился ожидаем подключения";
+                        return "";
+                    }
+                    else
+                    {
+                        r.player1 = p1;
+                        r.player2 = null;
+                        r.status = (sbyte)Game_States.waitingplayer;
+                        p2res = "Ждем нового игрока";
+                        return "";
+                    }
+
+                }
+
+                if (p1.state==(sbyte)Player_States.readytoreplay)
                  {
                     p1.state = (sbyte)Player_States.editships;
                 }
-                //if(p2.state == (sbyte)Player_States.readytoreplay)
-                //{
-                //    p2.state = (sbyte)Player_States.editships;
-                //}
+                
+
+
+
                 if(p1.state == (sbyte)Player_States.editships&&p2.state == (sbyte)Player_States.editships)
                 {
                     r.status = (sbyte)Game_States.editships;
@@ -124,7 +144,7 @@ namespace BL.Services
             gamestates.Add((sbyte)Game_States.waitingplayer, waitingplayer);
             gamestates.Add((sbyte)Game_States.editships, editships);
             gamestates.Add((sbyte)Game_States.readytoplay, readytoplay);
-            gamestates.Add((sbyte)Game_States.endofgame, endofgame);
+            gamestates.Add((sbyte)Game_States.readytoreplay, readytoreplay);
             r.updTime = DateTime.Now;
             return new string[] { gamestates[r.status](), p2res };
 
