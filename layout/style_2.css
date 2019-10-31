@@ -1,0 +1,82 @@
+#place-player {
+	width: 70%;
+	border: 2px solid #EB984E;
+	border-radius: 9pt;
+}
+
+#place-opponent {
+	width: 30%;
+	height: 100%;
+	border: 2px solid #EB984E;
+	border-radius: 9pt;
+	margin-left: 1rem;
+}
+.inner-elem {
+	padding-right: 1rem;
+	padding-left: 1rem;
+	padding-top: 0.5rem;
+	padding-bottom: 0.5rem;
+}
+
+.top-place-player {
+	height: 36pt;
+}
+
+.top-place-player > * {
+	height: 100%;
+}
+
+#btn-ready {
+	float:right;
+}
+
+#player-name {
+	float: left;
+}
+
+.player-name {
+    background-image:url('./img/wood-template.png');
+    width: 10rem;
+	background-size:100% 100%; 
+	padding-left: 1rem;
+	padding-right: 1rem;
+	align-items: center;
+	justify-content: center;
+}
+
+.icon-player-ready {
+	float: left; 
+	height: 100%; 
+	margin-left: 1%
+}
+
+.icon-player-ready > div {
+	height: 100%;
+}
+
+.icon-player-ready img {
+	height: 100%;
+	vertical-align: -webkit-baseline-middle;
+}
+
+#place-battlefield {
+	width: 50%;
+	height: 100%;
+}
+
+#place-ships {
+	display: flex;
+	flex-wrap: wrap; 
+	height: 50%; 
+	width:100%;
+}
+
+#icon-dbl-click {
+	width: 1rem;
+	height: 1rem;
+	vertical-align: middle;
+}
+
+#opponent-name {
+	float: right;
+}
