@@ -1,0 +1,246 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins');
+
+:root {
+  --f-family: "Verdana", sans-serif;
+  --f-size: 14pt;
+  --icon-size: 36pt;
+  --common-padding: 18pt;
+}
+
+/* BASIC */
+
+body {
+  font-family: var(--f-family);
+  font-size: var(--f-size);
+  height: 100vh;
+  margin:0;
+  padding: 0;
+}
+
+.flex-container {
+    height: 100%;
+    display: flex;  
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.body {
+  width: 100%;
+  height: 100%;
+  background-image: url("./img/background.png");
+  background-size: cover;
+  z-index: 0;
+  margin:0;
+  display: flex;
+  flex-direction:  column;
+}
+
+.content {
+  margin: 2%;
+}
+
+input[type="text"] {
+  font-family: var(--f-family);
+  font-size: var(--f-size);
+  width: 100%;
+}
+
+input[type="submit"] {
+  font-family: var(--f-family);
+  font-size: var(--f-size);
+  font-weight: bold;
+  width: 50%;
+  background: transparent;
+  border: transparent;
+  background-position:center;
+}
+
+.login_block {
+  top: 0;
+  left: 0;
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+}
+
+.login_block div {
+  z-index: 1;
+  float: left;
+}
+
+.login-input {
+    width: 50%;
+    align-items: center;
+    align-content: center; 
+    justify-content: center; 
+    overflow: auto; 
+}
+
+.login-character {
+  width: 50%;
+  height: 100%;
+}
+
+/* STRUCTURE */
+
+#formContent {
+  width: 80%;
+  height: 80%;
+  display: flex;
+  background: transparent;
+  text-align: center; 
+  justify-content: center;
+  background-image: url('./img/scroll.png');
+  background-size:  100% auto;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+#formContent > form {
+  width: 70%;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+  margin: 5%;
+}
+
+#formContent > form  * {
+  margin-bottom:5%;
+}
+
+#formContent > form > input[type="text"] {
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid black;
+}
+
+#login-btn  {
+  height: auto;
+  min-height: var(--f-size);
+  width: 50%;
+}
+
+#top-menu {
+  display: flex;
+  padding: var(--common-padding) var(--common-padding) 0;
+}
+
+#field {
+  margin: var(--common-padding);
+  padding-top: var(--common-padding);
+  padding-bottom: var(--common-padding);
+  padding-right: 10%;
+  padding-left: 10%;
+  background-image: url('./img/paper-background.png');
+  background-size:  100% auto;
+  background-repeat: repeat;
+  background-position: center; 
+  text-align: center;
+  height: 100%;
+  align-items: center;
+}
+
+#field > * {
+  width: 100%;
+}
+
+#room-selection-wrapper {
+  height: 100%;
+  margin-top: 1%;
+}
+
+.working-place {
+  height: 100%;
+  margin-top: 1rem;
+  overflow: auto;
+}
+
+table, td {
+  border: 2px solid #402205;
+  border-collapse: collapse;
+}
+
+#room-selection-wrapper table {
+  width: 100%;
+}
+
+.room-selection-button, .room-selection-name {
+  padding:0.5%;
+  padding-left: 5%;
+  padding-right: 5%;
+}
+
+.room-selection-button {
+  width: 30%;
+  text-align: center;
+}
+
+.room-selection-button > input[type="image"] {
+  height: var(--icon-size);
+  width: auto;
+}
+
+.room-selection-name {
+  text-align: left; 
+  font-weight: bold;
+  color: #402205;
+}
+
+#top-menu > img {
+  height: var(--icon-size);
+  min-height: var(--f-size);
+  width: auto;
+  float: left;
+  display: inline-block;
+}
+
+#top-menu > div {
+  float: left;
+  width: 100%;
+  display: inline-block;
+}
+
+#btn-panel > *{
+  float: right;
+  padding-left: 3%;
+  height: var(--icon-size);
+  width: auto;
+}
+
+.h1{
+  text-align: center;
+  display: inline-block;
+}
+
+.hint {
+  background-color: rgba(255, 255, 255, 0.3);
+  text-align: left;
+  padding-left: 1rem; 
+  padding-right: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  font-size: 0.8em;
+  border-radius: 0.5rem;
+}
+
+.hint > div {
+  float: left;
+  height: auto;
+  width: 100%;
+}
+
+.control-panel {
+  padding-left: 2%;
+  width: 100%;
+}
+
+.icon {
+  width: 24px;
+}
+
+.reverse {
+  direction: rtl;
+}
