@@ -7,6 +7,7 @@ namespace BL.Interfaces
 {
     public interface IGameService
     {
+        string CheckGameState(string playername);
         StartGameData InitGame(string playername);
         string StartGame(string playername);
         string GetPlayer2name(string playername);

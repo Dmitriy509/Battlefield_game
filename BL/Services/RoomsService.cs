@@ -11,13 +11,25 @@ using DL.Models;
 using static DL.Enums.StateEnums;
 namespace BL.Services
 {
-    public class RoomsService:IRoomsService
+    public class RoomsService:commonSrv, IRoomsService
     {
-        DataManager _dm;
+   
         public RoomsService()
         {
-            _dm = new DataManager();
+
         }
+
+        public string CheckGameState(string playername)
+        {
+
+            Player p = _dm.Ps.GetPlayer(playername);
+            if (p == null) return "~/Login/Login";
+            return LoginStateMachine(p);
+
+        }
+
+
+
 
         void updateRooms(string playername)
         {
@@ -30,8 +42,8 @@ namespace BL.Services
                     var rooms = _dm.Rs.GetAllRooms().Where(u => (DateTime.Now - u.updTime).TotalSeconds > 40);
                     foreach (var r in rooms)
                     {
-                        if (r.player1 != null) _dm.Ps.InitPlayer(r.player1);
-                        if (r.player2 != null) _dm.Ps.InitPlayer(r.player2);
+                        if (r.player1id != null) _dm.Ps.InitPlayer( _dm.Ps.GetPlayer(r.player1id));
+                        if (r.player2id != null) _dm.Ps.InitPlayer(_dm.Ps.GetPlayer(r.player1id));
                         _dm.Rs.DeleteRoom(r);
                     }
                 });
@@ -49,7 +61,7 @@ namespace BL.Services
             var list = _dm.Rs.GetAllRooms().Select(u => new
             {
                 n = u.Name,
-                pcount = (u.player2 == null ? 1 : 2)
+                pcount = (u.player2id == null ? 1 : 2)
             });
             RoomsList res = new RoomsList();
             res.RoomNames= list.Select(u => u.n).ToList();
@@ -77,7 +89,7 @@ namespace BL.Services
                 return new string[] { "Rooms", "Возникла ошибка попробуйте еще раз" };
             }
 
-            player.room = room;
+            player.roomid = room.id;
             player.state = (sbyte)Player_States.editships;
             room.status = (sbyte)Game_States.waitingplayer;
 
@@ -105,7 +117,7 @@ namespace BL.Services
                 return new string[] { "Rooms", "Возникла ошибка попробуйте еще раз" };
             }
 
-            player.room = room;
+            player.roomid = room.id;
             player.state = (sbyte)Player_States.editships;
             room.status = (sbyte)Game_States.editships;
             return new string[] { "FieldEditorView","" };

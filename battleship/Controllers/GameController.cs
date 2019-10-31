@@ -6,9 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using BL.Interfaces;
 using BL.Services;
 using BL.Models;
-
+using DL.Enums;
 using static DL.Enums.StateEnums;
-//using System.Text.Encodings.Web;
+
 namespace battleship.Controllers
 {
     public class GameController : Controller
@@ -29,13 +29,23 @@ namespace battleship.Controllers
                player1name = CookiesGetSet.getCookies(HttpContext);
             }
 
-            StartGameData res= _gs.InitGame(player1name);
 
+
+            string checkres = _gs.CheckGameState(player1name);
+            if (checkres != "~/Game/GameView")
+                 return Redirect(checkres);
+
+
+
+
+            StartGameData res= _gs.InitGame(player1name);
+               
                 ViewBag.player1name = player1name;
                 ViewBag.player2name = res.player2name;
                 ViewBag.p1field = res.player1field;
                 ViewBag.p2field = res.player2field;
-                ViewBag.waitreplay = res.waitreplay;
+                ViewBag.waitreplay = Parameters.WaitReplayGame;
+                ViewBag.movetime = Parameters.MoveTime;
                 return View();
         }
 

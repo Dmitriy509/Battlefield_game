@@ -20,8 +20,12 @@ namespace battleship.Controllers
 
         public IActionResult FieldEditorView()
         {
+            string playername = CookiesGetSet.getCookies(HttpContext);
 
-            return View();
+            string res = _srv.CheckGameState(playername);
+            if (res == "~/SetShips/FieldEditorView")
+                return View();
+            else return Redirect(res);
         }
 
 

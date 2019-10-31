@@ -17,29 +17,12 @@ namespace battleship.Controllers
         {
             _ls = new LoginService();
         }
-        public void addCookies(string name)
-        {
-            var option = new CookieOptions();
-            option.Expires = DateTime.Now.AddMinutes(6);
-            HttpContext.Response.Cookies.Append("Login", name, option);
-
-        }
-
-        public string getCookies()
-        {
-            if (HttpContext.Request.Cookies.ContainsKey("Login"))
-                return HttpContext.Request.Cookies["Login"];
-            else
-                return null;
-
-        }
-
 
         public IActionResult Login()
         {
           
 
-            string name = getCookies();
+            string name = CookiesGetSet.getCookies(HttpContext);
             if (name != null)
             {
                 //service
@@ -66,7 +49,7 @@ namespace battleship.Controllers
             string res = _ls.SignIn(playername);
             if(res=="Rooms")
             {
-                addCookies(playername);
+                CookiesGetSet.addCookies(playername, HttpContext);
                 ViewBag.playername = playername;
                //   return RedirectToAction("Rooms", "Rooms");
                 return Redirect("~/Rooms/Rooms");

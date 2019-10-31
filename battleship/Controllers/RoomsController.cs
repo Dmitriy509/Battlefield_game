@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using BL.Interfaces;
 using BL.Services;
 using BL.Models;
+
 namespace battleship.Controllers
 {
     public class RoomsController : Controller
@@ -19,7 +20,13 @@ namespace battleship.Controllers
 
         public IActionResult Rooms()
         {
-            return View("Rooms");
+
+            string playername = CookiesGetSet.getCookies(HttpContext);
+
+            string res = _rs.CheckGameState(playername);
+            if (res == "~/Rooms/Rooms")
+                return View();
+            else return Redirect(res);
         }
   
         [HttpPost]

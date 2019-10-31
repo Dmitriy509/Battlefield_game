@@ -10,6 +10,5 @@ namespace BL.Models
         public string player2name;
         public sbyte[][] player1field;
         public sbyte[][] player2field;
-        public int waitreplay;
     }
 }

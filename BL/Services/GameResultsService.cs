@@ -21,7 +21,7 @@ namespace BL.Services
             Player player = _dm.Ps.GetPlayer(playername, true);
 
 
-            Room room = player.room;
+            Room room = _dm.Rs.GetRoom(player.roomid);
 
 
 
@@ -29,12 +29,21 @@ namespace BL.Services
             {
                 if (room != null)
                 {
-                    Player player2 = _dm.Rs.GetPlayer2(player);
+                    Player player2 = _dm.Rs.GetPlayer2(player,room);
                     if (player2 != null) _dm.Ps.InitPlayer(player2);
                     _dm.Rs.DeleteRoom(room);
                 }
                 _dm.Ps.InitPlayer(player);
                 return "Игрок вышел";
+            }
+            else
+            {
+                if((player.id==room.player1id&& room.player2id==null)|| (player.id == room.player2id && room.player1id == null))
+                {              
+                    _dm.Rs.DeleteRoom(room);
+                    _dm.Ps.InitPlayer(player);
+                    return "Игрок вышел";
+                }
             }
 
             string res = "Ожидаем";
@@ -52,7 +61,7 @@ namespace BL.Services
                 //}
                 //goto case (sbyte)Player_States.readytoreplay;
                 case (sbyte)Player_States.readytoreplay:
-                    Player player2 = _dm.Rs.GetPlayer2(player);
+                    Player player2 = _dm.Rs.GetPlayer2(player,room);
                     if (player2.state == (sbyte)Player_States.readytoreplay)
                     {
                         room.status = (sbyte)Game_States.readytoreplay;
@@ -77,28 +86,28 @@ namespace BL.Services
         public void exitGame(string playername)
         {
             Player p1 = _dm.Ps.GetPlayer(playername, true);
-        
-            if (p1.room == null)
-            {
-                _dm.Ps.InitPlayer(p1);
-            }
-            else
-            {
-                Room r = p1.room;
-                Player p2 = _dm.Rs.GetPlayer2(p1);
-                if (p2 == null)
-                {
-                    _dm.Ps.InitPlayer(p1);
-                    _dm.Rs.DeleteRoom(r);
-                }
-                else
-                {
-                    _dm.Ps.InitPlayer(p2);
-                    _dm.Ps.InitPlayer(p1);
-                    _dm.Rs.DeleteRoom(r);
-                }
 
+            if (p1.roomid != null)
+            {
+                Room r = _dm.Rs.GetRoom(p1.roomid);
+                if (r != null)
+                {
+                    Player p2 = _dm.Rs.GetPlayer2(p1, r);
+                    if (p2 == null)
+                    {
+                        //  _dm.Ps.InitPlayer(p1);
+                        _dm.Rs.DeleteRoom(r);
+                    }
+                    else
+                    {
+                        _dm.Ps.InitPlayer(p2);
+                        // _dm.Ps.InitPlayer(p1);
+                        _dm.Rs.DeleteRoom(r);
+                    }
+                }
             }
+            _dm.Ps.InitPlayer(p1);
+
 
         }
 

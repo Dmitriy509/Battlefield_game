@@ -6,9 +6,10 @@ namespace DL.Models
 {
     public class Room
     {
+        public uint id;
         public string Name;
-        public Player player1;
-        public Player player2;
+        public uint? player1id;
+        public uint? player2id;
         public DateTime updTime;
         public sbyte status = -1;
         public sbyte movepriority;

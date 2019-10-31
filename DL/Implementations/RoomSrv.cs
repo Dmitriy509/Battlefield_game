@@ -18,24 +18,26 @@ namespace DL.Implementations
         }
         public Room GetRoom(string name)
         {
-            Room p = _ds.Rooms.FirstOrDefault(u => u.Name == name);
+            Room p = _ds.Rooms.FirstOrDefault(u => u.Value.Name == name).Value;
             return p;
         }
-
-        public List<Room> GetAllRooms()
+        public Room GetRoom(uint? idroom)
+        {
+            if (idroom == null) return null;
+            if (_ds.Rooms.ContainsKey((uint)idroom))
+                return _ds.Rooms[(uint)idroom];
+            else return null;
+        }
+        public IEnumerable<Room> GetAllRooms()
         {
 
-            return _ds.Rooms;
+            return _ds.Rooms.Select(u=>u.Value);
         }
 
-        public bool DeleteRoom(string name)
-        {
-            Room p = _ds.Rooms.FirstOrDefault(u => u.Name == name);
-            return _ds.Rooms.Remove(p);
-        }
+
         public bool DeleteRoom(Room r)
         {
-            return _ds.Rooms.Remove(r);
+            return _ds.Rooms.Remove(r.id);
         }
         public Room AddRoom(string name)
         {
@@ -45,7 +47,10 @@ namespace DL.Implementations
                 r.Name = name;
                 r.updTime = DateTime.Now;
                 r.movepriority = (sbyte)Moves_States.undefined;
-                _ds.Rooms.Add(r);
+                r.player1id = null;
+                r.player2id = null;
+                r.id = _ds.GetRoomsId;
+                _ds.Rooms.Add(r.id, r);
                 return r;
             }
 
@@ -56,19 +61,29 @@ namespace DL.Implementations
         public bool AddPlayer(Player p, Room r)
         {
 
-            if (r.player1 == null) r.player1 = p;
+            if (r.player1id== null) r.player1id = p.id;
             else
-                if (r.player2 == null)
-                r.player2 = p;
+                if (r.player2id == null)
+                r.player2id = p.id;
             else return false;
             r.updTime = DateTime.Now;
             return true;
         }
-        public Player GetPlayer2(Player player1)
+        public Player GetPlayer2(Player player1, Room r)
         {
-            Room r = player1.room;
-            if (r.player1 == player1) return r.player2;
-            else return r.player1;
+
+            if (r.player1id == player1.id)
+            {
+                if (r.player2id != null)
+                    return _ds.Players[(uint)r.player2id];
+                else return null;
+            }
+            else
+            {
+                if (r.player1id != null)
+                    return _ds.Players[(uint)r.player1id];
+                else return null;
+            }
         }
 
         public void UpdateRoom(Room room)

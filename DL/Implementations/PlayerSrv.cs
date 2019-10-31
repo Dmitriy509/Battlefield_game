@@ -5,7 +5,7 @@ using System.Linq;
 using DL.Models;
 using DL.Interfaces;
 using static DL.Enums.StateEnums;
-
+using DL.Enums;
 namespace DL.Implementations
 {
     public class PlaerSrv: IPlayerSrv
@@ -19,7 +19,7 @@ namespace DL.Implementations
         public void InitPlayer(Player player, bool froom = true, bool fstate=true)
         {
 
-          if(froom)  player.room = null;
+          if(froom)  player.roomid = null;
           if(fstate)  player.state = (sbyte)Player_States.signin;
             player.date = DateTime.Now;
 
@@ -31,26 +31,42 @@ namespace DL.Implementations
             }
 
         }
-        public List<Player> GetAllPlayers()
+        public IEnumerable<Player> GetAllPlayers()
         {
-            return _ds.Players;
+            return _ds.Players.Select(u=>u.Value);
         }
 
         public Player GetPlayer(string name, bool update = false)
         {
-            Player p = _ds.Players.FirstOrDefault(u => u.login == name);
+            Player p = _ds.Players.FirstOrDefault(u => u.Value.login == name).Value;
             if (p == null) return null;
             if (update) p.date = DateTime.Now;
             return p;
         }
-        public bool DeletePlayer(string name)
+
+        public Player GetPlayer(uint? id, bool update = false)
         {
-            Player p = _ds.Players.FirstOrDefault(u => u.login == name);
-            return _ds.Players.Remove(p);
+            if (_ds.Players.ContainsKey((uint)id))
+            {
+                Player p = _ds.Players[(uint)id];
+                if (update) p.date = DateTime.Now;
+                return p;
+            }
+            else return null;
+
+           
+
+        }
+
+
+        public bool DeletePlayerId(uint id)
+        {
+     
+            return _ds.Players.Remove(id);
         }
         public bool DeletePlayer(Player p)
         {
-            return _ds.Players.Remove(p);
+            return _ds.Players.Remove(p.id);
         }
      
         public bool checkPlayer(string name)
@@ -58,13 +74,13 @@ namespace DL.Implementations
             
             //  int a = DataStor._players.Count;
             if (_ds.Players.Count == 0) return false;
-            var items = _ds.Players.Where(u => u.login == name);
+            var items = _ds.Players.Where(u => u.Value.login==name).Select(u=>u.Value);
             bool flPlayerExist = false;
             foreach (var pl in items)
             {
                 TimeSpan ts = DateTime.Now - pl.date;
                 if (ts.TotalMinutes > Parameters.KeepLoginCokies)
-                    _ds.Players.Remove(pl);
+                    _ds.Players.Remove(pl.id);
                 else flPlayerExist = true;
             }
             if (flPlayerExist)
@@ -78,8 +94,10 @@ namespace DL.Implementations
             Player p = new Player();
             p.login = name;
             p.date = DateTime.Now;
+            p.roomid = null;
             // DataStor._players.Add(p);
-            _ds.Players.Add(p);
+            p.id = _ds.GetPlayersId;
+            _ds.Players.Add(p.id, p);
             return true;
         }
 
