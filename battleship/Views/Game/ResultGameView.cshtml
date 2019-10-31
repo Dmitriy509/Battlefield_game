@@ -1,0 +1,108 @@
+﻿<div class="modal fade" tabindex="-1" id="endgameModal"
+     data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="gamestatus" style="margin-left:46%"></h2>
+                <h2 id="time" style="display:inline-block;"></h2>
+                <input id="statushidden" type='hidden' value="" />
+            </div>
+            <div class="modal-body">
+                <div style="display:inline-block; width:300pt">
+                    <h3>@ViewBag.player1name</h3>
+                    <h4 id="player1statusRes"></h4>
+                </div>
+                <div style="display:inline-block; width:300pt">
+                    <h3>@ViewBag.player2name</h3>
+                    <h4 id="player2statusRes"></h4>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+
+                <button type="submit" id="replaybtn" onclick="replay(this)" class="btn btn-primary button button4">Готов</button>
+
+                <form method="post" action="~/GameResults/ExitGame">
+                    <input type='submit' id="exitbtn" value='Выйти' class="btn btn-primary button button4" />
+                    <input type="hidden" id="playerNameSend" name="playername" /><br />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    document.getElementById('playerNameSend').value = login;
+    var timerId2;
+    let timecontainer = document.getElementById('time');
+    let player1statusR = document.getElementById("player1statusRes");
+    let player2statusR = document.getElementById("player2statusRes");
+    //let status = document.getElementById("statushidden").value;
+    let replBtn = document.getElementById('replaybtn');
+    let tick = @ViewBag.waitreplay;
+    let ready = false;
+
+    function replay(b) {
+        $.post("/GameResults/ReplayGame", { playername: login })
+            .done(function (data) {
+                b.disabled = true;
+                player1statusR.innerText = "Готов!";
+                ready = true;
+            });
+    }
+
+    function setTimer() {
+        timerId2 = setInterval(function () {
+            console.log("begin settimer");
+            tick--
+            timecontainer.innerHTML = tick;
+            
+            
+            console.log("skoro update");
+            if (tick <= 0) {
+                console.log(">20sec");
+                replBtn.disabled = true;
+                //  clearInterval(timerId1)  
+                update(true);
+                clearInterval(timerId2);
+                           
+            }
+            else update(false);
+        }, 1000);
+    }
+
+    function update(timeisup) {
+
+        console.log("!!!!!!!!!! " + timeisup);
+
+        $.post("/GameResults/UpdateGameResultView", { playername: login, fltimeisup: timeisup })
+            .done(function (data) {
+                player2statusR.innerText = data.player2status;
+                console.log("update status2player: " + data.player2status);
+                if (data.player2status == "Игрок вышел") { //player2 exit
+              
+                    replBtn.disabled = true;
+                    clearInterval(timerId2)
+                }            
+                if (data.player2status == "Готов") { //player2 ready
+                    if (ready) {
+                        clearInterval(timerId2);
+                        window.location.href = "/setships/FieldEditorView";
+                    }
+                }
+            });
+    }
+
+
+
+
+    function showResults() {
+        $(document).ready(function () {
+            $("#endgameModal").modal('show');
+            setTimer();
+        });
+
+
+    }
+</script>

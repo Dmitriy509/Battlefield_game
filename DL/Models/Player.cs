@@ -7,8 +7,9 @@ namespace DL.Models
 {
     public class Player
     {
+        public uint id;
         public string login;
-        public Room room;
+        public uint? roomid;
         public sbyte[][] field;//0-туман, 1-пусто, 2-корабль, 3-раненый, 4-промах
         public sbyte state; //0 -авторизовался, 1 - расставляет корабли, 2 - готов, 3 - бой
         public DateTime date;

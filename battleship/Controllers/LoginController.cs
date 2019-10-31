@@ -17,47 +17,29 @@ namespace battleship.Controllers
         {
             _ls = new LoginService();
         }
-        public void addCookies(string name)
-        {
-            var option = new CookieOptions();
-            option.Expires = DateTime.Now.AddMinutes(6);
-            HttpContext.Response.Cookies.Append("Login", name, option);
-
-        }
-
-        public string getCookies()
-        {
-            if (HttpContext.Request.Cookies.ContainsKey("Login"))
-                return HttpContext.Request.Cookies["Login"];
-            else
-                return null;
-
-        }
-
 
         public IActionResult Login()
         {
-            string name = getCookies();
+          
+
+            string name = CookiesGetSet.getCookies(HttpContext);
             if (name != null)
             {
                 //service
               string res =  _ls.Login(name);
-              if(res!="") return View(res);
+              if(res!="") return Redirect(res);
 
             }
             return View();
         }
 
-        public IActionResult Rooms(string username)
-        {
-            return View();
-        }
 
         [HttpPost]
-        public IActionResult Signin(string playername)
+        public ActionResult Signin(string playername)
         {
 
-            if(playername==""&&playername==null)
+
+            if (playername==""||playername==null)
             {
                 ViewBag.errormsg = "Ошибка, попробуйте еще раз!";
                 return View("Login");
@@ -67,13 +49,17 @@ namespace battleship.Controllers
             string res = _ls.SignIn(playername);
             if(res=="Rooms")
             {
-               addCookies(playername);
-               ViewBag.playername = playername;
+                CookiesGetSet.addCookies(playername, HttpContext);
+                ViewBag.playername = playername;
+               //   return RedirectToAction("Rooms", "Rooms");
+                return Redirect("~/Rooms/Rooms");
+               // return Redirect("Rooms");
             }
 
             ViewBag.errormsg = "Игрок с таким именем уже есть на сервере!";
             return View("Login");
 
         }
+
     }
 }
