@@ -1,41 +1,73 @@
-﻿<html>
+﻿<!DOCTYPE html>
+<html>
 <head>
-
-    <script src="~/lib/jquery/dist/jquery.min.js" type="text/javascript"></script>
-    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
-    <link href="~/css/ShipsAndFieldStyles.css" rel="stylesheet" />
+    <title></title>
     <script src="~/js/getcookies.js"></script>
-    <style>
-        div.addRoom {
-            margin: 9% 0 0 9%;
-            width: 180pt;
-            height: 114pt;
-        }
-
-            div.addRoom input {
-                height: 25pt;
-            }
-    </style>
-
+    <link href="~/css/Style.css" rel="stylesheet" />
 </head>
 <body>
-    <div>@ViewBag.playername</div>
-    <div>
-        <div style="margin:10% 10% 10% 10%;">
-            <h1>Комнаты</h1>
-            <table id="roomslist" class="roomslist"></table>
-            <div id="vivod"></div>
-        </div>
-        <div class="addRoom" style=" background-color:antiquewhite">
-            <form method="post" action="~/Rooms/AddRoom">
-                <label style="margin:2% 0 0 4%">Создать комнату</label><br />
-                <input type="text" name="RoomName" style="width:165pt; margin:2% 0 0 4%" /><br />
-                <input type="hidden" id="playerNameSend" name="playername" /><br />
-                <input type="submit" value="создать" style="width:70pt; margin:2% 0 2% 56%" />
-            </form>
-        </div>
 
+    <div class="body">
+        <div id="top-menu">
+            <img src="~/img/logo.png">
+            <div id="btn-panel">
+                <input type="image" name="sound_img" src="~/img/out.png">
+                <input type="image" name="sound_img" src="~/img/sound.png">
+            </div>
+        </div>
+        <div id="field" class="flex-container flex-column">
+            <div><img class="h1" src="~/img/label_select_rival.png"></div>
+            <div>
+                <img src="~/img/player_name.png" style="float: left;">
+                <label style="padding-right: 2%" id="online-players">0 игрока онлайн</label>
+                <label id="current-battles">0 битв идёт</label>
+                <input type="image" onclick="ShowModalAddRoom()" src="~/img/challenge.png" style="float: right;">
+            </div>
+            <div id="room-selection-wrapper" class="working-place">
+                <table id="roomslist">
+
+                </table>
+            </div>
+        </div>
     </div>
+
+    <!--link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" /-->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <div class="modal fade" tabindex="-1" id="add-room-modal" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content" style="width:250pt">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="margin-left:40%">new room</h4>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="~/Rooms/AddRoom">
+                        <label style="margin:2% 0 0 4%">Создать комнату</label><br />
+                        <input type="text" name="RoomName" style="width:165pt; margin:2% 0 0 4%" /><br />
+                        <input type="hidden" id="playerNameSend" name="playername" /><br />
+                        <input type="submit" value="создать" style="width:70pt;  margin:2% 0 2% 56%; background-color:brown" />
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnHideModal" class="btn btn-primary button button4">отмена </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        // document.getElementById("loginModal").modal('show');
+        function ShowModalAddRoom() {
+            $(document).ready(function () {
+                $("#add-room-modal").modal('show');
+            });
+        }
+        $("#btnHideModal").click(function () {
+            $("#add-room-modal").modal('hide');
+        });
+    </script>
+
+
     <script>
         var login = get_cookie("Login");
 
@@ -46,8 +78,9 @@
             document.getElementById('playerNameSend').value = login;
         }
     </script>
-    <script src="~/js/site.js"></script>
     <script src="~/js/updateRooms.js"></script>
+
+
 
 </body>
 </html>

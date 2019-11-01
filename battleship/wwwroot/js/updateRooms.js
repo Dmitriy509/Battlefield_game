@@ -1,19 +1,13 @@
 ﻿getInfoRooms();
-//let timerId = setInterval(function () { getInfoRooms(); }, 700);
+let timerId = setInterval(function () { getInfoRooms(); }, 3000);
 
 
 function getInfoRooms() {
-
-    let login = get_cookie("Login");
-    if (login == null) {
-        window.location.href = '/Login/Login';
-        return;
-    }
-       //   RoomNames
-       //Player_Count
     $.post("/Rooms/GetInfoRooms", { playername: login})
         .done(function (data) {
-            // alert(data.roomnames.length);
+            document.getElementById('online-players').innerHTML = data.player_count+" игрока онлайн";
+            document.getElementById('current-battles').innerHTML = data.game_count + " битв идёт";
+
             let table = document.getElementById('roomslist');
             let rowCount = table.rows.length;
 
@@ -26,13 +20,12 @@ function getInfoRooms() {
             for (let i = 0; i < rowCount; i++) {
                 let row = table.insertRow(0);
                 let cell = row.insertCell(0);
+                cell.classList.add("room-selection-name");
                 cell = row.insertCell(1);
-                cell = row.insertCell(2);
+                cell.classList.add("room-selection-button");
                 row.cells[0].innerHTML = data.roomnames[i];
-                row.cells[1].innerHTML = data.player_count[i];
-                //   alert(data.roomnames[i]);
-                let h = "<form method='POST' action='/Rooms/EnterTheRoom'><input type = 'hidden' name = 'roomname' value = '" + data.roomnames[i] + "' /><input type = 'hidden' name = 'playername' value = '" + login + "' /><input type='submit' " + (data.player_count[i] == 1 ? "" : "disabled") + " value='+' /></form >"
-                row.cells[2].innerHTML = h;
+                let h = "<form method='POST' action='/Rooms/EnterTheRoom'><input type = 'hidden' name = 'roomname' value = '" + data.roomnames[i] + "' /><input type = 'hidden' name = 'playername' value = '" + login + "' /><input type='image' name='take_challenge' src='../img/take_challenge.png'></form >"
+                row.cells[1].innerHTML = h;
 
             }
 

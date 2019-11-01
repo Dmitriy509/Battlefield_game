@@ -1,0 +1,31 @@
+﻿<html>
+<head>
+    <script src="~/lib/jquery/dist/jquery.min.js" type="text/javascript"></script>
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+
+</head>
+<body>
+    <style>
+        div.logform {
+            margin: 9% 0 0 9%;
+            width: 180pt;
+            height: 114pt;
+        }
+
+            div.logform input {
+                height: 25pt;
+            }
+    </style>
+    <div class="logform" style=" background-color:antiquewhite">
+        <h2>Вход на сайт</h2>
+        <form method="post" action="~/Login/Signin">
+            <label style="margin:2% 0 0 4%">Введите логин</label><br />
+            <input type="text" name="playername" style="width:165pt; margin:2% 0 0 4%" /><br />
+            <input type="submit" value="В игру" style="width:70pt; margin:2% 0 2% 56%" />
+        </form>
+    </div>
+    <div>@ViewBag.vivod</div>
+    <div>@ViewBag.errormsg</div>
+</body>
+</html>
+

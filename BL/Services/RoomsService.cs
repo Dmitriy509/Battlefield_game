@@ -57,15 +57,11 @@ namespace BL.Services
 
             _dm.Ps.GetPlayer(playername, true);
             updateRooms(playername);
-            //form two lists room names and player count in rooms
-            var list = _dm.Rs.GetAllRooms().Select(u => new
-            {
-                n = u.Name,
-                pcount = (u.player2id == null ? 1 : 2)
-            });
             RoomsList res = new RoomsList();
-            res.RoomNames= list.Select(u => u.n).ToList();
-            res.Player_Count= list.Select(u => u.pcount).ToList();       
+            res.RoomNames = _dm.Rs.GetAllRooms().Where(u => u.status == (sbyte)Game_States.waitingplayer).Select(u => u.Name).ToList();
+            res.Player_Count = _dm.Ps.GetAllPlayers().Count();
+            res.Game_Count = _dm.Rs.GetAllRooms().Where(u => u.status == (sbyte)Game_States.playing).Count();
+          
             return res;
         }
 
