@@ -84,7 +84,7 @@ namespace AspNetCore
                 ");
             EndContext();
             BeginContext(1106, 277, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "15449bf4fc4140e88c537ce9c2c3661c", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7eaf58ebf7b74350a6fbc03bbb8d49a2", async() => {
                 BeginContext(1158, 218, true);
                 WriteLiteral("\r\n                    <input type=\'submit\' id=\"exitbtn\" value=\'Выйти\' class=\"btn btn-primary button button4\" />\r\n                    <input type=\"hidden\" id=\"playerNameSend\" name=\"playername\" /><br />\r\n                ");
                 EndContext();

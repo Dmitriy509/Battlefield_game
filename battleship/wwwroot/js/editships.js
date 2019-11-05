@@ -1,9 +1,9 @@
 ﻿var field = document.getElementById('battlefield1');
 var vivod = document.getElementById('vivod');
 //var k = 2;
-var cellsize = 30 * 96 / 72;  //transform to pt
+//var cell_size = 30 * 96 / 72;  //transform to pt
 
-
+//cell_size = cell_size * 2 + 1;
 function dragShip(b) {
     //vivod.innerText = 'klick';
     // alert(event.target.id);
@@ -11,6 +11,8 @@ function dragShip(b) {
     b.style.margin = 0 + 'px';
     var shiftX = event.pageX - coords.left;
     var shiftY = event.pageY - coords.top;
+
+   // alert(coords.left + " "+coords.top + " " + event.pageX + " " + event.pageY);
 
     var lastX = coords.left;
     var lastY = coords.top;
@@ -27,22 +29,22 @@ function dragShip(b) {
         let x = event.pageX - shiftX;
         let y = event.pageY - shiftY;
 
-        if (x > field.offsetLeft - cellsize && x < field.offsetLeft + field.offsetWidth && y > field.offsetTop - cellsize && y < field.offsetTop + field.offsetHeight) {
+        if (x > field.offsetLeft - cell_size && x < field.offsetLeft + field.offsetWidth && y > field.offsetTop - cell_size && y < field.offsetTop + field.offsetHeight ) {
 
-            if (x > field.offsetLeft && x < field.offsetLeft + field.offsetWidth - cellsize * b.rows[0].cells.length) {
-                lastX = field.offsetLeft + Math.round((x - field.offsetLeft) / cellsize) * cellsize;
+            if (x > field.offsetLeft && x < field.offsetLeft + field.offsetWidth - cell_size * b.rows[0].cells.length) {
+                lastX = field.offsetLeft + Math.round((x - field.offsetLeft) / cell_size) * cell_size;
                 b.style.left = lastX + 'px';
             }
             else {
-                b.style.left = field.offsetLeft + Math.round((x - field.offsetLeft) / cellsize) * cellsize + 'px';
+                b.style.left = field.offsetLeft + Math.round((x - field.offsetLeft) / cell_size) * cell_size + 'px';
             }
 
-            if (y > field.offsetTop && y < field.offsetTop + field.offsetHeight - cellsize * b.rows.length) {
-                lastY = field.offsetTop + Math.round((y - field.offsetTop) / cellsize) * cellsize;
+            if (y > field.offsetTop && y < field.offsetTop + field.offsetHeight - cell_size * b.rows.length) {
+                lastY = field.offsetTop + Math.round((y - field.offsetTop) / cell_size) * cell_size;
                 b.style.top = lastY + 'px';
             }
             else {
-                b.style.top = field.offsetTop + Math.round((y - field.offsetTop) / cellsize) * cellsize + 'px';
+                b.style.top = field.offsetTop + Math.round((y - field.offsetTop) / cell_size) * cell_size + 'px';
             }
             //  vivod.innerText = Math.round((x - field.offsetLeft) / 30) * 30;
         }
@@ -72,7 +74,6 @@ function dragShip(b) {
         if (!checkshipPosition(b)) {
             b.style.left = lastXChecking + 'px';
             b.style.top = lastYChecking + 'px';
-
             //  vivod.innerText = 'not ok';
         }
     };
@@ -112,10 +113,10 @@ function dragstShip() {
 function checkshipPosition(currentdesk) {
 
     let arr = ["singledesk1", "singledesk2", "singledesk3", "singledesk4", "doubledesk1", "doubledesk2", "doubledesk3", "tripledesk1", "tripledesk2", "fourdesk"];
-    let curX = Math.round(currentdesk.offsetLeft / cellsize) - 1;
-    let curY = Math.round(currentdesk.offsetTop / cellsize) - 1;
-    let curXt = Math.round((currentdesk.offsetLeft + currentdesk.offsetWidth - cellsize) / cellsize) + 1;
-    let curYt = Math.round((currentdesk.offsetTop + currentdesk.offsetHeight - cellsize) / cellsize) + 1;
+    let curX = Math.round(currentdesk.offsetLeft / cell_size) - 1;
+    let curY = Math.round(currentdesk.offsetTop / cell_size) - 1;
+    let curXt = Math.round((currentdesk.offsetLeft + currentdesk.offsetWidth - cell_size) / cell_size) + 1;
+    let curYt = Math.round((currentdesk.offsetTop + currentdesk.offsetHeight - cell_size) / cell_size) + 1;
 
     for (item of arr) {
 
@@ -125,11 +126,11 @@ function checkshipPosition(currentdesk) {
 
         let desk = document.getElementById(item);
 
-        let x = Math.round(desk.offsetLeft / cellsize);
-        let y = Math.round(desk.offsetTop / cellsize);
+        let x = Math.round(desk.offsetLeft / cell_size);
+        let y = Math.round(desk.offsetTop / cell_size);
 
-        let xt = Math.round((desk.offsetLeft + desk.offsetWidth - cellsize) / cellsize);
-        let yt = Math.round((desk.offsetTop + desk.offsetHeight - cellsize) / cellsize);
+        let xt = Math.round((desk.offsetLeft + desk.offsetWidth - cell_size) / cell_size);
+        let yt = Math.round((desk.offsetTop + desk.offsetHeight - cell_size) / cell_size);
         //if (item = 'fourdesk') {
         //    vivod.innerText = '<br/>x=' + x + ' xt=' + xt + ' y=' + y + ' yt' + yt + ' curX=' + curX + ' curXt=' + curXt + ' curY=' + curY + ' curYt=' + curYt + '/////';
         //}
@@ -159,9 +160,11 @@ function rotateShip(ship) {
     }
     function rotate() {
 
+        let tdpadding = (cell_size - 1) / 2;
+
         if (ship.rows.length > 1) { //из вертикального в гор
             let rowcount = ship.rows.length;
-            if (ship.offsetLeft + rowcount * cellsize >= field.offsetLeft + field.offsetWidth) {
+            if (ship.offsetLeft + rowcount * cell_size >= field.offsetLeft + field.offsetWidth) {
                 shakingShip(ship);
                 return;
             }
@@ -174,6 +177,8 @@ function rotateShip(ship) {
             for (let i = 1; i < rowcount; i++) {
                 let allRows = ship.getElementsByTagName("tr");
                 let cell = allRows[0].insertCell(0);
+                cell.style.padding = tdpadding + "px";
+                cell.style.border = borderCell + "px solid";
                 //  cell.style.backgroundColor = 'rebeccapurple';
             }
 
@@ -181,7 +186,7 @@ function rotateShip(ship) {
         else if (ship.rows[0].cells.length >= 2) {
 
             let colcount = ship.rows[0].cells.length;
-            if (ship.offsetTop + colcount * cellsize >= field.offsetTop + field.offsetHeight) {
+            if (ship.offsetTop + colcount * cell_size >= field.offsetTop + field.offsetHeight) {
                 shakingShip(ship);
                 return;
             }
@@ -194,6 +199,8 @@ function rotateShip(ship) {
             for (let i = 1; i < colcount; i++) {
                 let add = ship.insertRow(0);
                 let cell = add.insertCell(0);
+                cell.style.padding = tdpadding + "px";
+                cell.style.border = borderCell + "px solid";
                 //cell.style.backgroundColor = 'rebeccapurple';
             }
         }

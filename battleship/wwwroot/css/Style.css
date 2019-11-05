@@ -1,4 +1,4 @@
-﻿@import url('https://fonts.googleapis.com/css?family=Poppins');
+﻿
 
 :root {
     --f-family: "Verdana", sans-serif;
@@ -203,7 +203,7 @@ table, td {
     display: inline-block;
 }
 
-#btn-panel > * {
+#btn-panel * {
     float: right;
     padding-left: 3%;
     height: var(--icon-size);

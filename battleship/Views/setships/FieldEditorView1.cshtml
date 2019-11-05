@@ -1,0 +1,142 @@
+﻿<html>
+<head>
+
+    <script src="~/lib/jquery/dist/jquery.min.js" type="text/javascript"></script>
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+
+    <link href="~/css/ShipsAndFieldStyles.css" rel="stylesheet" />
+    <script src="~/js/getcookies.js"></script>
+
+
+
+</head>
+<body>
+
+
+    <div style="margin:5% 0 0 7%;">
+        <div style="display:inline-block; vertical-align:top; width:250pt; height:330pt;">
+
+            <div style="height:40pt">
+                @for (var i = 1; i <= 4; i++)
+                {
+                    string s = "singledesk" + i;
+                    <div style="display:inline-block; width:20%">
+                        <table class="ships" id=@s onmousedown="dragShip(this)" ondblclick="rotateShip(this)" ondragstart="dragstShip()">
+                            <tr><td></td></tr>
+                        </table>
+                    </div>
+                }
+            </div>
+            <div style="height:40pt">
+                @for (var i = 1; i <= 3; i++)
+                {
+                    string s = "doubledesk" + i;
+                    <div style="display:inline-block; width:25%">
+                        <table class="ships" id=@s onmousedown="dragShip(this)" ondblclick="rotateShip(this)" ondragstart="dragstShip()">
+                            <tr><td></td><td></td></tr>
+                        </table>
+                    </div>
+                }
+            </div>
+            <div style="height:40pt">
+                @for (var i = 1; i <= 2; i++)
+                {
+                    string s = "tripledesk" + i;
+                    <div style="display:inline-block; width:40%">
+                        <table class="ships" id=@s onmousedown="dragShip(this)" ondblclick="rotateShip(this)" ondragstart="dragstShip()">
+                            <tr><td></td><td></td><td></td></tr>
+                        </table>
+                    </div>
+                }
+            </div>
+            <div style="height:40pt">
+                <table class="ships" id="fourdesk" onmousedown="dragShip(this)" ondblclick="rotateShip(this)" ondragstart="dragstShip()">
+                    <tr><td></td><td></td><td></td><td></td></tr>
+                </table>
+            </div>
+            <div style="height:40pt; margin-top:11%;">
+                <input type='button' id="readybtn" onclick="getShips()" value='В бой!!!' style="margin:0 0 0 30%;height:45pt; width:110pt; " />
+
+            </div>
+        </div>
+        <div style="display:inline-block; width:330pt; height:330pt;">
+            <h1 id="user1"></h1>
+            <table id="battlefield1" class="battlefield">
+                @for (var i = 0; i < 10; i++)
+                {
+                    @:<tr>
+                        for (var j = 0; j < 10; j++)
+                        {
+                            <!--     <td onclick="cellClick(this);" onmouseover="this.style = 'background-color: rgb(180,254,255)'" onmouseout="this.style = 'background-color: rgb(225,254,255)'"></td>-->
+                            <td></td>
+                        }
+                    @:</tr>
+                }
+            </table>
+            <div id="vivod"></div>
+
+        </div>
+        <div style="display:inline-block; width:330pt; height:330pt;">
+            <h1 id="user2">Ожидаем игрока</h1>
+            <table id="battlefield2" class="battlefield">
+                @for (var i = 0; i < 10; i++)
+                {
+                    @:<tr>
+                        for (var j = 0; j < 10; j++)
+                        {
+                            <!--     <td onclick="cellClick(this);" onmouseover="this.style = 'background-color: rgb(180,254,255)'" onmouseout="this.style = 'background-color: rgb(225,254,255)'"></td>-->
+                            <td></td>
+                        }
+                    @:</tr>
+                }
+            </table>
+            <div id="vivod"></div>
+
+        </div>
+    </div>
+
+    <div>
+        <form method="post" action="~/SetShips/LeaveRoom">
+            <input type='submit' value='выйти' style="top:80%; height:45pt; width:110pt; " />
+            <input type="hidden" id="playerNameSend" name="playername" /><br />
+        </form>
+        <form method="post" action="~/Default/ResultWindow">
+            <input type='submit' value=' в конец' style="top:80%; height:45pt; width:110pt; " />
+
+        </form>
+
+        <input type='button' onclick="test()" value='и игру тест' style="margin:0 0 0 30%;height:45pt; width:110pt; " />
+
+    </div>
+    <script>
+        var login = get_cookie("Login");
+        if (login == null) {
+            window.location.href = 'Login';
+        }
+        else {
+            document.getElementById('user1').innerText = login;
+            document.getElementById('playerNameSend').value = login;
+        }
+
+        function test() {
+            $.post("/Test/Ready", { playername: login })
+                .done(function (data1) {
+
+
+
+                });
+
+
+        }
+
+
+    </script>
+    <script src="~/js/editships.js" type="text/javascript"></script>
+    <script src="~/js/site.js"></script>
+    <script src="~/js/updateEditShipView.js"></script>
+</body>
+</html>
+
+
+
+

@@ -1,85 +1,66 @@
-﻿function getShips() {
-    let arr = ["singledesk1", "singledesk2", "singledesk3", "singledesk4", "doubledesk1", "doubledesk2", "doubledesk3", "tripledesk1", "tripledesk2", "fourdesk"];
+﻿var cell_size = 0;
 
+function tableGen(x, y, borderCell, borderTable) {
+    var tbl = document.createElement('table');
+    tbl.style.border = borderTable + "px solid #402205";
 
-    let Xcoords = new Array(20);
-    let Ycoords = new Array(20);
-    let index = 0;
-    for (let j = 0; j < arr.length; j++) {
-        let ship = document.getElementById(arr[j]);
-
-        for (let k = j; k < arr.length - 1; k++) {
-            if (!checkshipPosition(ship)) {
-                alert('Кораблики неправильна!');
-                return;
-            }
+    var tbdy = document.createElement('tbody');
+    for (var i = 0; i < x; i++) {
+        var tr = document.createElement('tr');
+        for (var j = 0; j < y; j++) {
+            var td = document.createElement('td');
+            td.style.padding = cell_size + "px";
+            td.style.border = borderCell + "px solid";
+            tr.appendChild(td)
         }
-
-        let deskcount = 1;
-        let flAlign = 0 //vert-0, gor-1
-        if (ship.rows.length > ship.rows[0].cells.length) {
-            deskcount = ship.rows.length; flAlign = 0;
-        }
-        else {
-            deskcount = ship.rows[0].cells.length;
-            flAlign = 1;
-        }
-        // alert(deskcount + "  " + flAlign);
-        //let rowcount = ship.rows.length;
-        //let colcount = ship.rows[0].cells.length;
-
-
-
-
-        let x = Math.round((ship.offsetLeft - field.offsetLeft) / cellsize);
-        let y = Math.round((ship.offsetTop - field.offsetTop) / cellsize);
-
-        for (let i = 0; i < deskcount; i++) {
-
-            Xcoords[index] = x + i * ((flAlign == 1) ? 1 : 0);
-            Ycoords[index] = y + i * ((flAlign == 1) ? 0 : 1);
-            index++;
-
-        }
-
-
-
-
+        tbdy.appendChild(tr);
     }
-
-    $.post("/SetShips/GetShipsCoords", { playername: login, Xarr: Xcoords, Yarr: Ycoords })
-        .done(function (data1) {
-            document.getElementById('user1').innerText = login + "- Готов";
-            document.getElementById('readybtn').disabled = true;
-            // alert(data1.ff)
-            // alert(data1.ss)
-            //  window.location.href = 'GameView';
-
-        });
-
-    //  alert('posle');
-
+    tbl.appendChild(tbdy);
+    return tbl;
 }
 
-//function successFunc(data, status) {
-//    alert(data);
-//}
+function tableCreate(idTableWrapper) {
+    const borderCell = 1;
+    const borderTable = 2;
+    const place = document.getElementById(idTableWrapper);
 
-//function errorFunc(errorData) {
-//    alert('Ошибка' + errorData.responseText);
-//}
+    while (place.firstChild) {
+        place.removeChild(place.firstChild);
+    }
+    const minDim = (place.offsetWidth < place.offsetHeight) ? place.offsetWidth : place.offsetHeight;
 
+    cell_size = Math.floor((minDim - 9 * borderCell - 2 * borderTable) / 20);
+    var tbl = tableGen(10, 10, borderCell, borderTable);
+    tbl.setAttribute("class", "table-battlefield");
+    place.appendChild(tbl);
+}
 
+function shipsCreate(idPlaceShips) {
+    const borderCell = 1;
+    const borderShip = 2;
 
-function getInfo(row, col) {
+    function cloneShip(shipN, n) {
+        var arr = []
+        for (i = 0; i < n; i++) {
+            arr.push(tableGen(1, shipN, borderCell, borderShip));
+        }
+        return arr;
+    }
 
-    $.post("/Default/GetInfo", { row: row, col: col })
-        .done(function (data) {
+    var place = document.getElementById(idPlaceShips);
+    while (place.firstChild) {
+        place.removeChild(place.firstChild);
+    }
 
-            var i = data[0];
-            var j = data[1];
-            document.getElementById('battlefield1').rows[i].cells[j].innerHTML = "Text";
-            //$("#res").html(result_str);
-            // console.log(data);
-        });
+    var ships4 = cloneShip(4, 1);
+    var ships3 = cloneShip(3, 2);
+    var ships2 = cloneShip(2, 3);
+    var ships1 = cloneShip(1, 4);
+    var all_ships = ships4.concat(ships3, ships2, ships1);
+
+    all_ships.forEach(function (el) {
+        el.style.marginRight = (2 * cell_size - 2) + "px";
+        place.appendChild(el);
+    });
+
 }

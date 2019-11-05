@@ -1,139 +1,193 @@
-﻿<html>
+﻿<!DOCTYPE html>
+<html>
 <head>
-
+    <title></title>
     <script src="~/lib/jquery/dist/jquery.min.js" type="text/javascript"></script>
-    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
-
-    <link href="~/css/ShipsAndFieldStyles.css" rel="stylesheet" />
+    <link href="~/css/Style.css" rel="stylesheet" />
+    <link href="~/css/style_2.css" rel="stylesheet" />
     <script src="~/js/getcookies.js"></script>
+
+
 </head>
 <body>
-
-
-    <div style="margin:5% 0 0 7%;">
-        <div style="display:inline-block; vertical-align:top; width:250pt; height:330pt;">
-
-            <div style="height:40pt">
-                @for (var i = 1; i <= 4; i++)
-                {
-                    string s = "singledesk" + i;
-                    <div style="display:inline-block; width:20%">
-                        <table class="ships" id=@s onmousedown="dragShip(this)" ondblclick="rotateShip(this)" ondragstart="dragstShip()">
-                            <tr><td></td></tr>
-                        </table>
-                    </div>
-                }
-            </div>
-            <div style="height:40pt">
-                @for (var i = 1; i <= 3; i++)
-                {
-                    string s = "doubledesk" + i;
-                    <div style="display:inline-block; width:25%">
-                        <table class="ships" id=@s onmousedown="dragShip(this)" ondblclick="rotateShip(this)" ondragstart="dragstShip()">
-                            <tr><td></td><td></td></tr>
-                        </table>
-                    </div>
-                }
-            </div>
-            <div style="height:40pt">
-                @for (var i = 1; i <= 2; i++)
-                {
-                    string s = "tripledesk" + i;
-                    <div style="display:inline-block; width:40%">
-                        <table class="ships" id=@s onmousedown="dragShip(this)" ondblclick="rotateShip(this)" ondragstart="dragstShip()">
-                            <tr><td></td><td></td><td></td></tr>
-                        </table>
-                    </div>
-                }
-            </div>
-            <div style="height:40pt">
-                <table class="ships" id="fourdesk" onmousedown="dragShip(this)" ondblclick="rotateShip(this)" ondragstart="dragstShip()">
-                    <tr><td></td><td></td><td></td><td></td></tr>
-                </table>
-            </div>
-            <div style="height:40pt; margin-top:11%;">
-                <input type='button' id="readybtn" onclick="getShips()" value='В бой!!!' style="margin:0 0 0 30%;height:45pt; width:110pt; " />
-
+    <div class="body">
+        <div id="top-menu">
+            <img src="~/img/logo.png">
+            <div id="btn-panel">
+                <form method="post" action="~/SetShips/LeaveRoom">
+                    <input type="image" src="~/img/out.png">
+                    <input type="hidden" id="playerNameSend" name="playername" /><br />
+                </form>
+                <input type="image" src="~/img/sound.png">
             </div>
         </div>
-        <div style="display:inline-block; width:330pt; height:330pt;">
-            <h1 id="user1"></h1>
-            <table id="battlefield1" class="battlefield">
-                @for (var i = 0; i < 10; i++)
-                {
-                    @:<tr>
-                        for (var j = 0; j < 10; j++)
-                        {
-                            <!--     <td onclick="cellClick(this);" onmouseover="this.style = 'background-color: rgb(180,254,255)'" onmouseout="this.style = 'background-color: rgb(225,254,255)'"></td>-->
-                            <td></td>
-                        }
-                    @:</tr>
-                }
-            </table>
-            <div id="vivod"></div>
+        <div id="field" class="flex-container flex-column flex-column">
+            <div>
+                <img class="h1" src="~/img/label_preparation.png">
+            </div>
+            <div id="field-preparation" class="flex-container">
+                <div id="place-player" class="flex-container flex-column">
+                    <div class="inner-elem top-place-player">
+                        <div id="player-name" class="flex-container player-name"><label>имя игрока</label></div>
+                        <div class="icon-player-ready">
+                            <img src="~/img/not-ready.png">
+                        </div>
+                        <input id="btn-ready" type="image" onclick="getShips()" src="~/img/ready_btn.png">
+                    </div>
+                    <div class="inner-elem working-place flex-container">
+                        <div id="place-battlefield">
+                            <table id="battlefield1">
+                                @for (var i = 0; i < 10; i++)
+                                {
+                                    @:<tr>
+                                        for (var j = 0; j < 10; j++)
+                                        {
+                                            <!--     <td onclick="cellClick(this);" onmouseover="this.style = 'background-color: rgb(180,254,255)'" onmouseout="this.style = 'background-color: rgb(225,254,255)'"></td>-->
+                                            <td></td>
+                                        }
+                                    @:</tr>
+                                }
+                            </table>
+                        </div>
+                        <div style="width:50%" class="flex-container control-panel flex-column">
+                            <div id="place-ships">
+                                <div id="ship-container">
+                                    <table class="ships" id="fourdesk" onmousedown="dragShip(this)" ondblclick="rotateShip(this)" ondragstart="dragstShip()">
+                                        <tr><td></td><td></td><td></td><td></td></tr>
+                                    </table>
+                                </div>
+                                @for (var i = 1; i <= 2; i++)
+                                {
+                                    string s = "tripledesk" + i;
+                                    <div id="ship-container">
+                                        <table class="ships" id=@s onmousedown="dragShip(this)" ondblclick="rotateShip(this)" ondragstart="dragstShip()">
+                                            <tr><td></td><td></td><td></td></tr>
+                                        </table>
+                                    </div>
+                                }
 
+                                @for (var i = 1; i <= 3; i++)
+                                {
+                                    string s = "doubledesk" + i;
+                                    <div id="ship-container">
+                                        <table class="ships" id=@s onmousedown="dragShip(this)" ondblclick="rotateShip(this)" ondragstart="dragstShip()">
+                                            <tr><td></td><td></td></tr>
+                                        </table>
+                                    </div>
+                                }
+
+                                @for (var i = 1; i <= 4; i++)
+                                {
+                                    string s = "singledesk" + i;
+                                    <div id="ship-container">
+                                        <table class="ships" id=@s onmousedown="dragShip(this)" ondblclick="rotateShip(this)" ondragstart="dragstShip()">
+                                            <tr><td></td></tr>
+                                        </table>
+                                    </div>
+                                }
+
+
+                            </div>
+                            <div class="hint">
+                                <div style="width: 10%;">
+                                    <img id="icon-dbl-click" class="icon" src="~/img/icon_dbl_click.png">
+                                </div>
+                                <div style="width: 90%;">
+                                    <label>Поворот корабля - двойной клик</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="place-opponent" class="flex-container flex-column">
+                    <div class="inner-elem top-place-player reverse flex-container">
+                        <div id="opponent-name" class="flex-container player-name"><label>нет соперника</label></div>
+                        <div class="icon-player-ready">
+                            <img src="~/img/not-ready.png">
+                        </div>
+                    </div>
+                    <div id="opponent-status" class="inner-elem working-place flex-container">
+                        <div class="hint" style="width: 100%; height: auto;" id="player2status">Поиск соперника</div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div style="display:inline-block; width:330pt; height:330pt;">
-            <h1 id="user2">Ожидаем игрока</h1>
-            <table id="battlefield2" class="battlefield">
-                @for (var i = 0; i < 10; i++)
-                {
-                    @:<tr>
-                        for (var j = 0; j < 10; j++)
-                        {
-                            <!--     <td onclick="cellClick(this);" onmouseover="this.style = 'background-color: rgb(180,254,255)'" onmouseout="this.style = 'background-color: rgb(225,254,255)'"></td>-->
-                            <td></td>
-                        }
-                    @:</tr>
-                }
-            </table>
-            <div id="vivod"></div>
-
-        </div>
-    </div>
-
-    <div>
-        <form method="post" action="~/SetShips/LeaveRoom">
-            <input type='submit' value='выйти' style="top:80%; height:45pt; width:110pt; " />
-            <input type="hidden" id="playerNameSend" name="playername" /><br />
-        </form>
-        <form method="post" action="~/Default/ResultWindow">
-            <input type='submit' value=' в конец' style="top:80%; height:45pt; width:110pt; " />
-
-        </form>
-
         <input type='button' onclick="test()" value='и игру тест' style="margin:0 0 0 30%;height:45pt; width:110pt; " />
-
     </div>
+    <script>
+        var cell_size = 0;
+        const borderCell = 1;
+        const borderTable = 2;
+        const place = document.getElementById("place-battlefield");
+        var minDim = (place.offsetWidth < place.offsetHeight) ? place.offsetWidth : place.offsetHeight;
+        cell_size = Math.floor((minDim - 9 * borderCell - 2 * borderTable) / 10)+1;
+
+
+        window.onresize = function (event) {
+              minDim = (place.offsetWidth < place.offsetHeight) ? place.offsetWidth : place.offsetHeight;
+               cell_size = Math.floor((minDim - 9 * borderCell - 2 * borderTable) / 10)+1;
+            //   tableCreate('place-battlefield');
+            //  shipsCreate('place-ships');
+            //  var t = document.getElementById('battlefield1');
+            setCellSize(document.getElementById('battlefield1'));
+            setShipsCellSize();
+        };
+    </script>
     <script>
         var login = get_cookie("Login");
         if (login == null) {
             window.location.href = 'Login';
         }
         else {
-            document.getElementById('user1').innerText = login;
-            document.getElementById('playerNameSend').value = login;
+            document.getElementById('player-name').innerText = login;
+             document.getElementById('playerNameSend').value = login;
         }
 
         function test() {
             $.post("/Test/Ready", { playername: login })
                 .done(function (data1) {
-
-
-
                 });
+        }
 
+        console.log(cell_size);
+        var t = document.getElementById('battlefield1');
+        setCellSize(t);
+        setShipsCellSize();
+        function setShipsCellSize() {
+            let arr = ["singledesk1", "singledesk2", "singledesk3", "singledesk4", "doubledesk1", "doubledesk2", "doubledesk3", "tripledesk1", "tripledesk2", "fourdesk"];
+            for (item of arr) {
+                let desk = document.getElementById(item);
+                setCellSize(desk);
+                var parent = desk.parentElement;
+                if (parent.id == "ship-container") {
+                    parent.style.width = desk.offsetWidth + "px";
+                    parent.style.marginRight = (cell_size - 3) + "px";
+                }
 
+            }
         }
 
 
+        function setCellSize(element) {
+            element.style.border = borderTable + "px solid #402205";
+            let tdpadding = (cell_size - 1) / 2;
+            for (var i = 0; i < element.rows.length; i++) {
+                for (var j = 0; j < element.rows[0].cells.length; j++) {
+                    let td = element.rows[i].cells[j];
+                    td.style.padding = tdpadding + "px";
+                    td.style.border = borderCell + "px solid";
+
+                }
+            }
+        }
+
+
+
+
     </script>
-    <script src="~/js/editships.js" type="text/javascript"></script>
-    <script src="~/js/site.js"></script>
+    <script src="~/js/editships.js"></script>
     <script src="~/js/updateEditShipView.js"></script>
+
 </body>
+
 </html>
-
-
-
-

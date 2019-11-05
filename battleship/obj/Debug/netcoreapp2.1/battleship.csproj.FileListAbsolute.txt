@@ -24,10 +24,11 @@ D:\git_projects\battleship\battleship\bin\Debug\netcoreapp2.1\BL.dll
 D:\git_projects\battleship\battleship\bin\Debug\netcoreapp2.1\DL.dll
 D:\git_projects\battleship\battleship\bin\Debug\netcoreapp2.1\BL.pdb
 D:\git_projects\battleship\battleship\bin\Debug\netcoreapp2.1\DL.pdb
-D:\git_projects\battleship\battleship\obj\Debug\netcoreapp2.1\Razor\Views\setships\FieldEditorView.g.cshtml.cs
 D:\git_projects\battleship\battleship\obj\Debug\netcoreapp2.1\Razor\Views\Game\GameView.g.cshtml.cs
 D:\git_projects\battleship\battleship\obj\Debug\netcoreapp2.1\Razor\Views\Game\ResultGameView.g.cshtml.cs
 D:\git_projects\battleship\battleship\obj\Debug\netcoreapp2.1\Razor\Views\Login\Login1.g.cshtml.cs
 D:\git_projects\battleship\battleship\obj\Debug\netcoreapp2.1\Razor\Views\Login\Login.g.cshtml.cs
 D:\git_projects\battleship\battleship\obj\Debug\netcoreapp2.1\Razor\Views\Rooms\Rooms1.g.cshtml.cs
 D:\git_projects\battleship\battleship\obj\Debug\netcoreapp2.1\Razor\Views\Rooms\Rooms.g.cshtml.cs
+D:\git_projects\battleship\battleship\obj\Debug\netcoreapp2.1\Razor\Views\setships\FieldEditorView1.g.cshtml.cs
+D:\git_projects\battleship\battleship\obj\Debug\netcoreapp2.1\Razor\Views\setships\FieldEditorView.g.cshtml.cs
