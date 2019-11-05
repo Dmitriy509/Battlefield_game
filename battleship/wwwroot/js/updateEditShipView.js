@@ -29,7 +29,7 @@ function getShips() {
         let ship = document.getElementById(arr[j]);
 
         for (let k = j; k < arr.length - 1; k++) {
-            if (!checkshipPosition(ship)) {
+            if (!checkshipPosition(ship, true)) {
                 alert('Кораблики неправильна!');
                 return;
             }
@@ -69,8 +69,9 @@ function getShips() {
 
     $.post("/SetShips/GetShipsCoords", { playername: login, Xarr: Xcoords, Yarr: Ycoords })
         .done(function (data1) {
-            document.getElementById('user1').innerText = login + "- Готов";
-            document.getElementById('readybtn').disabled = true;
+          //  document.getElementById('user1').innerText = login + "- Готов";
+            document.getElementById('btn-ready').disabled = true;
+            document.getElementById("player1-ready").src = "../img/ready.png";
             // alert(data1.ff)
             // alert(data1.ss)
             //  window.location.href = 'GameView';

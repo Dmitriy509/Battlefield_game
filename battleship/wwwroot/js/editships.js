@@ -31,7 +31,7 @@ function dragShip(b) {
 
         if (x > field.offsetLeft - cell_size && x < field.offsetLeft + field.offsetWidth && y > field.offsetTop - cell_size && y < field.offsetTop + field.offsetHeight ) {
 
-            if (x > field.offsetLeft && x < field.offsetLeft + field.offsetWidth - cell_size * b.rows[0].cells.length) {
+            if (x >= field.offsetLeft && x <= field.offsetLeft + field.offsetWidth - cell_size * b.rows[0].cells.length) {
                 lastX = field.offsetLeft + Math.round((x - field.offsetLeft) / cell_size) * cell_size;
                 b.style.left = lastX + 'px';
             }
@@ -71,7 +71,8 @@ function dragShip(b) {
         document.onmouseup = null;
         b.style.left = lastX + 'px';
         b.style.top = lastY + 'px';
-        if (!checkshipPosition(b)) {
+        if (!checkshipPosition(b, false)) {
+           // alert("!!!")
             b.style.left = lastXChecking + 'px';
             b.style.top = lastYChecking + 'px';
             //  vivod.innerText = 'not ok';
@@ -110,21 +111,56 @@ function dragstShip() {
     return false;
 }
 
-function checkshipPosition(currentdesk) {
+//function getFieldBounds()
+//{
+//    return {
+//        leftX: Math.round(field.offsetLeft / cell_size),
+//        rinhtX: Math.round((field.offsetLeft + field.offsetWidth) / cell_size),
+//        topY: Math.round(field.offsetTop / cell_size),
+//        bottomY: Math.round((field.offsetTop + field.offsetHeight) / cell_size)
+//    };
+//}
+
+function checkFieldBounds(desk, field) {
+    let deskRight = desk.offsetLeft + desk.offsetWidth;
+    let deskBottom = desk.offsetTop + desk.offsetHeight;
+    let fieldRight = field.offsetLeft + field.offsetWidth;
+    let fieldBottom = field.offsetTop + field.offsetHeight;
+    if (desk.offsetLeft >= field.offsetLeft && deskRight <= fieldRight)
+        if (desk.offsetTop >= field.offsetTop && deskRight <= fieldRight)
+            return true;
+        else false;
+
+    }
+
+
+function checkshipPosition(currentdesk, flCheckFieldBounds) {
+
 
     let arr = ["singledesk1", "singledesk2", "singledesk3", "singledesk4", "doubledesk1", "doubledesk2", "doubledesk3", "tripledesk1", "tripledesk2", "fourdesk"];
     let curX = Math.round(currentdesk.offsetLeft / cell_size) - 1;
     let curY = Math.round(currentdesk.offsetTop / cell_size) - 1;
     let curXt = Math.round((currentdesk.offsetLeft + currentdesk.offsetWidth - cell_size) / cell_size) + 1;
     let curYt = Math.round((currentdesk.offsetTop + currentdesk.offsetHeight - cell_size) / cell_size) + 1;
+    //alert(curX + " " + curY + " " + curXt + " " + curYt);
+   // let fieldBounds = getFieldBounds();
+    //if (flCheckFieldBounds) 
+        if (!checkFieldBounds(currentdesk, field)) return false; 
+
 
     for (item of arr) {
 
         if (item == currentdesk.id) { continue; }
-
+       
 
 
         let desk = document.getElementById(item);
+
+        if (!flCheckFieldBounds) {
+            if (!checkFieldBounds(desk, field)) continue;
+        }
+      //  else if (!checkFieldBounds(desk, field)) return false;
+         //   else return false
 
         let x = Math.round(desk.offsetLeft / cell_size);
         let y = Math.round(desk.offsetTop / cell_size);
@@ -139,7 +175,7 @@ function checkshipPosition(currentdesk) {
             return false;
         }
         else if ((curX <= xt && xt <= curXt) && (curY <= yt && yt <= curYt)) {
-            //  alert('2');
+          //    alert('2');
             return false;
         }
 
@@ -153,7 +189,7 @@ function checkshipPosition(currentdesk) {
 function rotateShip(ship) {
     // alert(ball.rows[0].cells.length);
     rotate();
-    if (!checkshipPosition(ship)) {
+    if (!checkshipPosition(ship,false)) {
         //alert('asdf');
         rotate();
         shakingShip(ship);
