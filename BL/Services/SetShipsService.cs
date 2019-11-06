@@ -31,14 +31,92 @@ namespace BL.Services
 
         }
 
-        public string[] UpdateRoom(string playername)
+        public List <SendShips> CheckPlayerReady(string playername)
+        {
+
+            Player p = _dm.Ps.GetPlayer(playername);
+
+            if (p.state != (sbyte)Player_States.readytoplay) return null;
+
+            Room r = _dm.Rs.GetRoom(p.roomid);
+            var ships = new List<SendShips>();
+
+            sbyte singledesk = 1, doubledesk = 1, tripledesk = 1;
+                for (int y = 0; y < p.field.Length; y++)
+                {
+                    for (int x = 0; x < p.field.Length; x++)
+                    {
+                        if(p.field[y][x]==(sbyte)Field_Cell_States.ship)
+                        {
+                            bool fl = true;
+                            if(x-1>=0&&p.field[y][x-1] == (sbyte)Field_Cell_States.ship)
+                                fl = false;
+                            else
+                            if (y-1>=0&&p.field[y-1][x] == (sbyte)Field_Cell_States.ship)
+                                fl = false;
+
+
+                            if(fl)
+                            {
+                                sbyte deskcount = 1;
+                                char align='n';
+                                int i = x+1;
+                                while (i < p.field.Length && p.field[y][i] == (sbyte)Field_Cell_States.ship)
+                                {
+                                    align = 'h';
+                                    deskcount++;
+                                    i++;
+                                }
+
+                                if (align != 'h')
+                                {
+                                    i = y + 1;
+                                    while (i < p.field.Length && p.field[i][x] == (sbyte)Field_Cell_States.ship)
+                                    {
+                                        align = 'v';
+                                        deskcount++;
+                                        i++;
+                                    }
+                                }
+
+                                SendShips s = new SendShips();
+
+                                s.x = (sbyte)x;
+                                s.y = (sbyte)y;
+                                s.align = align;
+                                switch(deskcount)
+                                {
+                                    case 1: s.shipname = "singledesk" + singledesk.ToString(); singledesk++; break;
+                                    case 2: s.shipname = "doubledesk" + doubledesk.ToString(); doubledesk++; ; break;
+                                    case 3: s.shipname = "tripledesk" + tripledesk.ToString(); tripledesk++; ; break;
+                                    case 4: s.shipname = "fourdesk";  break;
+                                }
+                              ships.Add(s);
+
+                            }
+
+                        }
+
+                    }
+                }
+
+            
+
+
+
+            return ships;
+        }
+
+
+        public Dictionary<string, string> UpdateRoom(string playername)
         {
 
             Player p1 = _dm.Ps.GetPlayer(playername, true);
             Room r = _dm.Rs.GetRoom(p1.roomid);
             Player p2 = _dm.Rs.GetPlayer2(p1,r);
             string p2res = "";
-
+            string p2name = "";
+            if (p2 != null) p2name = p2.login;
 
             Func<bool> checkDisconnect = () =>
               {
@@ -55,7 +133,7 @@ namespace BL.Services
                           r.player1id = p1.id;
                           r.player2id = null;
                           r.status = (sbyte)Game_States.waitingplayer;
-                          p2res = "Ждем нового игрока";
+                          p2res = "Поиск соперника";
                           return true;
                       }
 
@@ -67,7 +145,7 @@ namespace BL.Services
 
             Func<string> waitingplayer = () =>
             {
-                p2res = "Ожидаем игрока";
+                p2res = "Поиск соперника";
                 return "";
             };
 
@@ -81,18 +159,19 @@ namespace BL.Services
                         if (p1.state == (sbyte)Player_States.readytoplay)
                         {
                             r.status = (sbyte)Game_States.readytoplay;
-                            p2res = p2.login + " - Готов";
+                            p2res ="Готов";
+
                             return "";
                         }
                         else
                         {
-                            p2res = p2.login + " - Готов";
+                            p2res = "Готов";
                             return "";
                         }
                     }
                     else
                     {
-                        p2res = p2.login;
+                        p2res = "Готовимся к бою";
                         return "";
                     }
 
@@ -100,7 +179,7 @@ namespace BL.Services
 
             Func<string> readytoplay = () =>
             {
-                    p2res = p2.login + " - Готов";
+                    p2res = "Готов";
                     return "/Game/StartGame";
 
             };
@@ -122,7 +201,7 @@ namespace BL.Services
                 {
                     r.status = (sbyte)Game_States.editships;
                 }
-                p2res = "Ожидаем игрока";
+                p2res = "Поиск соперника";
                 return "";
             };
             var gamestates = new Dictionary<sbyte, Func<string>>(4);
@@ -131,7 +210,13 @@ namespace BL.Services
             gamestates.Add((sbyte)Game_States.readytoplay, readytoplay);
             gamestates.Add((sbyte)Game_States.readytoreplay, readytoreplay);
             r.updTime = DateTime.Now;
-            return new string[] { gamestates[r.status](), p2res };
+
+            var res = new Dictionary<string, string>(3);
+
+            res.Add("gamestatus", gamestates[r.status]());
+            res.Add("player2name", p2name);
+            res.Add("player2status", p2res);
+            return res;
 
         }
 

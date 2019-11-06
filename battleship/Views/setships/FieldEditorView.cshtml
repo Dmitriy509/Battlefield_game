@@ -28,7 +28,7 @@
             <div id="field-preparation" class="flex-container">
                 <div id="place-player" class="flex-container flex-column">
                     <div class="inner-elem top-place-player">
-                        <div id="player-name" class="flex-container player-name"><label>имя игрока</label></div>
+                        <div id="player-name" class="flex-container player-name"><label></label></div>
                         <div class="icon-player-ready">
                             <img id="player1-ready" src="~/img/not-ready.png">
                         </div>
@@ -42,8 +42,10 @@
                                     @:<tr>
                                         for (var j = 0; j < 10; j++)
                                         {
-                                            <!--     <td onclick="cellClick(this);" onmouseover="this.style = 'background-color: rgb(180,254,255)'" onmouseout="this.style = 'background-color: rgb(225,254,255)'"></td>-->
-                                            <td></td>
+
+                                            @:<td></td>
+
+
                                         }
                                     @:</tr>
                                 }
@@ -51,6 +53,8 @@
                         </div>
                         <div style="width:50%" class="flex-container control-panel flex-column">
                             <div id="place-ships">
+
+
                                 <div id="ship-container">
                                     <table class="ships" id="fourdesk" onmousedown="dragShip(this)" ondblclick="rotateShip(this)" ondragstart="dragstShip()">
                                         <tr><td></td><td></td><td></td><td></td></tr>
@@ -79,11 +83,13 @@
                                 @for (var i = 1; i <= 4; i++)
                                 {
                                     string s = "singledesk" + i;
+
                                     <div id="ship-container">
                                         <table class="ships" id=@s onmousedown="dragShip(this)" ondblclick="rotateShip(this)" ondragstart="dragstShip()">
                                             <tr><td></td></tr>
                                         </table>
                                     </div>
+
                                 }
 
 
@@ -115,78 +121,15 @@
         <input type='button' onclick="test()" value='и игру тест' style="margin:0 0 0 30%;height:45pt; width:110pt; " />
     </div>
     <script>
-        var cell_size = 0;
-        const borderCell = 1;
-        const borderTable = 2;
-        const place = document.getElementById("place-battlefield");
-        var minDim = (place.offsetWidth < place.offsetHeight) ? place.offsetWidth : place.offsetHeight;
-        cell_size = Math.floor((minDim - 9 * borderCell - 2 * borderTable) / 10)+1;
-
-
-        window.onresize = function (event) {
-              minDim = (place.offsetWidth < place.offsetHeight) ? place.offsetWidth : place.offsetHeight;
-               cell_size = Math.floor((minDim - 9 * borderCell - 2 * borderTable) / 10)+1;
-            //   tableCreate('place-battlefield');
-            //  shipsCreate('place-ships');
-            //  var t = document.getElementById('battlefield1');
-            setCellSize(document.getElementById('battlefield1'));
-            setShipsCellSize();
-        };
+        var flagPlayerReady =@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(@ViewBag.Ready)) 
+        var PlayerShips =@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(@ViewBag.Ships)) 
+ 
     </script>
-    <script>
-        var login = get_cookie("Login");
-        if (login == null) {
-            window.location.href = 'Login';
-        }
-        else {
-            document.getElementById('player-name').innerText = login;
-             document.getElementById('playerNameSend').value = login;
-        }
 
-        function test() {
-            $.post("/Test/Ready", { playername: login })
-                .done(function (data1) {
-                });
-        }
-
-        console.log(cell_size);
-        var t = document.getElementById('battlefield1');
-        setCellSize(t);
-        setShipsCellSize();
-        function setShipsCellSize() {
-            let arr = ["singledesk1", "singledesk2", "singledesk3", "singledesk4", "doubledesk1", "doubledesk2", "doubledesk3", "tripledesk1", "tripledesk2", "fourdesk"];
-            for (item of arr) {
-                let desk = document.getElementById(item);
-                setCellSize(desk);
-                var parent = desk.parentElement;
-                if (parent.id == "ship-container") {
-                    parent.style.width = desk.offsetWidth + "px";
-                    parent.style.marginRight = (cell_size - 3) + "px";
-                }
-
-            }
-        }
-
-
-        function setCellSize(element) {
-            element.style.border = borderTable + "px solid #402205";
-            let tdpadding = (cell_size - 1) / 2;
-            for (var i = 0; i < element.rows.length; i++) {
-                for (var j = 0; j < element.rows[0].cells.length; j++) {
-                    let td = element.rows[i].cells[j];
-                    td.style.padding = tdpadding + "px";
-                    td.style.border = borderCell + "px solid";
-
-                }
-            }
-        }
-
-
-
-
-    </script>
-    <script src="~/js/editships.js"></script>
-    <script src="~/js/updateEditShipView.js"></script>
+    <script src="~/js/EditShips/editships.js"></script>
+    <script src="~/js/EditShips/startPageEditShips.js"></script>
+    <script src="~/js/EditShips/pageEditShipsResize.js"></script>
+    <script src="~/js/EditShips/updateEditShipView.js"></script>
 
 </body>
 

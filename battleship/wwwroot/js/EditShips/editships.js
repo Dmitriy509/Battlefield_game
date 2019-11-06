@@ -1,18 +1,12 @@
-﻿var field = document.getElementById('battlefield1');
-var vivod = document.getElementById('vivod');
-//var k = 2;
-//var cell_size = 30 * 96 / 72;  //transform to pt
+﻿function dragShip(b) {
+  
 
-//cell_size = cell_size * 2 + 1;
-function dragShip(b) {
-    //vivod.innerText = 'klick';
-    // alert(event.target.id);
     var coords = getCoords(b);
     b.style.margin = 0 + 'px';
     var shiftX = event.pageX - coords.left;
     var shiftY = event.pageY - coords.top;
 
-   // alert(coords.left + " "+coords.top + " " + event.pageX + " " + event.pageY);
+  //  alert(coords.left + " "+coords.top + " " + event.pageX + " " + event.pageY);
 
     var lastX = coords.left;
     var lastY = coords.top;
@@ -29,22 +23,24 @@ function dragShip(b) {
         let x = event.pageX - shiftX;
         let y = event.pageY - shiftY;
 
-        if (x > field.offsetLeft - cell_size && x < field.offsetLeft + field.offsetWidth && y > field.offsetTop - cell_size && y < field.offsetTop + field.offsetHeight ) {
+      //  document.getElementById('');
 
-            if (x >= field.offsetLeft && x <= field.offsetLeft + field.offsetWidth - cell_size * b.rows[0].cells.length) {
-                lastX = field.offsetLeft + Math.round((x - field.offsetLeft) / cell_size) * cell_size;
+        if (x > fieldb.left - cell_size && x < fieldb.right && y > fieldb.top - cell_size && y < fieldb.bottom) {
+           
+            if (x >= fieldb.left && x <= fieldb.right - cell_size * b.rows[0].cells.length) {
+                lastX = fieldb.left + Math.round((x - fieldb.left) / cell_size) * cell_size;
                 b.style.left = lastX + 'px';
             }
             else {
-                b.style.left = field.offsetLeft + Math.round((x - field.offsetLeft) / cell_size) * cell_size + 'px';
+                b.style.left = fieldb.left + Math.round((x - fieldb.left) / cell_size) * cell_size + 'px';
             }
 
-            if (y > field.offsetTop && y < field.offsetTop + field.offsetHeight - cell_size * b.rows.length) {
-                lastY = field.offsetTop + Math.round((y - field.offsetTop) / cell_size) * cell_size;
+            if (y > fieldb.top && y < fieldb.bottom - cell_size * b.rows.length) {
+                lastY = fieldb.top + Math.round((y - fieldb.top) / cell_size) * cell_size;
                 b.style.top = lastY + 'px';
             }
             else {
-                b.style.top = field.offsetTop + Math.round((y - field.offsetTop) / cell_size) * cell_size + 'px';
+                b.style.top = fieldb.top + Math.round((y - fieldb.top) / cell_size) * cell_size + 'px';
             }
             //  vivod.innerText = Math.round((x - field.offsetLeft) / 30) * 30;
         }
@@ -57,46 +53,48 @@ function dragShip(b) {
 
     }
 
-    document.onmousemove = function (event) {
-        // if (k == 2) {
+    document.onmousemove = function (event) {   
         moveAt(event);
-        //    k = 0;
-        //} else {
-        //    k++;
-        //}
     };
+
+    function getshipcoords(ship)
+    {
+        if (ship.offsetLeft >= field.offsetLeft + field.offsetWidth) {
+            arrships[ship.id].x = -1;
+            arrships[ship.id].y = -1
+        }
+        else {
+            arrships[ship.id].x = Math.round((ship.offsetLeft - field.offsetLeft) / cell_size);
+            arrships[ship.id].y = Math.round((ship.offsetTop - field.offsetTop) / cell_size);
+        }
+    }
+
 
     document.onmouseup = function (event) {
         document.onmousemove = null;
         document.onmouseup = null;
         b.style.left = lastX + 'px';
         b.style.top = lastY + 'px';
-        if (!checkshipPosition(b, false)) {
-           // alert("!!!")
+
+
+        if (!checkshipPosition(getElementBounds(b), b.id)) {
+           // alert("1!!!!");
             b.style.left = lastXChecking + 'px';
             b.style.top = lastYChecking + 'px';
-            //  vivod.innerText = 'not ok';
+
         }
+        else
+        if (!checkFieldBounds(getElementBounds(b), getElementBounds(field)))
+        {   
+            var parent = b.parentElement;
+          //  alert("2!! ");
+            b.style.left = parent.style.left;
+            b.style.top = parent.style.top;
+
+            }
+
+        getshipcoords(b);
     };
-    /*  b.onmouseup = function (event) {
-         
-          document.onmousemove = null;
-          b.onmouseup = null;
-        
-          if (checkshipPosition(b)) {
-              b.style.left = lastX + 'px';
-              b.style.top = lastY + 'px';
-  
-              vivod.innerText = 'ok';
-          } else
-          {
-              b.style.left = lastXChecking + 'px';
-              b.style.top = lastYChecking + 'px';
-  
-              vivod.innerText = 'not ok';
-          }
-         
-      };*/
 }
 
 function getCoords(elem) {   // кроме IE8-
@@ -111,62 +109,49 @@ function dragstShip() {
     return false;
 }
 
-//function getFieldBounds()
-//{
-//    return {
-//        leftX: Math.round(field.offsetLeft / cell_size),
-//        rinhtX: Math.round((field.offsetLeft + field.offsetWidth) / cell_size),
-//        topY: Math.round(field.offsetTop / cell_size),
-//        bottomY: Math.round((field.offsetTop + field.offsetHeight) / cell_size)
-//    };
-//}
 
-function checkFieldBounds(desk, field) {
-    let deskRight = desk.offsetLeft + desk.offsetWidth;
-    let deskBottom = desk.offsetTop + desk.offsetHeight;
-    let fieldRight = field.offsetLeft + field.offsetWidth;
-    let fieldBottom = field.offsetTop + field.offsetHeight;
-    if (desk.offsetLeft >= field.offsetLeft && deskRight <= fieldRight)
-        if (desk.offsetTop >= field.offsetTop && deskRight <= fieldRight)
+function checkFieldBounds(deskb, fieldb) {
+    if (deskb.left >= fieldb.left && deskb.right <= fieldb.right)
+        if (deskb.top >= fieldb.top && deskb.bottom <= fieldb.bottom)
             return true;
         else false;
 
     }
 
-
-function checkshipPosition(currentdesk, flCheckFieldBounds) {
+function checkshipPosition(currentdesk, id) {
 
 
     let arr = ["singledesk1", "singledesk2", "singledesk3", "singledesk4", "doubledesk1", "doubledesk2", "doubledesk3", "tripledesk1", "tripledesk2", "fourdesk"];
-    let curX = Math.round(currentdesk.offsetLeft / cell_size) - 1;
-    let curY = Math.round(currentdesk.offsetTop / cell_size) - 1;
-    let curXt = Math.round((currentdesk.offsetLeft + currentdesk.offsetWidth - cell_size) / cell_size) + 1;
-    let curYt = Math.round((currentdesk.offsetTop + currentdesk.offsetHeight - cell_size) / cell_size) + 1;
-    //alert(curX + " " + curY + " " + curXt + " " + curYt);
+    let curX = Math.round(currentdesk.left / cell_size) - 1;
+    let curY = Math.round(currentdesk.top / cell_size) - 1;
+    let curXt = Math.round((currentdesk.right - cell_size) / cell_size) + 1;
+    let curYt = Math.round((currentdesk.bottom - cell_size) / cell_size) + 1;
+ //   alert(curX + " " + curY + " " + curXt + " " + curYt + " /// " + currentdesk.right );
    // let fieldBounds = getFieldBounds();
     //if (flCheckFieldBounds) 
-        if (!checkFieldBounds(currentdesk, field)) return false; 
+     //   if (!checkFieldBounds(currentdesk, field)) return false; 
 
 
     for (item of arr) {
 
-        if (item == currentdesk.id) { continue; }
+        if (item == id) { continue; }
        
 
 
-        let desk = document.getElementById(item);
+        let desk = getElementBounds(document.getElementById(item));
 
-        if (!flCheckFieldBounds) {
-            if (!checkFieldBounds(desk, field)) continue;
-        }
+      //  if (!flCheckFieldBounds) {
+            if (!checkFieldBounds(desk, fieldb)) continue;
+      //  }
       //  else if (!checkFieldBounds(desk, field)) return false;
          //   else return false
 
-        let x = Math.round(desk.offsetLeft / cell_size);
-        let y = Math.round(desk.offsetTop / cell_size);
+        let x = Math.round(desk.left / cell_size);
+        let y = Math.round(desk.top / cell_size);
 
-        let xt = Math.round((desk.offsetLeft + desk.offsetWidth - cell_size) / cell_size);
-        let yt = Math.round((desk.offsetTop + desk.offsetHeight - cell_size) / cell_size);
+        let xt = Math.round((desk.right - cell_size) / cell_size);
+        let yt = Math.round((desk.bottom - cell_size) / cell_size);
+       // alert(x + " " + y + " " + yt + " " + xt );
         //if (item = 'fourdesk') {
         //    vivod.innerText = '<br/>x=' + x + ' xt=' + xt + ' y=' + y + ' yt' + yt + ' curX=' + curX + ' curXt=' + curXt + ' curY=' + curY + ' curYt=' + curYt + '/////';
         //}
@@ -175,21 +160,31 @@ function checkshipPosition(currentdesk, flCheckFieldBounds) {
             return false;
         }
         else if ((curX <= xt && xt <= curXt) && (curY <= yt && yt <= curYt)) {
-          //    alert('2');
+            //  alert('2');
             return false;
         }
 
 
     }
-
+  //  alert('true');
     return true;
 
 }
 
 function rotateShip(ship) {
     // alert(ball.rows[0].cells.length);
+
+  //  let fieldbounds = getElementBounds(field);
+    let shipbounds = getElementBounds(ship);
+    if (!checkFieldBounds(shipbounds, fieldb)) {
+        shakingShip(ship);
+        return;
+    }
+
     rotate();
-    if (!checkshipPosition(ship,false)) {
+    shipbounds = getElementBounds(ship);
+
+    if (!checkshipPosition(shipbounds, ship.id)) {
         //alert('asdf');
         rotate();
         shakingShip(ship);
@@ -200,12 +195,12 @@ function rotateShip(ship) {
 
         if (ship.rows.length > 1) { //из вертикального в гор
             let rowcount = ship.rows.length;
-            if (ship.offsetLeft + rowcount * cell_size >= field.offsetLeft + field.offsetWidth) {
+            if (ship.offsetLeft + rowcount * cell_size >= fieldb.right) {
                 shakingShip(ship);
                 return;
             }
 
-
+            
             for (let i = 1; i < rowcount; i++) {
                 ship.deleteRow(0);
             }
@@ -222,7 +217,7 @@ function rotateShip(ship) {
         else if (ship.rows[0].cells.length >= 2) {
 
             let colcount = ship.rows[0].cells.length;
-            if (ship.offsetTop + colcount * cell_size >= field.offsetTop + field.offsetHeight) {
+            if (ship.offsetTop + colcount * cell_size >= fieldb.bottom) {
                 shakingShip(ship);
                 return;
             }

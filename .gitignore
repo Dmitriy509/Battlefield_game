@@ -1,2 +1,7 @@
 /.vs/
-
+/battleship/bin/
+/battleship/obj/
+/BL/obj/
+/BL/bin/
+/DL/bin/
+/DL/obj/
