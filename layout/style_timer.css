@@ -1,0 +1,86 @@
+.timer-group {
+  position: relative;
+  height: 5rem; 
+  width: 5rem; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
+}
+
+.timer-animation {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+
+.timer-animation .hand {
+  float: left;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  width: 50%;
+}
+
+.timer-animation .hand span {
+  border: 0px solid rgba(255,0,0, .5);
+  border-bottom-color: transparent;
+  border-left-color: transparent;
+  border-radius: 50%;
+  display: block;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transform: rotate(225deg);
+  animation-iteration-count: 1;
+  animation-timing-function: linear;
+  animation-duration: 10s;
+}
+
+.timer-animation .hand:first-child {
+  transform: rotate(180deg);
+}
+
+.timer-animation .hand:first-child span {
+  animation-name: spin1;
+}
+
+.timer-animation .hand:last-child span {
+  animation-name: spin2; 
+}
+
+.timer-count {
+  background: rgba(231, 163, 102);
+  color: white;
+  border-radius: 50%;
+  height: 80%;
+  position: absolute;
+  width: 80%;
+  text-align: center;
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
+}
+
+@keyframes spin1 {
+  0% {
+    transform: rotate(225deg);
+  }
+  50% {
+    transform: rotate(225deg);
+  }
+  100% {
+    transform: rotate(405deg);
+  }
+}
+
+@keyframes spin2 {
+  0% {
+    transform: rotate(225deg);
+  }
+  50% {
+    transform: rotate(405deg);
+  }
+  100% {
+    transform: rotate(405deg);
+  }
+}

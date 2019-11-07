@@ -1,5 +1,11 @@
     var cell_size = 0;
 
+    function clearContent(elem) { 
+      while (elem.firstChild) {
+        elem.removeChild(elem.firstChild); 
+      }
+    }
+
     function tableGen(x, y, borderCell, borderTable) {
       var tbl = document.createElement('table');
       tbl.style.border = borderTable + "px solid #402205";
@@ -23,10 +29,7 @@
       const borderCell = 1;
       const borderTable = 2;
       const place = document.getElementById(idTableWrapper);
-
-      while (place.firstChild) {
-        place.removeChild(place.firstChild); 
-      }
+      clearContent(place);
       const minDim = (place.offsetWidth < place.offsetHeight) ? place.offsetWidth : place.offsetHeight;
 
       cell_size = Math.floor((minDim - 9*borderCell - 2 * borderTable)/20);
@@ -48,9 +51,7 @@
       }
 
       var place = document.getElementById(idPlaceShips);
-      while (place.firstChild) {
-        place.removeChild(place.firstChild); 
-      }
+      clearContent(place);
 
       var ships4 = cloneShip(4,1);
       var ships3 = cloneShip(3,2);
@@ -60,7 +61,89 @@
 
       all_ships.forEach(function(el) {
         el.style.marginRight = (2*cell_size - 2)+"px";
-        place.appendChild(el);
+        var div_wrapper = document.createElement('div');
+        div_wrapper.appendChild(el);
+        place.appendChild(div_wrapper);
+        div_wrapper.style.width = div_wrapper.offsetWidth + "px";
+      });
+
+    }
+
+    function shipMini(size) {
+      const ship = document.createElement('div');
+      ship.setAttribute("class", "ship-miniature");
+      for (var i = 0; i < size; i++) {
+        const ship_block = document.createElement('div');
+        ship_block.setAttribute("class", "ship-block-stat");
+        ship.appendChild(ship_block);
+      }
+      return ship;
+    }
+
+    function genPlaceShipStat(idPlace) {
+      const place = document.getElementById(idPlace);
+      clearContent(place);
+      var arr = [];
+      const ships4 = [shipMini(4)];
+      const ships3 = [shipMini(3),shipMini(3)];
+      const ships2 = [shipMini(2),shipMini(2), shipMini(2)];
+      const ships1 = [shipMini(1),shipMini(1), shipMini(1), shipMini(1)];
+
+      arr = ships4.concat(ships3, ships2, ships1);
+      for (let ship of arr) {
+        place.appendChild(ship);
+      }
+
+    }
+
+    function secondsStrFormat(secs) {
+        let minutes = parseInt(secs / 60, 10);
+        let seconds = parseInt(secs % 60, 10);
+        return minutes + ":" + (seconds < 10 ? "0" + seconds : seconds);
+    }
+
+    function timer(id, durationSec) {
+      var parent = document.getElementById(id).parentElement;
+      if (parent.classList.contains("timer-group")) timerAnimationSetting(parent, durationSec);
+
+      var timer_label = document.querySelector("#" + id + " > label"); 
+
+      let current_timer = durationSec;
+      let regexp = /(\d):(\d\d)/;
+      timer_label.textContent = secondsStrFormat(durationSec); 
+
+      setInterval(function() {
+        let match = regexp.exec(timer_label.textContent);
+
+        current_timer = current_timer == 0 ? stopTimer() : parseInt(match[1],10)* 60 + parseInt(match[2],10) - 1;
+        timer_label.textContent = secondsStrFormat(current_timer); 
+      }, 1000);
+
+      var stopTimer = function () {
+        clearInterval(startTimer);
+        return 0;
+      }
+    }
+
+    function openModal(modalId) {
+      var modal = document.getElementById(modalId);
+      var inputs = document.querySelectorAll("#" + modalId + " input[type='text']");
+      inputs.forEach(function(el) {
+        el.value = "";
+      });
+      modal.style.display = "flex";
+    }
+
+    function closeModal(modalId) {
+      document.getElementById(modalId).style.display = "none";
+    } 
+
+    function timerAnimationSetting(timerEl, duration) {
+      var spans = timerEl.querySelectorAll(".timer-animation span");
+      spans.forEach(function(el) {
+        const widthParent = el.parentElement.offsetWidth;
+        el.style.borderWidth =  widthParent + "px";
+        el.style.animationDuration = duration + "s";
       });
 
     }

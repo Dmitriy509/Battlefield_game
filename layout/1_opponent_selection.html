@@ -3,15 +3,33 @@
 <head>
   <title></title>
   <link href='./style.css' rel='stylesheet' type='text/css'>
+  <link href='./style_modal.css' rel='stylesheet' type='text/css'>
+  <script src="script.js"></script>
 </head>
 <body>
 
   <div class="body">
+
+    <div id="create-room-modal" class="modal">
+      <div class="modal-view">
+        <img class="modal-background-image" src="./img/paper_modal.png">
+        <div class="flex-container flex-column modal-inner">
+          <div>
+            <input class="icon-btn close-btn" type="image" src="./img/icon_close.png" onclick="closeModal('create-room-modal');">
+          </div>
+          <div class="modal-content">
+            <input id="new-room-name" type="text" class="input-text" placeholder="название комнаты">
+            <input type="image" src="./img/room_create.png" class="modal-btn"/>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div id="top-menu">
-      <img src="./img/img/logo.png">
+      <img src="./img/logo.png">
       <div id="btn-panel">
-        <input type="image" name="sound_img" src="./img/out.png">
-        <input type="image" name="sound_img" src="./img/sound.png">
+        <input class="icon-btn" type="image" src="./img/out.png">
+        <input class="icon-btn" type="image" src="./img/sound.png">
       </div>
     </div>
     <div id="field" class="flex-container flex-column">
@@ -20,7 +38,7 @@
         <img src="./img/player_name.png" style="float: left;">
         <label style="padding-right: 2%">2 игрока онлайн</label>
         <label>0 битв идёт</label>
-        <input type="image" src="./img/challenge.png" style="float: right;">
+        <input type="image" src="./img/challenge.png" style="float: right;" onclick="openModal('create-room-modal');">
       </div>
       <div id="room-selection-wrapper" class="working-place">
         <table>
