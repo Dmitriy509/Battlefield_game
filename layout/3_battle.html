@@ -13,41 +13,42 @@
 <body>
 
   <!--modal result -->
-  <div id="result-modal" class="modal" style="display: flex;">
-    <div class="modal-view"  style="width: 50%;  height: auto;">
+  <div id="result-modal" class="modal" style="display:flex;">
+    <div class="modal-view"  style="min-width: 40rem; width: 50%;">
       <img class="modal-background-image" src="./img/paper_modal.png">
       <div class="flex-container flex-column modal-inner">
         <div>
-          <img class="h1" src="./img/label_win.png">
+          <img class="h1" src="./img/label_defeat.png">
         </div>
-        <div class="flex-container" style="width: 100%; height: 5rem; padding-top: 1rem; padding-bottom: 1rem; justify-content: space-between; "> 
-          <div id="player-name" class="flex-container player-name" style="height: 100%; width: 8rem; margin-bottom: 10%;">
-            <label>игрок</label>
+        <div style="height: 5rem; padding-top: 1rem; padding-bottom: 1rem; justify-content: space-between; "> 
+          <div id="player-name" style="height: 100%;">
+            <div class="player-name" style="float: left;">
+              <label>игрок</label>
+            </div>
+            <img style="float: left;" class="icon-player-ready" src="./img/not-ready.png">
           </div>
-          <div id="player-name" class="flex-container player-name" style="height: 100%; width: 8rem; margin-bottom: 10%;">
-            <label>противник</label>
-          </div>
-        </div>
-        <div class="flex-container" style="width: 100%; height: 5rem; padding-top: 1rem; padding-bottom: 1rem; justify-content: space-between; ">
-          <div style="width: 8rem;">
-            <input type="image" style="height: auto; width: 100%; margin-bottom: 0.5rem;" src="./img/again_btn.png">
-            <input type="image" style="height: auto; width: 100%;" src="./img/no_btn.png">
-          </div>
-          <div class="hint" style="text-align: center; width: 8rem;">
-            <label>ждем ответа</label>
+
+          <div id="opponent-name" style="height: 100%;">
+            <div class="player-name" style="float: right;">
+              <label>противник</label>
+            </div>
+            <img class="icon-player-ready" src="./img/not-ready.png" style="float: right;">
           </div>
         </div>
-        <div class="flex-container" style="justify-content: center;">
+        <div class="flex-container" style="justify-content: center; align-items: center; ">
           <div class="timer-group">
             <div class="timer-animation">
               <div class="hand"><span></span></div>
               <div class="hand"><span></span></div>
             </div>
-            <div id="timer-count" class="timer-count">
+            <div id="timer-decision" class="timer-count">
               <label>0:00</label>  
-              <script type="text/javascript">timer("timer-count", 15);</script>
             </div>
           </div>    
+        </div>
+        <div style="display: flex; padding-top: 1rem; padding-bottom: 1rem; justify-content: space-between;">
+          <input type="image" style=" width: 8rem;  padding-left: 1rem; padding-right: 1rem;" src="./img/again_btn.png">
+          <input type="image" style="width: 8rem; padding-left: 1rem; padding-right: 1rem;" src="./img/no_btn.png" onclick="closeModal('result-modal');">
         </div>
       </div>
     </div>
@@ -69,14 +70,16 @@
 
        <div class="inner-elem top-place-player flex-container flex-between"">
         <div class="flex-container">
-          <div id="player-name" class="flex-container player-name"><label>игрок</label></div>
+          <div id="player-name" class="flex-container player-name">
+            <label>игрок</label>
+          </div>
           <div id="player-move" class="icon-player-ready">
             <img src="./img/my_move.png">
           </div>
         </div>
         <div id="timer-move" class="flex-container player-name" style="width: 3rem;">
-          <label>0:30</label>
-          <script type="text/javascript">timer('timer-move',10);</script>
+          <label>0:00</label>
+          <script type="text/javascript">timerMove('timer-move',5, 'result-modal');</script>
         </div>
         <div class="flex-container"> 
           <div id="opponent-move" class="icon-player-ready" style="opacity: 0.3;">

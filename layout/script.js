@@ -45,7 +45,9 @@
       function cloneShip(shipN, n) {
         var arr = []
         for (i=0; i < n; i++) {
-          arr.push(tableGen(1,shipN,borderCell, borderShip));
+          var ship = tableGen(1,shipN,borderCell, borderShip);
+          ship.style.backgroundColor = "#A9672C";
+          arr.push(ship);
         } 
         return arr;
       }
@@ -102,6 +104,34 @@
         return minutes + ":" + (seconds < 10 ? "0" + seconds : seconds);
     }
 
+    function startTimer(id, durationSec, stopFunction) {
+      var parent = document.getElementById(id).parentElement;
+      if (parent.classList.contains("timer-group")) timerAnimationSetting(parent, durationSec);
+
+      var timer_label = document.querySelector("#" + id + " > label"); 
+
+      let current_timer = durationSec;
+      let regexp = /(\d):(\d\d)/;
+      timer_label.textContent = secondsStrFormat(durationSec); 
+
+      let startTimer = setInterval(function() {
+        let match = regexp.exec(timer_label.textContent);
+
+        current_timer = current_timer == 0 ? stopTimer() : parseInt(match[1],10)* 60 + parseInt(match[2],10) - 1;
+        timer_label.textContent = secondsStrFormat(current_timer); 
+      }, 1000);
+
+      var stopTimer = function () {
+        clearInterval(startTimer);
+        stopFunction();
+        return 0;
+      }
+    } 
+
+    function timerMove(timerId, durationSec, modalId) {
+      startTimer(timerId, durationSec, function() { openModalDefeat(modalId); });
+    }
+
     function timer(id, durationSec) {
       var parent = document.getElementById(id).parentElement;
       if (parent.classList.contains("timer-group")) timerAnimationSetting(parent, durationSec);
@@ -112,7 +142,7 @@
       let regexp = /(\d):(\d\d)/;
       timer_label.textContent = secondsStrFormat(durationSec); 
 
-      setInterval(function() {
+      let startTimer = setInterval(function() {
         let match = regexp.exec(timer_label.textContent);
 
         current_timer = current_timer == 0 ? stopTimer() : parseInt(match[1],10)* 60 + parseInt(match[2],10) - 1;
@@ -125,9 +155,14 @@
       }
     }
 
+    function openModalDefeat(modalId) {
+      openModal(modalId);
+      timer("timer-decision", 15);
+    }
+
     function openModal(modalId) {
       var modal = document.getElementById(modalId);
-      var inputs = document.querySelectorAll("#" + modalId + " input[type='text']");
+      var inputs = document.querySelectorAll("#" + modalId + "input[type='text']");
       inputs.forEach(function(el) {
         el.value = "";
       });
