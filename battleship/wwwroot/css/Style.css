@@ -1,6 +1,4 @@
-﻿
-
-:root {
+﻿:root {
     --f-family: "Verdana", sans-serif;
     --f-size: 14pt;
     --icon-size: 36pt;
@@ -111,11 +109,11 @@ input[type="submit"] {
             margin-bottom: 5%;
         }
 
-        #formContent > form > input[type="text"] {
-            background-color: transparent;
-            border: none;
-            border-bottom: 1px solid black;
-        }
+.input-text {
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid black;
+}
 
 #login-btn {
     height: auto;
@@ -154,7 +152,6 @@ input[type="submit"] {
 
 .working-place {
     height: 100%;
-    margin-top: 1rem;
     overflow: auto;
 }
 
@@ -203,11 +200,9 @@ table, td {
     display: inline-block;
 }
 
-#btn-panel * {
+#btn-panel > * {
     float: right;
     padding-left: 3%;
-    height: var(--icon-size);
-    width: auto;
 }
 
 .h1 {
@@ -234,11 +229,12 @@ table, td {
 
 .control-panel {
     padding-left: 2%;
-    width: 100%;
+    width: 50%;
 }
 
-.icon {
-    width: 24px;
+.icon-btn {
+    width: 2rem;
+    height: auto;
 }
 
 .reverse {
