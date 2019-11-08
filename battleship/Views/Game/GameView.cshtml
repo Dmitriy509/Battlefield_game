@@ -1,80 +1,198 @@
-﻿<html>
+﻿<!DOCTYPE html>
+<html>
 <head>
+    <title></title>
+    <link href="~/css/Style.css" rel="stylesheet" />
+    <link href="~/css/style_2.css" rel="stylesheet" />
+    <link href="~/css/style_3.css" rel="stylesheet" />
+    <link href="~/css/style_modal.css" rel="stylesheet" />
+    <link href="~/css/style_timer.css" rel="stylesheet" />
     <script src="~/lib/jquery/dist/jquery.min.js" type="text/javascript"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
-    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
-    <link href="~/css/ShipsAndFieldStyles.css" rel="stylesheet" />
+
     <script src="~/js/getcookies.js"></script>
+    <script>
+        const login = get_cookie("Login");
+
+    </script>
+    <script>
+        function genPlaceShipStat(idPlace) {
+            const place = document.getElementById(idPlace);
+            clearContent(place);
+            var arr = [];
+            const ships4 = [shipMini(4)];
+            const ships3 = [shipMini(3), shipMini(3)];
+            const ships2 = [shipMini(2), shipMini(2), shipMini(2)];
+            const ships1 = [shipMini(1), shipMini(1), shipMini(1), shipMini(1)];
+
+            arr = ships4.concat(ships3, ships2, ships1);
+            for (let ship of arr) {
+                place.appendChild(ship);
+            }
+
+        }
+
+        function shipMini(size) {
+            const ship = document.createElement('div');
+            ship.setAttribute("class", "ship-miniature");
+            for (var i = 0; i < size; i++) {
+                const ship_block = document.createElement('div');
+                ship_block.setAttribute("class", "ship-block-stat");
+                ship.appendChild(ship_block);
+            }
+            return ship;
+        }
+
+        function clearContent(elem) {
+            while (elem.firstChild) {
+                elem.removeChild(elem.firstChild);
+            }
+        }
+
+    </script>
 </head>
 <body>
 
+    <!--modal result -->
+    @{await Html.RenderPartialAsync("ResultGameView");}
 
-    <h2>GameView</h2><br />
-
-    <div style="margin-left:8%;">
-        <div style="display:inline-block; width:370pt; height:330pt; vertical-align: top;">
-            <h1 id="user1" style="display:inline-block;">@ViewBag.player1name</h1>
-            <h1 id="moveuser1" style="display:inline-block;">aaa</h1>
-
-            <table id="battlefield1" class="battlefield">
-
-                @for (var i = 0; i < 10; i++)
-                {
-                    @:<tr>
-                   for (var j = 0; j < 10; j++)
-                    {
-                            @:<td></td>
-                    }
-                    @:</tr>
-                }
-            </table>
-
-
-            <div id="vivod"></div>
-            <div id="shipscount1"></div>
+    <div class="body">
+        <div id="top-menu">
+            <img src="~/img/logo.png">
+            <div id="btn-panel">
+                <input class="icon-btn" type="image" id="giveupbtn" onclick="fgiveupbtn(this)" name="sound_img" src="~/img/white_flag.png">
+                <input class="icon-btn" type="image" name="sound_img" src="~/img/sound.png">
+            </div>
         </div>
-        <div style="display:inline-block; width:370pt; height:330pt; vertical-align: top;">
-            <h1 id="user2" style="display:inline-block;">@ViewBag.player2name</h1>
-            <h1 id="moveuser2" style="display:inline-block;">aaa</h1>
-            <h1 id="user2status" style="display:inline-block;"></h1>
-            <table id="battlefield2" class="battlefield">
-                @for (var i = 0; i < 10; i++)
-                {
-                    @:<tr>
-                    for (var j = 0; j < 10; j++)
-                    {                       
-                            <td onclick="fireclick(this)" ; id="td1"></td>
-                    }
-                    @:</tr>
-                }
-            </table>
-            <div id="vivod"></div>
-            <div id="shipscount2"></div>
+        <div id="field" class="flex-container flex-column">
+            <div>
+                <img class="h1" src="~/img/label_battle.png">
+            </div>
+            <div id="battlefield" class="flex-container flex-column">
+
+                <div class="inner-elem top-place-player flex-container flex-between">
+                    <div class="flex-container">
+
+                        <div id="player-name" class="flex-container player-name">
+                            <label>@ViewBag.player1name</label>
+                        </div>
+                        <div id="player-move" class="icon-player-ready">
+                            <img src="~/img/my_move.png">
+                        </div>
+                    </div>
+                    <div id="timer-move" class="flex-container player-name" style="width: 3rem;">
+                        <label>@ViewBag.movetime</label>
+                    </div>
+                    <div class="flex-container">
+                        <div id="opponent-move" class="icon-player-ready" style="opacity: 0.3;">
+                            <img src="~/img/my_move.png">
+                        </div>
+                        <div id="opponent-name" class="flex-container player-name">
+                            <label>@ViewBag.player2name</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex-container flex-between" style="height: auto;">
+                    <div id="player-ships-stat" class="inner-elem stat-hint">
+                        <script type="text/javascript">
+                            genPlaceShipStat("player-ships-stat");
+                        </script>
+                    </div>
+                    <div id="opponent-ships-stat" class="inner-elem stat-hint">
+                        <script type="text/javascript">
+                            genPlaceShipStat("opponent-ships-stat");
+                        </script>
+                    </div>
+                </div>
+
+                <div class="flex-container flex-between inner-elem">
+                    <div id="player-battlefield" class="battlefield">
+                        <table id="battlefield1">
+
+                            @for (var i = 0; i < 10; i++)
+                            {
+                                @:<tr>
+                                    for (var j = 0; j < 10; j++)
+                                    {
+                                        @:<td></td>
+                                    }
+                                @:</tr>
+                            }
+                        </table>
+                    </div>
+                    <div id="opponent-battlefield" class="battlefield">
+                        <table id="battlefield2">
+                            @for (var i = 0; i < 10; i++)
+                            {
+                                @:<tr>
+                                    for (var j = 0; j < 10; j++)
+                                    {
+                                        <td onclick="fireclick(this)"></td>
+                                    }
+                                @:</tr>
+                            }
+                        </table>          
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
-    <div>
-        <input type='button' id="giveupbtn" onclick="fgiveupbtn(this)" value='сдаться' style="top:80%; height:45pt; width:110pt; " />
-
-
-    </div>
-
-
-    <script>
-
-        var login = get_cookie("Login");
-        // document.getElementById('user1').innerText = login
-        //  document.getElementById('playerNameSend').innerText = login
-
-
-
-        //   Html.Raw(Json.Encode(ViewBag.mytags));
-        //  alert(per[0][0]);
-    </script>
+    <script src="~/js/timer.js"></script>
     <script src="~/js/updateGameProcess.js"></script>
-    <script>
+    <script type="text/javascript">
+
+      
+        const borderCell = 1;
+        const borderTable = 2;
+   
+        var cell_size = cellSizeCount();
+       // console.log("cell_size1 " + cell_size);
+        setCellSize(document.getElementById('battlefield1'));
+        setCellSize(document.getElementById('battlefield2'));
         updateBattleField("battlefield1", @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(@ViewBag.p1field)), true)
         updateBattleField("battlefield2", @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(@ViewBag.p2field)), false)
+
+        var timerId = setInterval(function () { updateRoom(); }, 1000);
+        var flagFire = false;
+       // timerMove('timer-move', -1, 'result-modal');
+
+        function cellSizeCount() {
+            let place = document.getElementById("player-battlefield");
+
+            let minDim = (place.offsetWidth < place.offsetHeight) ? place.offsetWidth : place.offsetHeight;
+            return Math.floor((minDim - 9 * borderCell - 2 * borderTable) / 10) -5;
+
+        }
+
+        function setCellSize(element) {
+            element.style.border = borderTable + "px solid #402205";
+          //  let tdpadding = (cell_size - 1) / 2;
+            for (var i = 0; i < element.rows.length; i++) {
+                for (var j = 0; j < element.rows[0].cells.length; j++) {
+                    let td = element.rows[i].cells[j];
+                   //   td.style.padding = tdpadding + "px";
+
+                    td.style.width = cell_size + 'px';
+                    td.style.height  = cell_size + 'px';
+                    td.style.border = borderCell + "px solid";
+
+                }
+            }
+        } 
+
+        window.onresize = function (event) {
+
+            cell_size = cellSizeCount();
+            //   tableCreate('place-battlefield');
+
+            var f1 = document.getElementById('battlefield1');
+            var f2 = document.getElementById('battlefield2');
+            setCellSize(f1);
+            setCellSize(f2);
+
+        };
     </script>
-    @{await Html.RenderPartialAsync("ResultGameView");}
+
 </body>
-</html>
+</html> 

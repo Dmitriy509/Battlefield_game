@@ -14,6 +14,7 @@ namespace DL.Models
         public sbyte status = -1;
         public sbyte movepriority;
         public bool flUpdateField;
+        public DateTime beginMove;
 
     }
 }
