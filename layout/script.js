@@ -105,6 +105,7 @@
     }
 
     function startTimer(id, durationSec, stopFunction) {
+
       var parent = document.getElementById(id).parentElement;
       if (parent.classList.contains("timer-group")) timerAnimationSetting(parent, durationSec);
 
@@ -114,15 +115,16 @@
       let regexp = /(\d):(\d\d)/;
       timer_label.textContent = secondsStrFormat(durationSec); 
 
-      let startTimer = setInterval(function() {
+      let startInterval = setInterval(function() {
         let match = regexp.exec(timer_label.textContent);
 
         current_timer = current_timer == 0 ? stopTimer() : parseInt(match[1],10)* 60 + parseInt(match[2],10) - 1;
         timer_label.textContent = secondsStrFormat(current_timer); 
       }, 1000);
 
+
       var stopTimer = function () {
-        clearInterval(startTimer);
+        clearInterval(startInterval);
         stopFunction();
         return 0;
       }
@@ -130,6 +132,13 @@
 
     function timerMove(timerId, durationSec, modalId) {
       startTimer(timerId, durationSec, function() { openModalDefeat(modalId); });
+    }
+
+    function timerChallenge(timerId, durationSec, btnElem, statusElem) {
+      startTimer(timerId, durationSec, function() {
+        statusElem.setAttribute("src", "./img/reject.png");
+        disableButton(btnElem);
+      })
     }
 
     function timer(id, durationSec) {
@@ -157,7 +166,7 @@
 
     function openModalDefeat(modalId) {
       openModal(modalId);
-      timer("timer-decision", 15);
+      timerChallenge("timer-decision", 15, document.getElementById("btn-again"), document.querySelector("#player-name > img") );
     }
 
     function openModal(modalId) {
@@ -181,4 +190,14 @@
         el.style.animationDuration = duration + "s";
       });
 
+    }
+
+    function readySet(id) {
+      var imgReady = document.querySelector("#"+id+" > img");
+      imgReady.setAttribute("src", "./img/ready.png");
+    }
+
+    function disableButton(el) {
+      el.disabled = true;
+      el.style.opacity = '0.5';
     }

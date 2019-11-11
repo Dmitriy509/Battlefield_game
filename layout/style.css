@@ -1,6 +1,6 @@
 :root {
   --f-family: "Verdana", sans-serif;
-  --f-size: 14pt;
+  --f-size: 12pt;
   --icon-size: 36pt;
   --common-padding: 18pt;
 }
@@ -123,15 +123,18 @@ input[type="submit"] {
 
 #top-menu {
   display: flex;
-  padding: var(--common-padding) var(--common-padding) 0;
+  margin-left: 10%;
+  margin-right: 10%;
+  margin-top: 1rem;
 }
 
 #field {
   margin: var(--common-padding);
-  padding-top: var(--common-padding);
-  padding-bottom: var(--common-padding);
-  padding-right: 10%;
-  padding-left: 10%;
+  margin-top: var(--common-padding);
+  margin-bottom: var(--common-padding);
+  margin-right: 10%;
+  margin-left: 10%;
+  padding: 1rem;
   background-image: url('./img/paper-background.png');
   background-size:  100% auto;
   background-repeat: repeat;

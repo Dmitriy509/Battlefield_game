@@ -13,29 +13,34 @@
 <body>
 
   <!--modal result -->
-  <div id="result-modal" class="modal" style="display:flex;">
-    <div class="modal-view"  style="min-width: 40rem; width: 50%;">
+  <div id="result-modal" class="modal">
+    <div class="modal-view"  style="width: 40rem;">
       <img class="modal-background-image" src="./img/paper_modal.png">
-      <div class="flex-container flex-column modal-inner">
+      <div class="flex-container flex-column modal-inner" style="width: 90%; height: 90%">
         <div>
           <img class="h1" src="./img/label_defeat.png">
         </div>
-        <div style="height: 5rem; padding-top: 1rem; padding-bottom: 1rem; justify-content: space-between; "> 
-          <div id="player-name" style="height: 100%;">
-            <div class="player-name" style="float: left;">
+
+        <div>
+          <img src="./img/defeat_illustration.png" style="width: 20rem; height: 11rem;">
+        </div>
+
+        <div class="top-place-player inner-elem  centered-flex"> 
+          <div id="player-name" style="display: flex; justify-content: flex-end; margin-right: 1rem;">
+            <div class="player-name">
               <label>игрок</label>
             </div>
-            <img style="float: left;" class="icon-player-ready" src="./img/not-ready.png">
+            <img class="icon-player-ready" src="./img/not-ready.png">
           </div>
 
-          <div id="opponent-name" style="height: 100%;">
-            <div class="player-name" style="float: right;">
+          <div id="opponent-name" style="display: flex; margin-left: 1rem;">
+            <img class="icon-player-ready" src="./img/not-ready.png">
+            <div class="player-name">
               <label>противник</label>
             </div>
-            <img class="icon-player-ready" src="./img/not-ready.png" style="float: right;">
           </div>
         </div>
-        <div class="flex-container" style="justify-content: center; align-items: center; ">
+        <div class="centered-flex">
           <div class="timer-group">
             <div class="timer-animation">
               <div class="hand"><span></span></div>
@@ -46,9 +51,9 @@
             </div>
           </div>    
         </div>
-        <div style="display: flex; padding-top: 1rem; padding-bottom: 1rem; justify-content: space-between;">
-          <input type="image" style=" width: 8rem;  padding-left: 1rem; padding-right: 1rem;" src="./img/again_btn.png">
-          <input type="image" style="width: 8rem; padding-left: 1rem; padding-right: 1rem;" src="./img/no_btn.png" onclick="closeModal('result-modal');">
+        <div style="display: flex; justify-content: space-around;">
+          <input id="btn-again" type="image" style=" width: 8rem;" src="./img/again_btn.png" onclick=" {readySet('player-name'); disableButton(this);}">
+          <input type="image" style="width: 8rem;" src="./img/no_btn.png" onclick="closeModal('result-modal');">
         </div>
       </div>
     </div>
