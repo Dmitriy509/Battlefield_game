@@ -15,7 +15,7 @@
             <img src="~/img/logo.png">
             <div id="btn-panel">
                 <form method="post" action="~/SetShips/LeaveRoom">
-                    <input class="icon-btn" type="image"  src="~/img/out.png">
+                    <input class="icon-btn" type="image" src="~/img/out.png">
                     <input type="hidden" id="playerNameSend" name="playername" /><br />
                 </form>
                 <input class="icon-btn" type="image" src="~/img/sound.png">
@@ -44,6 +44,12 @@
                                         {
 
                                             @:<td></td>
+
+
+
+
+
+
 
 
                                         }
@@ -121,15 +127,16 @@
         <input type='button' onclick="test()" value='и игру тест' style="margin:0 0 0 30%;height:45pt; width:110pt; " />
     </div>
     <script>
-        var flagPlayerReady =@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(@ViewBag.Ready)) 
-        var PlayerShips =@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(@ViewBag.Ships)) 
- 
+        var flagPlayerReady =@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(@ViewBag.Ready))
+        var PlayerShips =@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(@ViewBag.Ships))
+
     </script>
 
     <script src="~/js/EditShips/editships.js"></script>
-    <script src="~/js/EditShips/startPageEditShips.js"></script>
     <script src="~/js/EditShips/pageEditShipsResize.js"></script>
     <script src="~/js/EditShips/updateEditShipView.js"></script>
+    <script src="~/js/EditShips/startPageEditShips.js"></script>
+
 
 </body>
 

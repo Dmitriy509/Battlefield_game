@@ -109,6 +109,14 @@ function dragstShip() {
     return false;
 }
 
+function getElementBounds(elem) {
+    return {
+        top: elem.offsetTop,
+        bottom: elem.offsetTop + elem.offsetHeight,
+        left: elem.offsetLeft,
+        right: elem.offsetLeft + elem.offsetWidth
+    };
+}
 
 function checkFieldBounds(deskb, fieldb) {
     if (deskb.left >= fieldb.left && deskb.right <= fieldb.right)
@@ -156,11 +164,11 @@ function checkshipPosition(currentdesk, id) {
         //    vivod.innerText = '<br/>x=' + x + ' xt=' + xt + ' y=' + y + ' yt' + yt + ' curX=' + curX + ' curXt=' + curXt + ' curY=' + curY + ' curYt=' + curYt + '/////';
         //}
         if ((curX <= x && x <= curXt) && (curY <= y && y <= curYt)) {
-            //  alert('1');
+            alert("1! curX, curXt=" + curX + " " + curY + "curY, curYt=" + curY + " " + curYt);
             return false;
         }
         else if ((curX <= xt && xt <= curXt) && (curY <= yt && yt <= curYt)) {
-            //  alert('2');
+            alert("2! curX, curXt=" + curX + " " + curY + "curY, curYt=" + curY + " " + curYt);
             return false;
         }
 
@@ -181,63 +189,64 @@ function rotateShip(ship) {
         return;
     }
 
-    rotate();
+    rotate(ship);
     shipbounds = getElementBounds(ship);
 
     if (!checkshipPosition(shipbounds, ship.id)) {
         //alert('asdf');
-        rotate();
+        rotate(ship);
         shakingShip(ship);
     }
-    function rotate() {
+}
 
-        let tdpadding = (cell_size - 1) / 2;
+function rotate(ship) {
 
-        if (ship.rows.length > 1) { //из вертикального в гор
-            let rowcount = ship.rows.length;
-            if (ship.offsetLeft + rowcount * cell_size >= fieldb.right) {
-                shakingShip(ship);
-                return;
-            }
+    let tdpadding = (cell_size - 1) / 2;
 
-            
-            for (let i = 1; i < rowcount; i++) {
-                ship.deleteRow(0);
-            }
+    if (ship.rows.length > 1) { //из вертикального в гор
+        let rowcount = ship.rows.length;
+        if (ship.offsetLeft + rowcount * cell_size >= fieldb.right) {
+            shakingShip(ship);
+            return;
+        }
 
-            for (let i = 1; i < rowcount; i++) {
-                let allRows = ship.getElementsByTagName("tr");
-                let cell = allRows[0].insertCell(0);
-                cell.style.padding = tdpadding + "px";
-                cell.style.border = borderCell + "px solid";
-                //  cell.style.backgroundColor = 'rebeccapurple';
-            }
+
+        for (let i = 1; i < rowcount; i++) {
+            ship.deleteRow(0);
+        }
+
+        for (let i = 1; i < rowcount; i++) {
+            let allRows = ship.getElementsByTagName("tr");
+            let cell = allRows[0].insertCell(0);
+            cell.style.padding = tdpadding + "px";
+            cell.style.border = borderCell + "px solid";
+            //  cell.style.backgroundColor = 'rebeccapurple';
+        }
+
+    }
+    else if (ship.rows[0].cells.length >= 2) {
+
+        let colcount = ship.rows[0].cells.length;
+        if (ship.offsetTop + colcount * cell_size >= fieldb.bottom) {
+            shakingShip(ship);
+            return;
+        }
+
+        for (let i = 1; i < colcount; i++) {
+            let allRows = ship.getElementsByTagName("tr");
+            allRows[0].deleteCell(0);
 
         }
-        else if (ship.rows[0].cells.length >= 2) {
-
-            let colcount = ship.rows[0].cells.length;
-            if (ship.offsetTop + colcount * cell_size >= fieldb.bottom) {
-                shakingShip(ship);
-                return;
-            }
-
-            for (let i = 1; i < colcount; i++) {
-                let allRows = ship.getElementsByTagName("tr");
-                allRows[0].deleteCell(0);
-
-            }
-            for (let i = 1; i < colcount; i++) {
-                let add = ship.insertRow(0);
-                let cell = add.insertCell(0);
-                cell.style.padding = tdpadding + "px";
-                cell.style.border = borderCell + "px solid";
-                //cell.style.backgroundColor = 'rebeccapurple';
-            }
+        for (let i = 1; i < colcount; i++) {
+            let add = ship.insertRow(0);
+            let cell = add.insertCell(0);
+            cell.style.padding = tdpadding + "px";
+            cell.style.border = borderCell + "px solid";
+            //cell.style.backgroundColor = 'rebeccapurple';
         }
     }
-
 }
+
 
 function shakingShip(ship) {
     let a = 1;

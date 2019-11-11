@@ -1,5 +1,4 @@
-﻿updateRoom();
-let timerId = setInterval(function () { updateRoom(); }, 1000);
+﻿
 function updateRoom() {
 
     $.post("/SetShips/UpdateInfoRoom", { playername: login })
