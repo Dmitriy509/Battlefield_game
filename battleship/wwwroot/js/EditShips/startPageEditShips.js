@@ -1,7 +1,4 @@
-﻿/// <reference path="pageeditshipsresize.js" />
-/// <reference path="pageeditshipsresize.js" />
-/// <reference path="pageeditshipsresize.js" />
-var arrships = {
+﻿var arrships = {
     "singledesk1": { x: -1, y: -1 },
     "singledesk2": { x: -1, y: -1 },
     "singledesk3": { x: -1, y: -1 },
@@ -18,7 +15,7 @@ const field = document.getElementById('battlefield1');
 var fieldb;
 //alert(fieldb.left);
 const borderCell = 1;
-const borderTable = 2;
+const borderTable = 3;
 var cell_size = cellSizeCount();
 const login = get_cookie("Login");
 
@@ -45,11 +42,7 @@ let timerId = setInterval(function () { updateRoom(); }, 1000);
 
 
 
-function cellSizeCount() {
-    let place = document.getElementById("place-battlefield");
-    let minDim = (place.offsetWidth < place.offsetHeight) ? place.offsetWidth : place.offsetHeight;
-    return Math.floor((minDim - 9 * borderCell - 2 * borderTable) / 10) + 1;
-}
+
 
 function setPlayerReadyState() {
     // console.log(PlayerShips[0].x + "  " + PlayerShips[0].y);

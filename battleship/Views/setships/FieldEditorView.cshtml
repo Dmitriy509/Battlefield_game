@@ -36,7 +36,7 @@
                     </div>
                     <div class="inner-elem working-place flex-container">
                         <div id="place-battlefield">
-                            <table id="battlefield1">
+                            <table id="battlefield1" cellpadding="0" cellspacing="0">
                                 @for (var i = 0; i < 10; i++)
                                 {
                                     @:<tr>
@@ -62,7 +62,7 @@
 
 
                                 <div id="ship-container">
-                                    <table class="ships" id="fourdesk" onmousedown="dragShip(this)" ondblclick="rotateShip(this)" ondragstart="dragstShip()">
+                                    <table class="ships" id="fourdesk" onmousedown="dragShip(this)" ondblclick="rotateShip(this)" ondragstart="dragstShip() " cellpadding="0" cellspacing="0">
                                         <tr><td></td><td></td><td></td><td></td></tr>
                                     </table>
                                 </div>
@@ -70,7 +70,7 @@
                                 {
                                     string s = "tripledesk" + i;
                                     <div id="ship-container">
-                                        <table class="ships" id=@s onmousedown="dragShip(this)" ondblclick="rotateShip(this)" ondragstart="dragstShip()">
+                                        <table class="ships" id=@s onmousedown="dragShip(this)" ondblclick="rotateShip(this)" ondragstart="dragstShip()" cellpadding="0" cellspacing="0">
                                             <tr><td></td><td></td><td></td></tr>
                                         </table>
                                     </div>
@@ -80,7 +80,7 @@
                                 {
                                     string s = "doubledesk" + i;
                                     <div id="ship-container">
-                                        <table class="ships" id=@s onmousedown="dragShip(this)" ondblclick="rotateShip(this)" ondragstart="dragstShip()">
+                                        <table class="ships" id=@s onmousedown="dragShip(this)" ondblclick="rotateShip(this)" ondragstart="dragstShip()" cellpadding="0" cellspacing="0">
                                             <tr><td></td><td></td></tr>
                                         </table>
                                     </div>
@@ -91,7 +91,7 @@
                                     string s = "singledesk" + i;
 
                                     <div id="ship-container">
-                                        <table class="ships" id=@s onmousedown="dragShip(this)" ondblclick="rotateShip(this)" ondragstart="dragstShip()">
+                                        <table class="ships" id=@s onmousedown="dragShip(this)" ondblclick="rotateShip(this)" ondragstart="dragstShip()" cellpadding="0" cellspacing="0">
                                             <tr><td></td></tr>
                                         </table>
                                     </div>
