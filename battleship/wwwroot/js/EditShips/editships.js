@@ -26,24 +26,42 @@
       //  document.getElementById('');
 
         if (x > fieldb.left - cell_size && x < fieldb.right && y > fieldb.top - cell_size && y < fieldb.bottom) {
-           
-            if (x >= fieldb.left && x <= fieldb.right - cell_size * b.rows[0].cells.length) {
-                lastX = fieldb.left + Math.round((x - fieldb.left) / cell_size) * cell_size;
-                b.style.left = lastX + 'px';
-            }
-            else {
-                b.style.left = fieldb.left + Math.round((x - fieldb.left) / cell_size) * cell_size + 'px';
-            }
 
-            if (y > fieldb.top && y < fieldb.bottom - cell_size * b.rows.length) {
-                lastY = fieldb.top + Math.round((y - fieldb.top) / cell_size) * cell_size;
-                b.style.top = lastY + 'px';
+            let curX = fieldb.left + Math.round((x - fieldb.left) / cell_size) * cell_size;
+            let curY = fieldb.top + Math.round((y - fieldb.top) / cell_size) * cell_size;
+            b.style.left = curX + 'px';
+            b.style.top = curY + 'px';
+            //let t1 = fieldb.right - b.offsetWidth;
+            //let t2 = fieldb.bottom - b.offsetHeight;
+            //document.getElementById('opponent-name').innerText =
+            //    curX + ">=" + fieldb.left + " && " + curX + "<=" + t1 + " && " + curY + ">=" + fieldb.top + " && " + curY + "<=" + t2;
+            if (curX >= fieldb.left && curX <= fieldb.right - b.offsetWidth && curY >= fieldb.top && curY <= fieldb.bottom - b.offsetHeight) {
+                lastX = curX;
+                lastY = curY;
             }
-            else {
-                b.style.top = fieldb.top + Math.round((y - fieldb.top) / cell_size) * cell_size + 'px';
-            }
+            //if (x >= fieldb.left && x <= fieldb.right - b.offsetWidth) {
+            //    lastX = fieldb.left + Math.round((x - fieldb.left) / cell_size) * cell_size;
+            //    b.style.left = lastX + 'px';
+            //}
+            //else {
+            //    b.style.left = fieldb.left + Math.round((x - fieldb.left) / cell_size) * cell_size + 'px';
+            //}
+
+            //if (y >= fieldb.top && y <= fieldb.bottom - b.offsetHeight) {
+            //    lastY = fieldb.top + Math.round((y - fieldb.top) / cell_size) * cell_size;
+            //    b.style.top = lastY + 'px';
+            //}
+            //else {
+            //    b.style.top = fieldb.top + Math.round((y - fieldb.top) / cell_size) * cell_size + 'px';
+            //}
+
+
+            //document.getElementById('player-name').innerText = lastX + " " + lastY;
+
+           // document.getElementById('opponent-name').innerText = b.offsetWidth;
+  
             //  vivod.innerText = Math.round((x - field.offsetLeft) / 30) * 30;
-        }
+        }   
         else {
             b.style.left = x + 'px';
             b.style.top = y + 'px';
@@ -75,17 +93,22 @@
         document.onmouseup = null;
         b.style.left = lastX + 'px';
         b.style.top = lastY + 'px';
-
-
-        if (!checkshipPosition(getElementBounds(b), b.id)) {
-           // alert("1!!!!");
+        let bounds = getElementBounds(b);
+      //  alert(el.left + " " + fieldb.left + " " + el.right + " " + fieldb.right + " cs " + cell_size);
+        if (!checkshipPosition(bounds, b.id)) {
+          //  alert("1!!!!");
             b.style.left = lastXChecking + 'px';
             b.style.top = lastYChecking + 'px';
 
         }
         else
-        if (!checkFieldBounds(getElementBounds(b), getElementBounds(field)))
+        if (!checkFieldBounds(bounds, fieldb))
         {   
+            
+          //  let abc = getElementBounds(b);
+            //     alert(abc.left + " " + fieldb.left + " " + abc.right + " " + fieldb.right + " cs " + cell_size);
+          //  alert(b.style.left + " " + fieldb.left + " " + abc.right + " " + fieldb.right + " cs " + cell_size);
+
             var parent = b.parentElement;
           //  alert("2!! ");
             b.style.left = parent.style.left;
@@ -119,6 +142,9 @@ function getElementBounds(elem) {
 }
 
 function checkFieldBounds(deskb, fieldb) {
+
+  //  alert(deskb.left + " " + fieldb.left + " " + deskb.right + " " + fieldb.right);
+
     if (deskb.left >= fieldb.left && deskb.right <= fieldb.right)
         if (deskb.top >= fieldb.top && deskb.bottom <= fieldb.bottom)
             return true;
@@ -131,14 +157,13 @@ function checkshipPosition(currentdesk, id) {
 
     let arr = ["singledesk1", "singledesk2", "singledesk3", "singledesk4", "doubledesk1", "doubledesk2", "doubledesk3", "tripledesk1", "tripledesk2", "fourdesk"];
     let curX = Math.round(currentdesk.left / cell_size) - 1;
-    let curY = Math.round(currentdesk.top / cell_size) - 1;
+    let curY = Math.round(currentdesk.top  / cell_size) - 1;
     let curXt = Math.round((currentdesk.right - cell_size) / cell_size) + 1;
     let curYt = Math.round((currentdesk.bottom - cell_size) / cell_size) + 1;
- //   alert(curX + " " + curY + " " + curXt + " " + curYt + " /// " + currentdesk.right );
-   // let fieldBounds = getFieldBounds();
-    //if (flCheckFieldBounds) 
-     //   if (!checkFieldBounds(currentdesk, field)) return false; 
-
+    // alert(curX + " " + curY + " " + curXt + " " + curYt + " /// " + currentdesk.right );
+   // document.getElementById('player-name').innerText ="curx, curXt"+ curX + " " + curXt + " curY, curYt " + curY + " " + curYt + " /// " + currentdesk.right + "  " + cell_size;
+  
+  //  alert(curX + " " + curXt)
 
     for (item of arr) {
 
@@ -148,11 +173,8 @@ function checkshipPosition(currentdesk, id) {
 
         let desk = getElementBounds(document.getElementById(item));
 
-      //  if (!flCheckFieldBounds) {
-            if (!checkFieldBounds(desk, fieldb)) continue;
-      //  }
-      //  else if (!checkFieldBounds(desk, field)) return false;
-         //   else return false
+        if (!checkFieldBounds(desk, fieldb)) continue;
+  
 
         let x = Math.round(desk.left / cell_size);
         let y = Math.round(desk.top / cell_size);
@@ -164,25 +186,22 @@ function checkshipPosition(currentdesk, id) {
         //    vivod.innerText = '<br/>x=' + x + ' xt=' + xt + ' y=' + y + ' yt' + yt + ' curX=' + curX + ' curXt=' + curXt + ' curY=' + curY + ' curYt=' + curYt + '/////';
         //}
         if ((curX <= x && x <= curXt) && (curY <= y && y <= curYt)) {
-            alert("1! curX, curXt=" + curX + " " + curY + "curY, curYt=" + curY + " " + curYt);
+          //  alert("1! curX, curXt=" + curX + " " + curXt + "curY, curYt=" + curY + " " + curYt);
             return false;
         }
         else if ((curX <= xt && xt <= curXt) && (curY <= yt && yt <= curYt)) {
-            alert("2! curX, curXt=" + curX + " " + curY + "curY, curYt=" + curY + " " + curYt);
+           // alert("2! curX, curXt=" + curX + " " + curXt + "curY, curYt=" + curY + " " + curYt);
             return false;
         }
 
 
     }
-  //  alert('true');
     return true;
 
 }
 
 function rotateShip(ship) {
-    // alert(ball.rows[0].cells.length);
 
-  //  let fieldbounds = getElementBounds(field);
     let shipbounds = getElementBounds(ship);
     if (!checkFieldBounds(shipbounds, fieldb)) {
         shakingShip(ship);
