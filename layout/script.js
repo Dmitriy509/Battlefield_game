@@ -45,9 +45,7 @@
       function cloneShip(shipN, n) {
         var arr = []
         for (i=0; i < n; i++) {
-          var ship = tableGen(1,shipN,borderCell, borderShip);
-          ship.style.backgroundColor = "#A9672C";
-          arr.push(ship);
+          arr.push(tableGen(1,shipN,borderCell, borderShip));
         } 
         return arr;
       }
@@ -104,43 +102,6 @@
         return minutes + ":" + (seconds < 10 ? "0" + seconds : seconds);
     }
 
-    function startTimer(id, durationSec, stopFunction) {
-
-      var parent = document.getElementById(id).parentElement;
-      if (parent.classList.contains("timer-group")) timerAnimationSetting(parent, durationSec);
-
-      var timer_label = document.querySelector("#" + id + " > label"); 
-
-      let current_timer = durationSec;
-      let regexp = /(\d):(\d\d)/;
-      timer_label.textContent = secondsStrFormat(durationSec); 
-
-      let startInterval = setInterval(function() {
-        let match = regexp.exec(timer_label.textContent);
-
-        current_timer = current_timer == 0 ? stopTimer() : parseInt(match[1],10)* 60 + parseInt(match[2],10) - 1;
-        timer_label.textContent = secondsStrFormat(current_timer); 
-      }, 1000);
-
-
-      var stopTimer = function () {
-        clearInterval(startInterval);
-        stopFunction();
-        return 0;
-      }
-    } 
-
-    function timerMove(timerId, durationSec, modalId) {
-      startTimer(timerId, durationSec, function() { openModalDefeat(modalId); });
-    }
-
-    function timerChallenge(timerId, durationSec, btnElem, statusElem) {
-      startTimer(timerId, durationSec, function() {
-        statusElem.setAttribute("src", "./img/reject.png");
-        disableButton(btnElem);
-      })
-    }
-
     function timer(id, durationSec) {
       var parent = document.getElementById(id).parentElement;
       if (parent.classList.contains("timer-group")) timerAnimationSetting(parent, durationSec);
@@ -151,7 +112,7 @@
       let regexp = /(\d):(\d\d)/;
       timer_label.textContent = secondsStrFormat(durationSec); 
 
-      let startTimer = setInterval(function() {
+      setInterval(function() {
         let match = regexp.exec(timer_label.textContent);
 
         current_timer = current_timer == 0 ? stopTimer() : parseInt(match[1],10)* 60 + parseInt(match[2],10) - 1;
@@ -164,14 +125,9 @@
       }
     }
 
-    function openModalDefeat(modalId) {
-      openModal(modalId);
-      timerChallenge("timer-decision", 15, document.getElementById("btn-again"), document.querySelector("#player-name > img") );
-    }
-
     function openModal(modalId) {
       var modal = document.getElementById(modalId);
-      var inputs = document.querySelectorAll("#" + modalId + "input[type='text']");
+      var inputs = document.querySelectorAll("#" + modalId + " input[type='text']");
       inputs.forEach(function(el) {
         el.value = "";
       });
@@ -190,14 +146,4 @@
         el.style.animationDuration = duration + "s";
       });
 
-    }
-
-    function readySet(id) {
-      var imgReady = document.querySelector("#"+id+" > img");
-      imgReady.setAttribute("src", "./img/ready.png");
-    }
-
-    function disableButton(el) {
-      el.disabled = true;
-      el.style.opacity = '0.5';
     }

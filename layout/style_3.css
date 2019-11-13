@@ -3,7 +3,7 @@
 }
 
 .battlefield {
-	width: 45%;
+	width: 100%;
 }
 
 .ship-miniature {
@@ -43,9 +43,9 @@
 }
 
 #player-battlefield {
-	margin-right: 5%;
+	margin-right: 1rem;
 }
 
 #opponent-battlefield {
-	margin-left: 5%;
+	margin-left: 1rem;
 }
