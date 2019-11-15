@@ -1,13 +1,4 @@
-﻿//updateRoom();
-
-
-//document.getElementById('leavegamebtn').onclick = function () { flagLeaveGame = true; };
-//onmouseover = "this.style = 'background-color: rgb(180,254,255)'
-//" onmouseout = "this.style = 'background-color: rgb(225,254,255)'
-
-
-
-function fireclick(td) {
+﻿function fireclick(td) {
 
     if (flagFire) {
         //alert(td.cellIndex + "  " + td.parentNode.rowIndex)
@@ -33,6 +24,9 @@ function fireclick(td) {
 
                             break;
                     }
+
+                    updateShipPanel("opponent-ships-stat", data.shipcount);
+
                 }
               
                 setTime(data.movetime, "timer-move");
@@ -69,6 +63,7 @@ function injured(td) {
     td.appendChild(canvas);
     td.onclick = null;
 }
+
 function miss(td) {
     let canvas = document.createElement("canvas");
   //  let csize = 27 * 96 / 72;
@@ -87,7 +82,6 @@ function miss(td) {
     td.appendChild(canvas);
     td.onclick = null;
 }
-
 
 function updateBattleField(fieldname, field, flwithships)
 {
@@ -124,7 +118,6 @@ function updateBattleField(fieldname, field, flwithships)
 
 }
 
-
 function updateRoom() {
 
 
@@ -159,6 +152,7 @@ function updateRoom() {
                   //  document.getElementById('shipscount1').innerText = data.shipcount[0] + " - 1п, " + data.shipcount[1] + " - 2п, " + data.shipcount[2] + " - 3п, " + data.shipcount[3] + " - 4п, ";
 
                     let viewfield = document.getElementById("battlefield1");
+
                     console.log(viewfield.id);
                     for (let i = 0; i < data.field.length; i++)
                         for (let j = 0; j < data.field.length; j++) {
@@ -179,6 +173,9 @@ function updateRoom() {
                             }
 
                         }
+
+                    updateShipPanel("player-ships-stat", data.shipcount);
+
                 }
             //    document.getElementById('user2status').innerText = data.player2status;
             }
@@ -197,6 +194,24 @@ function updateRoom() {
                
         });
    // document.getElementById('vivod').innerHTML = flagFire;
+
+}
+
+function updateShipPanel(idShipsStat, shipsStatArr) {
+    //  var ships = timerEl.querySelectorAll(".timer-animation span");
+    let ships = document.querySelectorAll("#" + idShipsStat + " > div");
+    ships.forEach(function (el) {
+        sunkenShips(el.childNodes.length, el);
+    });
+
+    function sunkenShips(deskcount, el) {
+        deskcount--;
+        let shipscount = 4 - deskcount;
+        if (shipsStatArr[deskcount] < shipscount) {
+            el.style.backgroundColor = 'red';
+            shipsStatArr[deskcount]++;
+        }
+    }
 }
 
 function fgiveupbtn(btn)
@@ -215,4 +230,12 @@ function fgiveupbtn(btn)
     
 
 
+}
+
+function setTime(durationSec, timerId) {
+
+    // id = "timer-move";
+    var timer_label = document.querySelector("#" + timerId + " > label");
+    timer_label.textContent = secondsStrFormat(durationSec);
+    //    console.log(timer_label.textContent);
 }

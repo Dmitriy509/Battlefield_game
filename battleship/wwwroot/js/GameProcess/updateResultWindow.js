@@ -19,7 +19,6 @@ function timerAnimationStop(timerEl) {
 
 }
 
-
 function startTimer(id, stopFunction, mainWorkFunction) {
 
     let timer_label = document.querySelector("#" + id + " > label");
@@ -72,13 +71,11 @@ function stopTimer(idTimer)
     timerMode.value = 'stop';
 }
 
-//////////////////////////////////
 function endOfTime()
 {
     disableButton(document.getElementById('replaybtn')); 
     update(true);
 }
-
 
 function update(timeisup) {
 
@@ -108,65 +105,6 @@ function update(timeisup) {
             }
 
         });
-}
-
-
-
-
-//function aaa() {
-
-//    stopTimer("timer-decision");
-//}
-
-//function timerAnimationSetting(timerEl, duration) {
-//    var spans = timerEl.querySelectorAll(".timer-animation span");
-//    spans.forEach(function (el) {
-//        const widthParent = el.parentElement.offsetWidth;
-//        el.style.borderWidth = widthParent + "px";
-//        el.style.animationDuration = duration + "s";
-//    });
-
-//}
-
-
-//function startTimer(id_label, durationSec) {
-//    var timer_label = document.querySelector("#" + id_label + " > label");
-//    timer_label.textContent = secondsStrFormat(durationSec);
-//}
-
-
-
-
-
-
-
-//function endOfTime()
-//{
-//    btn.disabled = true;
-//    clearInterval(timerId)
-//    flagFire = false;
-//    document.getElementById('gamestatus').src = src = "../img/label_win.png";
-//    openResultModal('result-modal');
-//    $.post("/Game/GiveUp", { playername: login })
-//        .done(function (data) {
-
-//        });
-//}
-
-
-//function timerChallenge(timerId, durationSec, btnElem, statusElem) {
-//    startTimer(timerId, durationSec, function () {
-//        statusElem.setAttribute("src", "../img/reject.png");
-//        disableButton(btnElem);
-//    })
-//}
-
-function setTime(durationSec, timerId) {
-
-   // id = "timer-move";
-    var timer_label = document.querySelector("#" + timerId + " > label");
-    timer_label.textContent = secondsStrFormat(durationSec);
-//    console.log(timer_label.textContent);
 }
 
 function secondsStrFormat(secs) {
