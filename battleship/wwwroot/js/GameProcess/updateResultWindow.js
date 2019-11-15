@@ -15,6 +15,7 @@ function timerAnimationStop(timerEl) {
     spans.forEach(function (el) {
         // el.style.animationPlayState = "paused";
         el.style.animationDuration = "0s";
+        el.style.display = "none";
     });
 
 }
