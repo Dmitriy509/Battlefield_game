@@ -22,15 +22,9 @@ namespace battleship.Controllers
              _gs = new GameService();
         }
     
-        public IActionResult GameView(string player1name)
+        public IActionResult GameView()
         {
-
-            if(player1name==null)
-            { 
-               player1name = CookiesGetSet.getCookies(HttpContext);
-            }
-
-
+            string player1name = CookiesGetSet.getCookies(HttpContext);
 
             string checkres = _gs.CheckGameState(player1name);
             if (checkres != "~/Game/GameView")
@@ -65,7 +59,7 @@ namespace battleship.Controllers
             string p2 = _gs.StartGame(playername);
           //  ViewBag.player1name = playername;
            // ViewBag.player2name = p2;
-            return Redirect("GameView?player1name="+ playername);
+            return Redirect("GameView");
         }
 
 
