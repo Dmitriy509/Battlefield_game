@@ -10,21 +10,19 @@
 
     <div class="login_block">
 
-      <div class="login-character"></div>
-
-      <div class="login-input flex-container">  
+      <div class="flex-container">  
         <div id="formContent" class="flex-container">
           <form class="flex-container">
             <label>Ваше имя</label>
-            <input type="text" id="login" class="input-text" placeholder="имя игрока">
+            <input type="text" id="login" class="input-text" placeholder="имя игрока" maxlength="10" style="width: 8rem;">
             <input id="login-btn" type="image" src="./img/login_btn.png"/>         
             <div class="hint">
-              <label></label>
+              <label>имя не длинее 10 символов</label>
             </div>
           </form>
         </div>
       </div>
-
+      <!-- <div class="login-character"></div> -->
     </div>
   </div>
 
