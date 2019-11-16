@@ -1,4 +1,5 @@
 ﻿<!DOCTYPE html>
+
 <html>
 <head>
     <link href="~/css/Style.css" rel="stylesheet" />
@@ -6,29 +7,45 @@
 <body>
 
     <div class="body">
-
+        <input type="hidden" id="error" value='@ViewBag.errormsg' />
         <div class="login_block">
 
-            <div class="login-character"></div>
-
-            <div class="login-input flex-container">
+            <div class="flex-container">
                 <div id="formContent" class="flex-container">
                     <form method="post" action="~/Login/Signin" class="flex-container">
                         <label>Ваше имя</label>
                         <input type="text" id="login" name="playername" placeholder="имя игрока">
                         <input id="login-btn" type="image" src="~/img/login_btn.png" />
+                        <div class="hint">
+                            <label>имя не длинее 10 символов</label>
+                        </div>
                     </form>
-                    <div>
-                        <div>@ViewBag.vivod</div>
-                        <div>@ViewBag.errormsg</div>
-                    </div>
+
+
                 </div>
             </div>
 
         </div>
     </div>
+    <script>
+let msg = '@ViewBag.errormsg';
+        var encodedStr = msg.replace(/[\u00A0-\u9999<>\&]/gim, function (i) {
+            return '&#' + i.charCodeAt(0) + ';';
+        });
+    </script>
 
+
+    @{
+        if (ViewBag.errormsg != null)
+        {
+          
+            @:<script>
+            @:alert(document.getElementById('error').value);
+            @:</script>
+        }
+    }
 </body>
+
 </html>
 
 
