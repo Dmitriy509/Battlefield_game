@@ -27,7 +27,7 @@
 .modal-content {
     height: 100%;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-around;
     align-items: center;
     flex-direction: column;
 }
@@ -39,13 +39,12 @@
 .modal-view {
     position: relative;
     width: 30%;
-    height: 30%;
+    height: auto;
 }
 
 #new-room-name {
     height: auto;
     width: 80%;
-    margin-bottom: 10%;
 }
 
 .modal-background-image {
@@ -55,4 +54,10 @@
 
 .modal-btn {
     width: 10rem;
+}
+
+.centered-flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

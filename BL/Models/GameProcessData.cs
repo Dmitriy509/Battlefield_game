@@ -11,5 +11,6 @@ namespace BL.Models
         public sbyte curmovestate;
         public string player2status;
         public string gamestatus;
+        public int movetime;
     }
 }
