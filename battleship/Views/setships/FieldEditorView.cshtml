@@ -3,7 +3,7 @@
 <head>
     <title></title>
     <script src="~/lib/jquery/dist/jquery.min.js" type="text/javascript"></script>
-    <link href="~/css/Style.css" rel="stylesheet" />
+    <link href="~/css/style.css" rel="stylesheet" />
     <link href="~/css/style_2.css" rel="stylesheet" />
     <script src="~/js/getcookies.js"></script>
 
@@ -28,11 +28,11 @@
             <div id="field-preparation" class="flex-container">
                 <div id="place-player" class="flex-container flex-column">
                     <div class="inner-elem top-place-player">
-                        <div id="player-name" class="flex-container player-name"><label></label></div>
-                        <div class="icon-player-ready">
-                            <img id="player1-ready" src="~/img/not-ready.png">
+                        <div style="display: inline-block; float: left;">
+                            <div id="player-name" class="player-name"><label></label></div>
+                            <img id="player1-ready" class="icon-player-ready" src="~/img/not-ready.png">
                         </div>
-                        <input id="btn-ready" type="image" onclick="getShips()" src="~/img/ready_btn.png">
+                        <input id="btn-ready" type="image" onclick="getShips()" src="~/img/ready_btn.png">                     
                     </div>
                     <div class="inner-elem working-place flex-container">
                         <div id="place-battlefield">
@@ -113,7 +113,7 @@
                 </div>
                 <div id="place-opponent" class="flex-container flex-column">
                     <div class="inner-elem top-place-player reverse flex-container">
-                        <div id="opponent-name" class="flex-container player-name"><label>нет соперника</label></div>
+                        <div id="opponent-name" class="player-name"><label>нет соперника</label></div>
                         <div class="icon-player-ready">
                             <img id="player2-ready" src="~/img/not-ready.png">
                         </div>
