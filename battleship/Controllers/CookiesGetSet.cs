@@ -8,11 +8,11 @@ namespace battleship.Controllers
     public class CookiesGetSet
     {
 
-        public static void addCookies(string name, HttpContext context)
+        public static void addCookies(string name, HttpContext context, int expiretime)
         {
            
             var option = new CookieOptions();
-            option.Expires = DateTime.Now.AddMinutes(6);
+            option.Expires = DateTime.Now.AddMinutes(expiretime);
             context.Response.Cookies.Append("Login", name, option);
 
         }

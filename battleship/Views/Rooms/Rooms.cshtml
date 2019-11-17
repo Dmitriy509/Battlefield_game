@@ -17,14 +17,14 @@
                     <div>
                         <input class="icon-btn close-btn" type="image" src="~/img/icon_close.png" onclick="closeModal('create-room-modal');">
                     </div>
-                    <div class="modal-content">
-                        <form method="post" action="~/Rooms/AddRoom">
-                            <input id="new-room-name" name="RoomName" type="text" class="input-text" placeholder="название комнаты">
+                   
+                        <form method="post" action="~/Rooms/AddRoom" class="modal-content">
+                            <input id="new-room-name" name="RoomName" type="text" class="input-text" placeholder="название комнаты">                            
                             <input type="image" src="~/img/room_create.png" class="modal-btn" />
-                            <input type="hidden" id="playerNameSend" name="playername" /><br />
+                            <input type="hidden" id="playerNameSend" name="playername" />
                         </form>
 
-                    </div>
+              
                 </div>
             </div>
         </div>

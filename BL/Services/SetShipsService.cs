@@ -201,7 +201,7 @@ namespace BL.Services
                 {
                     r.status = (sbyte)Game_States.editships;
                 }
-                p2res = "Поиск соперника";
+                p2res = "Ожидаем соперника";
                 return "";
             };
             var gamestates = new Dictionary<sbyte, Func<string>>(4);

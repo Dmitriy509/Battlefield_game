@@ -74,7 +74,7 @@ namespace DL.Implementations
             
             //  int a = DataStor._players.Count;
             if (_ds.Players.Count == 0) return false;
-            var items = _ds.Players.Where(u => u.Value.login==name).Select(u=>u.Value);
+            var items = _ds.Players.Where(u => u.Value.login==name).Select(u=>u.Value).ToList();
             bool flPlayerExist = false;
             foreach (var pl in items)
             {

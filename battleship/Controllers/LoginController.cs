@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using BL.Interfaces;
 using BL.Services;
-
+using DL.Enums;
 
 namespace battleship.Controllers
 {
@@ -21,7 +21,7 @@ namespace battleship.Controllers
         public IActionResult Login()
         {
           
-
+            
             string name = CookiesGetSet.getCookies(HttpContext);
             if (name != null)
             {
@@ -51,7 +51,7 @@ namespace battleship.Controllers
             string res = _ls.SignIn(playername);
             if(res=="Rooms")
             {
-                CookiesGetSet.addCookies(playername, HttpContext);
+                CookiesGetSet.addCookies(playername, HttpContext, Parameters.KeepLoginCokies);
                 ViewBag.playername = playername;
                //   return RedirectToAction("Rooms", "Rooms");
                 return Redirect("~/Rooms/Rooms");
