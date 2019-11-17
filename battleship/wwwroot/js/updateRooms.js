@@ -7,16 +7,19 @@ function getInfoRooms() {
         .done(function (data) {
             document.getElementById('online-players').innerHTML = data.player_count+" игрока онлайн";
             document.getElementById('current-battles').innerHTML = data.game_count + " битв идёт";
+            
 
+       
             let table = document.getElementById('roomslist');
             let rowCount = table.rows.length;
-
+  
             for (let i = 0; i < rowCount; i++) {
-                table.deleteRow(i);
+                table.deleteRow(0);
             }
+           
             rowCount = data.roomnames.length;
            //  alert(data.player_count[0]);
-
+      
             for (let i = 0; i < rowCount; i++) {
                 let row = table.insertRow(0);
                 let cell = row.insertCell(0);
