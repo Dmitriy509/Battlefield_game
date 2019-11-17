@@ -37,14 +37,16 @@ namespace battleship.Controllers
         [HttpPost]
         public ActionResult Signin(string playername)
         {
-
-
             if (playername==""||playername==null)
             {
-                ViewBag.errormsg = "Ошибка, попробуйте еще раз!";
+                ViewBag.errormsg = "Введите имя";
                 return View("Login");
             }
-
+            if(playername.Length>10)
+            {
+                ViewBag.errormsg = "Имя должно быть не длиннее 10 символов";
+                return View("Login");
+            }
 
             string res = _ls.SignIn(playername);
             if(res=="Rooms")
@@ -60,6 +62,16 @@ namespace battleship.Controllers
             return View("Login");
 
         }
+
+        public ActionResult Signout()
+        {
+            _ls.SignOut(CookiesGetSet.getCookies(HttpContext));
+            CookiesGetSet.deleteCookies(HttpContext);       
+            return View("Login");
+        }
+
+
+
 
     }
 }

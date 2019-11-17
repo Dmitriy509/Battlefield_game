@@ -24,7 +24,16 @@ namespace battleship.Controllers
             else
                 return null;
 
+           
         }
-
+        public static bool deleteCookies(HttpContext context)
+        {
+            if (context.Request.Cookies.ContainsKey("Login"))
+            {
+                context.Response.Cookies.Delete("Login");
+                return true;
+            }
+            return false;
+        }
     }
 }

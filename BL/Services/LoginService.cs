@@ -40,10 +40,15 @@ namespace BL.Services
             }
 
             //ViewBag.errormsg = "Игрок с таким именем уже есть на сервере!";
-            return "Login";
-
-    
+            return "Login";  
         }
+
+        public bool SignOut(string playername)
+        {
+           return _dm.Ps.DeletePlayer(_dm.Ps.GetPlayer(playername));                 
+        }
+
+
 
 
     }

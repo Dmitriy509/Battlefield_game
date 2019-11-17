@@ -8,5 +8,6 @@ namespace BL.Interfaces
     {
          string Login(string playername);
          string SignIn(string playername);
+         bool SignOut(string playername);
     }
 }
