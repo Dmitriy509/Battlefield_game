@@ -10,5 +10,6 @@ namespace BL.Models
         public List<sbyte> YCoords= new List<sbyte>();
         public List<sbyte> FireRes= new List<sbyte>();
         public sbyte[] p2shipscount; //player2
+        public int movetime;
     }
 }

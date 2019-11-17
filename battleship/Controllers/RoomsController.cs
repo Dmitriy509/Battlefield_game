@@ -39,7 +39,7 @@ namespace battleship.Controllers
             }
             RoomsList res = _rs.GetInfoRooms(playername);
            // return Json(_rs.GetInfoRooms(playername));
-             return Json(new { roomnames = res.RoomNames, player_count = res.Player_Count });
+             return Json(new { roomnames = res.RoomNames, player_count = res.Player_Count, game_count=res.Game_Count });
 
         }
 

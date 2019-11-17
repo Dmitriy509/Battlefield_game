@@ -7,6 +7,7 @@ namespace BL.Models
     public class RoomsList
     {
        public List<string> RoomNames { get; set; }
-       public List<int> Player_Count { get; set; }
+       public int Player_Count { get; set; }
+       public int Game_Count { get; set; }
     }
 }

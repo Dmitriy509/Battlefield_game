@@ -9,6 +9,7 @@ using BL.Models;
 using DL.Enums;
 using static DL.Enums.StateEnums;
 
+
 namespace battleship.Controllers
 {
     public class GameController : Controller
@@ -21,15 +22,9 @@ namespace battleship.Controllers
              _gs = new GameService();
         }
     
-        public IActionResult GameView(string player1name)
+        public IActionResult GameView()
         {
-
-            if(player1name==null)
-            { 
-               player1name = CookiesGetSet.getCookies(HttpContext);
-            }
-
-
+            string player1name = CookiesGetSet.getCookies(HttpContext);
 
             string checkres = _gs.CheckGameState(player1name);
             if (checkres != "~/Game/GameView")
@@ -44,8 +39,16 @@ namespace battleship.Controllers
                 ViewBag.player2name = res.player2name;
                 ViewBag.p1field = res.player1field;
                 ViewBag.p2field = res.player2field;
-                ViewBag.waitreplay = Parameters.WaitReplayGame;
-                ViewBag.movetime = Parameters.MoveTime;
+              //  ViewBag.waitreplay = Parameters.WaitReplayGame;
+                int min = Parameters.WaitReplayGame / 60;
+                int sec = Parameters.WaitReplayGame % 60;
+                ViewBag.waitreplay = min + ":" + (sec < 10 ? "0" + sec.ToString() : sec.ToString());
+
+
+
+                min = Parameters.MoveTime / 60;
+                sec = Parameters.MoveTime % 60;
+                ViewBag.movetime = min+":" + (sec < 10 ? "0" + sec.ToString() : sec.ToString());
                 return View();
         }
 
@@ -56,7 +59,7 @@ namespace battleship.Controllers
             string p2 = _gs.StartGame(playername);
           //  ViewBag.player1name = playername;
            // ViewBag.player2name = p2;
-            return Redirect("GameView?player1name="+ playername);
+            return Redirect("GameView");
         }
 
 
@@ -69,7 +72,7 @@ namespace battleship.Controllers
 
             FireResults res = _gs.Fire(playername, x, y);
 
-            return Json(new { cells = res.XCoords, rows = res.YCoords, fireresult = res.FireRes, shipcount = res.p2shipscount });
+            return Json(new { cells = res.XCoords, rows = res.YCoords, movetime=res.movetime, fireresult = res.FireRes, shipcount = res.p2shipscount });
 
         }
 
@@ -80,10 +83,10 @@ namespace battleship.Controllers
             GameProcessData res = _gs.GameProcessStateMachine(playername, curmovestate);
             if(res.gamestatus== "results")
             {
-                return Json(new {gamestatus = res.gamestatus, gameresult = res.curmovestate==(sbyte)Moves_States.winner?"Победа":"Поражение"});
+                return Json(new {gamestatus = res.gamestatus, gameresult = res.curmovestate==(sbyte)Moves_States.winner?"win":"def"});
             }
             //_gamesrv.Sts.GameStateMachine(playername, ref curmovestate, _gamesrv, ref p2res, ref sendfield, ref shipsc);
-            return Json(new { player2status = res.player2status, gamestatus = res.gamestatus, movestate = res.curmovestate, field = res.PlayerField, shipcount = res.shipscount });
+            return Json(new { player2status = res.player2status, gamestatus = res.gamestatus, movestate = res.curmovestate, movetime = res.movetime, field = res.PlayerField, shipcount = res.shipscount });
         }
 
 

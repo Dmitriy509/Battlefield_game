@@ -19,6 +19,20 @@ namespace BL.Services
 
         }
 
+        private int timer(DateTime t)
+        {
+            TimeSpan ts = DateTime.Now -t;
+            int u= Parameters.MoveTime - (int)ts.TotalSeconds;
+            u = (u <= 0 ? 0 : u);
+            return u;
+        }
+
+        private int startTimer(Room r)
+        {
+            r.beginMove = DateTime.Now;
+            return Parameters.MoveTime;
+        }
+
         public string CheckGameState(string playername)
         {
 
@@ -44,7 +58,10 @@ namespace BL.Services
             player.state = (sbyte)Player_States.playing;
 
             if (player.state == player2.state)
+            {
+                startTimer(r);
                 r.status = (sbyte)Game_States.playing;
+            }
            
             if (player.id == r.player1id) //determine who goes first
                 if (r.movepriority == (sbyte)Moves_States.undefined)
@@ -55,8 +72,7 @@ namespace BL.Services
                 }
 
             return _dm.Rs.GetPlayer2(player,r).login;
-            //ViewBag.player1name = playername;
-            //ViewBag.player2name = _gamesrv.Rs.GetPlayer2(player).login;
+   
 
         }
 
@@ -90,24 +106,52 @@ namespace BL.Services
         {
             GameProcessData res = new GameProcessData();
             res.curmovestate = curmovestate;
+            res.movetime = -100;
             Player p1 = _dm.Ps.GetPlayer(playername, true);
             Room r = _dm.Rs.GetRoom(p1.roomid);
             if (r != null) r.updTime = DateTime.Now;
             Player p2 = _dm.Rs.GetPlayer2(p1,r);
+
             
+            Func<bool> endoftime = () =>
+            {
+                int time = timer(r.beginMove);
+                if (time==0)
+                {
+                    r.status = (sbyte)Game_States.endofgame;
+
+                    if ((p1.id == r.player1id&& r.movepriority == (sbyte)Moves_States.player1)|| (p1.id == r.player2id && r.movepriority == (sbyte)Moves_States.player2))
+                    {
+                        p1.state = (sbyte)Player_States.loser;
+                    } 
 
 
+                   
 
-            Action playermove = () =>
+                    res.movetime = time;
+                    return true;
+                }
+                else
+                {
+
+                    res.movetime = time;
+                    return false;
+                }
+
+
+            };
+
+             Action playermove = () =>
             {
                 if ((p1.id == r.player1id && r.movepriority == (sbyte)Moves_States.player1) || (p1.id == r.player2id && r.movepriority == (sbyte)Moves_States.player2))
                 {
 
-                    if (res.curmovestate == 2)
+                    if (res.curmovestate == 2) //переход хода
                     {
                         res.PlayerField = p1.field;
                         res.shipscount = p1.shipcount;
                         res.curmovestate = 1;
+                        res.movetime=startTimer(r);
                     }
                     //   else sendfied = new sbyte[][];
                 }
@@ -171,6 +215,8 @@ namespace BL.Services
             };
             Func<string> playing = () =>
             {
+                if(endoftime()) return endofgame();
+
                 if (getInterval(p2.date, Parameters.PlayerDisconnect, '>'))
                 {
                     res.player2status = "Игрок отключился ожидаем подключения";
@@ -192,8 +238,8 @@ namespace BL.Services
             };
             Func<string> playerdisconnect = () =>
             {
-          
-               
+                if (endoftime()) return endofgame();
+
                 if (getInterval(p2.date, Parameters.PlayerDisconnect, '>'))
                 {
                     if (getInterval(p2.date, Parameters.WaitReconnect, '<'))
@@ -226,6 +272,7 @@ namespace BL.Services
 
             Func<string> readytoplay = () =>
             {
+                res.movetime = startTimer(r);
                 if (getInterval(p2.date, Parameters.PlayerDisconnect, '>'))
                 {
                     res.player2status = "Игрок отключился ожидаем подключения";
@@ -252,7 +299,7 @@ namespace BL.Services
             gamestates.Add((sbyte)Game_States.playerdisconnected, playerdisconnect);
             //    gamestates.Add((sbyte)Game_States.resultsofgame, resultsofgame);
             res.gamestatus = gamestates[(sbyte)r.status]();
-
+           
             return res;
 
         }
@@ -375,9 +422,13 @@ namespace BL.Services
                 res.FireRes.Add((sbyte)Field_Cell_States.miss);
                 player2.field[y][x] = (sbyte)Field_Cell_States.miss;
                 if (room.movepriority == (sbyte)Moves_States.player1)
+                {
                     room.movepriority = (sbyte)Moves_States.player2;
+                }
                 else
+                {
                     room.movepriority = (sbyte)Moves_States.player1;
+                }
             }
             else
             {
@@ -390,6 +441,7 @@ namespace BL.Services
             //// string[] parameters = _gamesrv.Sts.UpdateInfoRoom(player, player2, room);
             ////  room.updTime = DateTime.Now;
             res.p2shipscount = player2.shipcount;
+            res.movetime = startTimer(room);
             return res;
         }
 
@@ -397,11 +449,11 @@ namespace BL.Services
         {
             
 
-            Player p1 = _dm.Ps.GetPlayer(playername, true);
-            p1.state = (sbyte)Player_States.giveup;
-            Room r = _dm.Rs.GetRoom(p1.roomid);
-            r.status = (sbyte)Game_States.endofgame;
+            Player p1 = _dm.Ps.GetPlayer(playername, true);          
+            Room r = _dm.Rs.GetRoom(p1.roomid);            
             Player p2 = _dm.Rs.GetPlayer2(p1,r);
+            r.status = (sbyte)Game_States.endofgame;
+            p1.state = (sbyte)Player_States.giveup;
             p2.state = (sbyte)Player_States.winner;
         }
         }

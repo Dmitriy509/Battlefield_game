@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using BL.Interfaces;
 using BL.Services;
-
+using BL.Models;
 namespace battleship.Controllers
 {
     public class SetShipsController : Controller
@@ -24,7 +24,21 @@ namespace battleship.Controllers
 
             string res = _srv.CheckGameState(playername);
             if (res == "~/SetShips/FieldEditorView")
+            {
+                List<SendShips> ships = _srv.CheckPlayerReady(playername);
+                if (ships != null)
+                {
+                    ViewBag.Ready = true;
+                    ViewBag.Ships = ships;
+                }
+                else
+                {
+                    ViewBag.Ready = false;
+                    ViewBag.Ships = -1;
+                }
+                //   ViewBag.PlayerName = playername;
                 return View();
+            }
             else return Redirect(res);
         }
 
@@ -38,9 +52,9 @@ namespace battleship.Controllers
 
             }
 
-            string[] res = _srv.UpdateRoom(playername);
+            var res = _srv.UpdateRoom(playername); 
             //room.updTime = DateTime.Now;
-            return Json(new { player2status = res[1], gamestatus = res[0] });
+            return Json(new { player2name = res["player2name"], player2status = res["player2status"], gamestatus = res["gamestatus"] });
    
         }
 

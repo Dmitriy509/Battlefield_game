@@ -1,0 +1,259 @@
+﻿:root {
+    --f-family: "Verdana", sans-serif;
+    --f-size: 12pt;
+    --icon-size: 3rem;
+    --common-padding: 18pt;
+}
+
+/* BASIC */
+
+body {
+    font-family: var(--f-family);
+    font-size: var(--f-size);
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+.flex-container {
+    height: 100%;
+    display: flex;
+}
+
+.flex-column {
+    flex-direction: column;
+}
+
+.body {
+    width: 100%;
+    height: 100%;
+    background-image: url("../img/background.png");
+    background-size: cover;
+    z-index: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.content {
+    margin: 2%;
+}
+
+input[type="text"] {
+    font-family: var(--f-family);
+    font-size: var(--f-size);
+    width: 100%;
+}
+
+input[type="submit"] {
+    font-family: var(--f-family);
+    font-size: var(--f-size);
+    font-weight: bold;
+    width: 50%;
+    background: transparent;
+    border: transparent;
+    background-position: center;
+}
+
+.login_block {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+    .login_block div {
+        z-index: 1;
+        float: left;
+    }
+
+.login-input {
+    width: 50%;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    overflow: auto;
+}
+
+.login-character {
+    width: 50%;
+    height: 100%;
+}
+
+/* STRUCTURE */
+
+#formContent {
+    width: 30rem;
+    min-width: 20rem;
+    display: flex;
+    background: transparent;
+    text-align: center;
+    justify-content: center;
+    background-image: url('../img/scroll.png');
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+    #formContent > form {
+        width: 70%;
+        flex-flow: column wrap;
+        justify-content: center;
+        align-items: center;
+    }
+
+        #formContent > form * {
+            margin-bottom: 2rem;
+        }
+
+.input-text {
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid black;
+}
+
+#login-btn {
+    height: 2.5rem;
+    min-height: var(--f-size);
+    width: auto;
+}
+
+#top-menu {
+    display: flex;
+    align-items: center;
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-top: 1rem;
+}
+
+#field {
+    margin: var(--common-padding);
+    margin-top: var(--common-padding);
+    margin-bottom: var(--common-padding);
+    margin-right: 10%;
+    margin-left: 10%;
+    padding: 1rem;
+    background-image: url('../img/paper-background.png');
+    background-size: 100% auto;
+    background-repeat: repeat;
+    background-position: center;
+    text-align: center;
+    height: 100%;
+    align-items: center;
+}
+
+    #field > * {
+        width: 100%;
+    }
+
+#room-selection-wrapper {
+    height: 100%;
+    margin-top: 1%;
+}
+
+.working-place {
+    height: 100%;
+    overflow: auto;
+}
+
+table, td {
+    border: 2px solid #402205;
+    border-collapse: collapse;
+}
+
+#room-selection-wrapper table {
+    width: 100%;
+}
+
+.room-selection-button, .room-selection-name {
+    padding: 0.5rem;
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+.room-selection-button {
+    width: 30%;
+    text-align: center;
+}
+
+    .room-selection-button > input[type="image"] {
+        height: 2rem;
+        width: auto;
+    }
+
+.room-selection-name {
+    text-align: left;
+    font-weight: bold;
+    color: #402205;
+}
+
+#top-menu > img {
+    height: var(--icon-size);
+    min-height: var(--f-size);
+    width: auto;
+    float: left;
+    display: inline-block;
+}
+
+#top-menu > div {
+    float: left;
+    width: 100%;
+    display: inline-block;
+}
+
+#btn-panel > * {
+    float: right;
+    padding-left: 3%;
+}
+
+.h1 {
+    text-align: center;
+    display: inline-block;
+}
+
+.hint {
+    background-color: rgba(255, 255, 255, 0.3);
+    text-align: left;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    font-size: 0.8em;
+    border-radius: 0.5rem;
+}
+
+    .hint > div {
+        float: left;
+        height: auto;
+        width: 100%;
+    }
+
+.control-panel {
+    padding-left: 2%;
+    width: 50%;
+}
+
+.icon-btn {
+    width: var(--icon-size);
+    height: auto;
+}
+
+.reverse {
+    direction: rtl;
+}
+
+.style-2::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    border-radius: 0.8rem;
+    background-color: rgb(245, 245, 245,0.5);
+}
+
+.style-2::-webkit-scrollbar {
+    width: 1rem;
+}
+
+.style-2::-webkit-scrollbar-thumb {
+    border-radius: 0.8rem;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    background-color: #D62929;
+}
