@@ -70,7 +70,11 @@ namespace battleship.Controllers
             return View("Login");
         }
 
+        public ActionResult ErrorNewTab()
+        {
+            return View("errorNewTab");
 
+        }
 
 
     }

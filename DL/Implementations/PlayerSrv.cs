@@ -79,7 +79,7 @@ namespace DL.Implementations
             foreach (var pl in items)
             {
                 TimeSpan ts = DateTime.Now - pl.date;
-                if (ts.TotalMinutes > Parameters.KeepLoginCokies)
+                if (ts.TotalMinutes > Parameters.deletePlaeyrTimeout)
                     _ds.Players.Remove(pl.id);
                 else flPlayerExist = true;
             }
