@@ -63,17 +63,17 @@ namespace battleship.Controllers
 
         }
 
+        [HttpPost]
         public ActionResult Signout()
         {
             _ls.SignOut(CookiesGetSet.getCookies(HttpContext));
             CookiesGetSet.deleteCookies(HttpContext);       
-            return View("Login");
+            return Redirect("Login");
         }
 
         public ActionResult ErrorNewTab()
         {
             return View("errorNewTab");
-
         }
 
 

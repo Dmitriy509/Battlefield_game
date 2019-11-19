@@ -52,11 +52,14 @@ namespace battleship.Controllers
                 return View();
         }
 
+
+        
         public ActionResult StartGame()
         {
+
             string playername = CookiesGetSet.getCookies(HttpContext);
             // string playername=Loginc
-            string p2 = _gs.StartGame(playername);
+            if (!_gs.StartGame(playername)) return Redirect(_gs.CheckGameState(playername));
           //  ViewBag.player1name = playername;
            // ViewBag.player2name = p2;
             return Redirect("GameView");

@@ -9,7 +9,7 @@ namespace BL.Interfaces
     {
         string CheckGameState(string playername);
         StartGameData InitGame(string playername);
-        string StartGame(string playername);
+        bool StartGame(string playername);
         string GetPlayer2name(string playername);
         GameProcessData GameProcessStateMachine(string playername, sbyte curmovestate);
         FireResults Fire(string playername, int x, int y);

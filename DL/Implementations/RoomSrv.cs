@@ -71,18 +71,14 @@ namespace DL.Implementations
         }
         public Player GetPlayer2(Player player1, Room r)
         {
-
-            if (r.player1id == player1.id)
-            {
-                if (r.player2id != null)
-                    return _ds.Players[(uint)r.player2id];
-                else return null;
+            if(r.player1id==null|| r.player2id == null) return null;
+            if (player1.id==r.player1id)
+            {             
+                    return _ds.Players[(uint)r.player2id];             
             }
             else
             {
-                if (r.player1id != null)
                     return _ds.Players[(uint)r.player1id];
-                else return null;
             }
         }
 

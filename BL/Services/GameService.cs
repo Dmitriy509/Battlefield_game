@@ -43,14 +43,17 @@ namespace BL.Services
         }
 
 
-        public string StartGame(string playername)
+        public bool StartGame(string playername)
         {
 
             //ViewBag.coordsField = _gamesrv.Ps.GetPlayer(playername).field;
             ////(sbyte)Moves_States.undefined;
             Player player = _dm.Ps.GetPlayer(playername, true);
+            if(player.roomid==null) return false;
             Room r = _dm.Rs.GetRoom(player.roomid);
             Player player2 = _dm.Rs.GetPlayer2(player, r);
+
+            if (player2 == null || r.status != (sbyte)Game_States.readytoplay) return false;
 
             for (sbyte i = 0; i < 4; i++) player.shipcount[i] = (sbyte)(4 - i);
             r.updTime = DateTime.Now;
@@ -71,7 +74,7 @@ namespace BL.Services
                     else r.movepriority = (sbyte)Moves_States.player2;
                 }
 
-            return _dm.Rs.GetPlayer2(player,r).login;
+            return true;
    
 
         }

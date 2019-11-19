@@ -21,7 +21,7 @@ namespace battleship.Controllers
         }
 
 
-
+        [HttpPost]
         public IActionResult ExitGame(string playername)
         {
             _grs.exitGame(playername);
