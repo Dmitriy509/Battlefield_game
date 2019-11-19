@@ -122,5 +122,11 @@ namespace BL.Services
 
         }
 
+
+        public void updatePlayer(string playername)
+        {
+            _dm.Ps.GetPlayer(playername, true);
+        }
+
     }
 }

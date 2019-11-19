@@ -101,6 +101,16 @@ function update(timeisup) {
                     setBtnStatus("opponent-name", "exit");
                     disableButton(document.getElementById('replaybtn'));
                     stopTimer(idTimer);
+
+                     setInterval(function () {
+
+                         $.post("/GameResults/UpdatePlayer", { playername: login})
+                             .done(function (data) {           
+                             });
+
+                     }, 3000);
+
+
                     break;
 
             }

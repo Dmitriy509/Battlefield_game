@@ -35,12 +35,20 @@ namespace battleship.Controllers
             return Json(new { });
         }
 
-
+        [HttpPost]
         public JsonResult UpdateGameResultView(string playername, bool fltimeisup)
         {
             string res = _grs.updateGameResult(playername, fltimeisup);
 
             return Json(new {player2status = res });
+        }
+
+
+        [HttpPost]
+        public JsonResult UpdatePlayer(string playername)
+        {
+            _grs.updatePlayer(playername);
+            return Json(new { });
         }
 
     }

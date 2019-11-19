@@ -10,5 +10,6 @@ namespace BL.Interfaces
         string updateGameResult(string playername, bool timeisup);
         void replayGame(string playername);
         void exitGame(string playername);
+        void updatePlayer(string playername);
     }
 }
