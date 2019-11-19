@@ -6,6 +6,7 @@ using DL.Models;
 using DL.Interfaces;
 using static DL.Enums.StateEnums;
 using DL.Enums;
+
 namespace DL.Implementations
 {
     public class PlaerSrv: IPlayerSrv
@@ -58,15 +59,14 @@ namespace DL.Implementations
 
         }
 
-
         public bool DeletePlayerId(uint id)
         {
-     
-            return _ds.Players.Remove(id);
+            Player p;
+            return _ds.Players.TryRemove(id, out p);
         }
         public bool DeletePlayer(Player p)
         {
-            return _ds.Players.Remove(p.id);
+            return _ds.Players.TryRemove(p.id, out p);
         }
      
         public bool checkPlayer(string name)
@@ -76,11 +76,13 @@ namespace DL.Implementations
             if (_ds.Players.Count == 0) return false;
             var items = _ds.Players.Where(u => u.Value.login==name).Select(u=>u.Value).ToList();
             bool flPlayerExist = false;
+            Player p;
             foreach (var pl in items)
             {
                 TimeSpan ts = DateTime.Now - pl.date;
+
                 if (ts.TotalMinutes > Parameters.deletePlaeyrTimeout)
-                    _ds.Players.Remove(pl.id);
+                    _ds.Players.TryRemove(pl.id,out p);
                 else flPlayerExist = true;
             }
             if (flPlayerExist)
@@ -94,11 +96,10 @@ namespace DL.Implementations
             Player p = new Player();
             p.login = name;
             p.date = DateTime.Now;
-            p.roomid = null;
-            // DataStor._players.Add(p);
+            p.roomid = null;           
             p.id = _ds.GetPlayersId;
-            _ds.Players.Add(p.id, p);
-            return true;
+           
+            return _ds.Players.TryAdd(p.id, p);
         }
 
         public void UpdatePlayer(Player player)

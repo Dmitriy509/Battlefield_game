@@ -37,7 +37,8 @@ namespace DL.Implementations
 
         public bool DeleteRoom(Room r)
         {
-            return _ds.Rooms.Remove(r.id);
+            
+            return _ds.Rooms.TryRemove(r.id, out r);
         }
         public Room AddRoom(string name)
         {
@@ -50,7 +51,7 @@ namespace DL.Implementations
                 r.player1id = null;
                 r.player2id = null;
                 r.id = _ds.GetRoomsId;
-                _ds.Rooms.Add(r.id, r);
+                if (!_ds.Rooms.TryAdd(r.id, r)) return null;
                 return r;
             }
 

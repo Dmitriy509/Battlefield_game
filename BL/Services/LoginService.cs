@@ -31,15 +31,13 @@ namespace BL.Services
 
         public string SignIn(string playername)
         {
-            //   bool fl = _gamesrv.Ps.AddPlayer(username);
+
             if (_dm.Ps.AddPlayer(playername))
             {
-              //  addCookies(username);
-              //  ViewBag.playername = username;
                 return "Rooms";
             }
 
-            //ViewBag.errormsg = "Игрок с таким именем уже есть на сервере!";
+        
             return "Login";  
         }
 
