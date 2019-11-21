@@ -17,14 +17,15 @@ var fieldb;
 const borderCell = 1;
 const borderTable = 3;
 var cell_size = cellSizeCount();
-const login = get_cookie("Login");
+const player_id = get_cookie("Player_Id");
+//const login = get_cookie("Login");
 
-if (login == null) {
-    window.location.href = 'Login';
+if (player_id == null) {
+    window.location.href = '/Login/Login';
 }
 else {
-    document.getElementById('player-name').innerText = login;
-    document.getElementById('playerNameSend').value = login;
+    document.getElementById('player-name').innerText = get_cookie("Login");;
+    document.getElementById('playerIdSend').value = player_id;
 }
 
 
@@ -75,7 +76,7 @@ function setPlayerReadyState() {
 
 
 function test() {
-    $.post("/Test/Ready", { playername: login })
+    $.post("/Test/Ready", { player_id: player_id })
         .done(function (data1) {
         });
 }

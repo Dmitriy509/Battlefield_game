@@ -3,7 +3,7 @@ let timerId = setInterval(function () { getInfoRooms(); }, 3000);
 
 
 function getInfoRooms() {
-    $.post("/Rooms/GetInfoRooms", { playername: login})
+    $.post("/Rooms/GetInfoRooms", { player_id: player_id})
         .done(function (data) {
             document.getElementById('online-players').innerHTML = data.player_count+" игрока онлайн";
             document.getElementById('current-battles').innerHTML = data.game_count + " битв идёт";
@@ -27,7 +27,7 @@ function getInfoRooms() {
                 cell = row.insertCell(1);
                 cell.classList.add("room-selection-button");
                 row.cells[0].innerHTML = data.roomnames[i];
-                let h = "<form method='POST' action='/Rooms/EnterTheRoom'><input type = 'hidden' name = 'roomname' value = '" + data.roomnames[i] + "' /><input type = 'hidden' name = 'playername' value = '" + login + "' /><input type='image' name='take_challenge' src='../img/take_challenge.png'></form >"
+                let h = "<form method='POST' action='/Rooms/EnterTheRoom'><input type = 'hidden' name = 'roomname' value = '" + data.roomnames[i] + "' /><input type = 'hidden' name = 'player_id' value = '" + player_id + "' /><input type='image' name='take_challenge' src='../img/take_challenge.png'></form >"
                 row.cells[1].innerHTML = h;
 
             }

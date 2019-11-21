@@ -21,7 +21,7 @@
                         <form method="post" action="~/Rooms/AddRoom" class="modal-content">
                             <input id="new-room-name" name="RoomName" type="text" class="input-text" placeholder="название комнаты">                            
                             <input type="image" src="~/img/room_create.png" class="modal-btn" />
-                            <input type="hidden" id="playerNameSend" name="playername" />
+                            <input type="hidden" id="playerIdSend" name="player_id" />
                         </form>
 
               
@@ -71,15 +71,15 @@
         }
 
 
-        var login = get_cookie("Login");
-
-        if (login == null) {
+      //  var login = get_cookie("Login");
+        var player_id = get_cookie("Player_Id");
+        if (player_id == null) {
             window.location.href = '/Login/Login';
         }
         else {
-            document.getElementById('playerNameSend').value = login;
+            document.getElementById('playerIdSend').value = player_id;
         }
-        document.getElementById('player-name').childNodes[0].innerHTML = login;
+        document.getElementById('player-name').childNodes[0].innerHTML = get_cookie("Login");
     </script>
 
     <script src="~/js/updateRooms.js"></script>

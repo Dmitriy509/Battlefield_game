@@ -8,8 +8,8 @@ namespace DL
     {
         static ConcurrentDictionary<uint,Room> _rooms = new ConcurrentDictionary<uint,Room>();
         static ConcurrentDictionary<uint,Player> _players = new ConcurrentDictionary<uint,Player>();
-        static uint _playersid=0;
-        static uint _roomsid = 0;
+        static uint _playersid=1;  
+        static uint _roomsid = 1;
 
         //public List<Player> Players { get; set; }
         public ConcurrentDictionary<uint,Player> Players { get { return _players; } }

@@ -14,10 +14,10 @@ namespace BL.Services
 {
     public class GameService : commonSrv, IGameService
     {
-        private readonly ILogger _logger;
-        public GameService(ILogger logger)
+   
+        public GameService(ILogger logger) : base(logger)
         {
-            _logger = logger;
+            
         }
 
         private int timer(DateTime t)
@@ -34,22 +34,22 @@ namespace BL.Services
             return Parameters.MoveTime;
         }
 
-        public string CheckGameState(string playername)
+        public string CheckGameState(string player_id)
         {
 
-            Player p = _dm.Ps.GetPlayer(playername);
+            Player p = _dm.Ps.GetPlayer(convertId(player_id));
             if (p == null) return "~/Login/Login";
             return LoginStateMachine(p);
 
         }
 
 
-        public bool StartGame(string playername)
+        public bool StartGame(string player_id)
         {
 
             //ViewBag.coordsField = _gamesrv.Ps.GetPlayer(playername).field;
             ////(sbyte)Moves_States.undefined;
-            Player player = _dm.Ps.GetPlayer(playername, true);
+            Player player = _dm.Ps.GetPlayer(convertId(player_id), true);
             if(player.roomid==null) return false;
             Room r = _dm.Rs.GetRoom(player.roomid);
             Player player2 = _dm.Rs.GetPlayer2(player, r);
@@ -81,14 +81,14 @@ namespace BL.Services
         }
 
 
-        public StartGameData InitGame(string playername)
+        public StartGameData InitGame(string player_id)
         {
             StartGameData res = new StartGameData();
-            Player player = _dm.Ps.GetPlayer(playername, true);
+            Player player = _dm.Ps.GetPlayer(convertId(player_id), true);
             Room r = _dm.Rs.GetRoom(player.roomid);
             Player player2 = _dm.Rs.GetPlayer2(player, r);
             res.player2name = player2.login;
-            res.player1name = playername;
+            res.player1name = player.login;
             res.player1field = player.field;
             res.player2field = player2.field;
 
@@ -97,21 +97,21 @@ namespace BL.Services
 
 
 
-        public string GetPlayer2name(string playername)
-        {
-            Player player = _dm.Ps.GetPlayer(playername, true);
-            Room r = _dm.Rs.GetRoom(player.roomid);
-            return _dm.Rs.GetPlayer2(player, r).login;
-        }
+        //public string GetPlayer2name(string playername)
+        //{
+        //    Player player = _dm.Ps.GetPlayer(playername, true);
+        //    Room r = _dm.Rs.GetRoom(player.roomid);
+        //    return _dm.Rs.GetPlayer2(player, r).login;
+        //}
 
 
 
-        public GameProcessData GameProcessStateMachine(string playername, sbyte curmovestate)
+        public GameProcessData GameProcessStateMachine(string player_id, sbyte curmovestate)
         {
             GameProcessData res = new GameProcessData();
             res.curmovestate = curmovestate;
             res.movetime = -100;
-            Player p1 = _dm.Ps.GetPlayer(playername, true);
+            Player p1 = _dm.Ps.GetPlayer(convertId(player_id), true);
             Room r = _dm.Rs.GetRoom(p1.roomid);
             if (r != null) r.updTime = DateTime.Now;
             Player p2 = _dm.Rs.GetPlayer2(p1,r);
@@ -407,9 +407,9 @@ namespace BL.Services
 
         }
 
-        public FireResults Fire(string playername, int x, int y)
+        public FireResults Fire(string player_id, int x, int y)
         {
-            Player player = _dm.Ps.GetPlayer(playername, true);
+            Player player = _dm.Ps.GetPlayer(convertId(player_id), true);
             Room room = _dm.Rs.GetRoom(player.roomid);
             Player player2 = _dm.Rs.GetPlayer2(player, room);
             string s = player.login;
@@ -449,11 +449,11 @@ namespace BL.Services
             return res;
         }
 
-        public void GiveUp(string playername)
+        public void GiveUp(string player_id)
         {
             
 
-            Player p1 = _dm.Ps.GetPlayer(playername, true);          
+            Player p1 = _dm.Ps.GetPlayer(convertId(player_id), true);          
             Room r = _dm.Rs.GetRoom(p1.roomid);            
             Player p2 = _dm.Rs.GetPlayer2(p1,r);
             r.status = (sbyte)Game_States.endofgame;

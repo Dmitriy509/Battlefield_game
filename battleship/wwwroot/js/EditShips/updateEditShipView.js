@@ -1,7 +1,7 @@
 ﻿
 function updateRoom() {
 
-    $.post("/SetShips/UpdateInfoRoom", { playername: login })
+    $.post("/SetShips/UpdateInfoRoom", { player_id: player_id })
         .done(function (data) {
             //  console.log("ответ запроса");
             if (data.player2name == "")
@@ -77,7 +77,7 @@ function getShips() {
 
     }
 
-    $.post("/SetShips/GetShipsCoords", { playername: login, Xarr: Xcoords, Yarr: Ycoords })
+    $.post("/SetShips/GetShipsCoords", { player_id: player_id, Xarr: Xcoords, Yarr: Ycoords })
         .done(function (data1) {
           //  document.getElementById('user1').innerText = login + "- Готов";
             document.getElementById('btn-ready').disabled = true;

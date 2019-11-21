@@ -44,7 +44,6 @@ namespace DL.Implementations
             if (update) p.date = DateTime.Now;
             return p;
         }
-
         public Player GetPlayer(uint? id, bool update = false)
         {
             if (_ds.Players.ContainsKey((uint)id))
@@ -53,10 +52,17 @@ namespace DL.Implementations
                 if (update) p.date = DateTime.Now;
                 return p;
             }
+            else return null;         
+        }
+        public Player GetPlayer(uint id, bool update = false)
+        {
+            if (_ds.Players.ContainsKey(id))
+            {
+                Player p = _ds.Players[id];
+                if (update) p.date = DateTime.Now;
+                return p;
+            }
             else return null;
-
-           
-
         }
 
         public bool DeletePlayerId(uint id)

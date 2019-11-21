@@ -25,11 +25,11 @@ namespace battleship.Controllers
         {
           
             
-            string name = CookiesGetSet.getCookies(HttpContext);
-            if (name != null)
+            string player_id = CookiesGetSet.getCookies("Player_Id",HttpContext);
+            if (player_id != null)
             {
                 //service
-              string res =  _ls.Login(name);
+              string res =  _ls.Login(player_id);
               if(res!="") return Redirect(res);
 
             }
@@ -51,11 +51,13 @@ namespace battleship.Controllers
                 return View("Login");
             }
 
-            string res = _ls.SignIn(playername);
+            uint player_id;
+            string res = _ls.SignIn(playername, out player_id);
             if(res=="Rooms")
             {
-                CookiesGetSet.addCookies(playername, HttpContext, Parameters.KeepLoginCokies);
-                ViewBag.playername = playername;
+                CookiesGetSet.addCookies("Login", playername, HttpContext, Parameters.KeepLoginCokies);
+                CookiesGetSet.addCookies("Player_Id", player_id.ToString(), HttpContext, Parameters.KeepLoginCokies);
+               // ViewBag.playername = playername;
                //   return RedirectToAction("Rooms", "Rooms");
                 return Redirect("~/Rooms/Rooms");
                 
@@ -70,8 +72,9 @@ namespace battleship.Controllers
         [HttpPost]
         public ActionResult Signout()
         {
-            _ls.SignOut(CookiesGetSet.getCookies(HttpContext));
-            CookiesGetSet.deleteCookies(HttpContext);       
+            _ls.SignOut(CookiesGetSet.getCookies("Player_Id",HttpContext));
+            CookiesGetSet.deleteCookies("Player_Id",HttpContext);
+            CookiesGetSet.deleteCookies("Login", HttpContext);
             return Redirect("Login");
         }
 

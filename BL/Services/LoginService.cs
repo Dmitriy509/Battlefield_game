@@ -4,25 +4,27 @@ using System.Text;
 using Microsoft.Extensions.Logging;
 using DL.Models;
 using BL.Interfaces;
-
+using DL.Enums;
 
 
 namespace BL.Services
 {
     public class LoginService: commonSrv, ILoginService
     {
-        private readonly ILogger _logger;
-        public LoginService(ILogger logger)
+     
+        public LoginService(ILogger logger):base(logger)
         {
-            _logger = logger;
+           
         }
 
-        public string Login(string playername)
+        public string Login(string player_id)
         {
-            if (_dm.Ps.checkPlayer(playername))
+            Player p = _dm.Ps.GetPlayer(convertId(player_id));
+            if (p!=null)
             {
-                Player p = _dm.Ps.GetPlayer(playername);
-                //    return View(_dm.Sts.loginview(p, _gamesrv));
+
+                if(getInterval(p.date, Parameters.deletePlaeyrTimeout, '>')) return "";
+
                 return LoginStateMachine(p);
             }
 
@@ -30,21 +32,22 @@ namespace BL.Services
         }
 
 
-        public string SignIn(string playername)
+        public string SignIn(string playername, out uint player_id)
         {
 
             if (_dm.Ps.AddPlayer(playername))
             {
+                player_id= _dm.Ps.GetPlayer(playername).id;
                 return "Rooms";
             }
-       
-        
+
+            player_id = 0;
             return "Login";  
         }
 
-        public bool SignOut(string playername)
+        public bool SignOut(string player_id)
         {
-           return _dm.Ps.DeletePlayer(_dm.Ps.GetPlayer(playername));                 
+           return _dm.Ps.DeletePlayer(_dm.Ps.GetPlayer(convertId(player_id)));                 
         }
 
 

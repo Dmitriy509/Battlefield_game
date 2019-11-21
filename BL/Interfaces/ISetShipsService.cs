@@ -7,11 +7,11 @@ namespace BL.Interfaces
     public interface ISetShipsService
     {
 
-        string CheckGameState(string playername);
-        Dictionary<string, string> UpdateRoom(string playername);
-        bool GetCoords(string playername, int[] Xarr, int[] Yarr);
-        void LeaveRoom(string playername);
-        List<SendShips> CheckPlayerReady(string playername);
+        string CheckGameState(string player_id);
+        Dictionary<string, string> UpdateRoom(string player_id);
+        bool GetCoords(string player_id, int[] Xarr, int[] Yarr);
+        void LeaveRoom(string player_id);
+        List<SendShips> CheckPlayerReady(string player_id);
     }
 
 }

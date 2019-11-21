@@ -22,12 +22,12 @@ namespace battleship.Controllers
 
         public IActionResult FieldEditorView()
         {
-            string playername = CookiesGetSet.getCookies(HttpContext);
+            string player_id = CookiesGetSet.getCookies("Player_Id", HttpContext);
 
-            string res = _srv.CheckGameState(playername);
+            string res = _srv.CheckGameState(player_id);
             if (res == "~/SetShips/FieldEditorView")
             {
-                List<SendShips> ships = _srv.CheckPlayerReady(playername);
+                List<SendShips> ships = _srv.CheckPlayerReady(player_id);
                 if (ships != null)
                 {
                     ViewBag.Ready = true;
@@ -45,30 +45,29 @@ namespace battleship.Controllers
         }
 
 
-
-        public JsonResult UpdateInfoRoom(string playername)
+        [HttpPost]
+        public JsonResult UpdateInfoRoom(string player_id)
         {
-            if(playername==""||playername==null)
+            if(player_id == ""|| player_id == null)
             {
-
 
             }
 
-            var res = _srv.UpdateRoom(playername); 
+            var res = _srv.UpdateRoom(player_id); 
             //room.updTime = DateTime.Now;
             return Json(new { player2name = res["player2name"], player2status = res["player2status"], gamestatus = res["gamestatus"] });
    
         }
 
 
-        public JsonResult GetShipsCoords(string playername, int[] Xarr, int[] Yarr)
+        public JsonResult GetShipsCoords(string player_id, int[] Xarr, int[] Yarr)
         {
 
-            if (playername == null || playername == "") return Json(new { status = false });
+            if (player_id == null || player_id == "") return Json(new { status = false });
             if(Xarr.Length<=0|| Yarr.Length <= 0) return Json(new { status = false });
 
 
-            bool res = _srv.GetCoords(playername, Xarr, Yarr);
+            bool res = _srv.GetCoords(player_id, Xarr, Yarr);
 
             return Json(new { status = res });
 
@@ -76,13 +75,13 @@ namespace battleship.Controllers
 
 
         [HttpPost]
-        public IActionResult LeaveRoom(string playername)
+        public IActionResult LeaveRoom(string player_id)
         {
-            if (playername == "" || playername == null)
+            if (player_id == "" || player_id == null)
             {
-
+                Redirect("~/Login/Login");
             }
-            _srv.LeaveRoom(playername);
+            _srv.LeaveRoom(player_id);
             return Redirect("~/Rooms/Rooms");
         }
 

@@ -6,7 +6,7 @@
         flagFire = false;
         // let field = document.getElementById('battlefield2');
         // startTimer("timer-move", moveTime);
-        $.post("/Game/Fire", { playername: login, x: td.cellIndex, y: td.parentNode.rowIndex })
+        $.post("/Game/Fire", { player_id: player_id, x: td.cellIndex, y: td.parentNode.rowIndex })
             .done(function (data) {
                 console.log("getfiredata!");
                 let f = document.getElementById("battlefield2")
@@ -120,10 +120,7 @@ function updateBattleField(fieldname, field, flwithships)
 
 function updateRoom() {
 
-
-
-    // console.log("updateroom Begin1  " + (flagFire ? 1 : 2)+"   "+login);
-    $.post("/Game/UpdateGameProcess", { playername: login, curmovestate: (flagFire ? 1 : 2) })
+    $.post("/Game/UpdateGameProcess", { player_id: player_id, curmovestate: (flagFire ? 1 : 2) })
         .done(function (data) {
             console.log("time " + data.movetime);
            
@@ -222,7 +219,7 @@ function fgiveupbtn(btn)
     document.getElementById('gamestatus').src =  "../img/label_defeat.png";  
     openResultModal('result-modal');
 
-    $.post("/Game/GiveUp", { playername: login})
+    $.post("/Game/GiveUp", { player_id: player_id })
         .done(function (data) {
 
         });

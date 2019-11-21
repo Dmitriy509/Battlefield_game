@@ -9,19 +9,17 @@ using DL.Models;
 using static DL.Enums.StateEnums;
 namespace BL.Services
 {
-    public class GameResultsService:IGameResultsService
+    public class GameResultsService: commonSrv, IGameResultsService
     {
-        DataManager _dm;
-        private readonly ILogger _logger;
-        public GameResultsService(ILogger logger)
+
+        public GameResultsService(ILogger logger) : base(logger)
         {
-            _logger = logger;
-            _dm = new DataManager();
+
         }
 
-        public string updateGameResult(string playername, bool fltimeisup)
+        public string updateGameResult(string player_id, bool fltimeisup)
         {
-            Player player = _dm.Ps.GetPlayer(playername, true);
+            Player player = _dm.Ps.GetPlayer(convertId(player_id), true);
 
 
             Room room = _dm.Rs.GetRoom(player.roomid);
@@ -85,11 +83,11 @@ namespace BL.Services
             return res;
         }
 
-        public void replayGame(string playername)
+        public void replayGame(string player_id)
         {
 
         
-            Player p1 = _dm.Ps.GetPlayer(playername, true);
+            Player p1 = _dm.Ps.GetPlayer(convertId(player_id), true);
             p1.state = (sbyte)Player_States.readytoreplay;
             _dm.Ps.InitPlayer(p1, false, false);
           
@@ -97,9 +95,9 @@ namespace BL.Services
 
         }
 
-        public void exitGame(string playername)
+        public void exitGame(string player_id)
         {
-            Player p1 = _dm.Ps.GetPlayer(playername, true);
+            Player p1 = _dm.Ps.GetPlayer(convertId(player_id), true);
 
             if (p1.roomid != null)
             {
@@ -126,9 +124,9 @@ namespace BL.Services
         }
 
 
-        public void updatePlayer(string playername)
+        public void updatePlayer(string player_id)
         {
-            _dm.Ps.GetPlayer(playername, true);
+            _dm.Ps.GetPlayer(player_id, true);
         }
 
     }

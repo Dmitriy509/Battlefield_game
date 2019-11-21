@@ -24,42 +24,43 @@ namespace battleship.Controllers
         public IActionResult Rooms()
         {
 
-            string playername = CookiesGetSet.getCookies(HttpContext);
+            string player_id = CookiesGetSet.getCookies("Player_Id", HttpContext);
 
-            string res = _rs.CheckGameState(playername);
+            string res = _rs.CheckGameState(player_id);
             if (res == "~/Rooms/Rooms")
                 return View();
             else return Redirect(res);
         }
   
         [HttpPost]
-        public JsonResult GetInfoRooms(string playername)
+        public JsonResult GetInfoRooms(string player_id)
         {
             //string name = getCookies();
-            if(playername==""||playername==null)
+            if(player_id == ""|| player_id == null)
             {
                 return null;
             }
-            RoomsList res = _rs.GetInfoRooms(playername);
+            RoomsList res = _rs.GetInfoRooms(player_id);
            // return Json(_rs.GetInfoRooms(playername));
              return Json(new { roomnames = res.RoomNames, player_count = res.Player_Count, game_count=res.Game_Count });
 
         }
 
         [HttpPost]
-        public IActionResult AddRoom(string roomName, string playername)
+        public IActionResult AddRoom(string roomName, string player_id)
         {
             if(roomName==""||roomName==null)
             {
               // ViewBag.errmsg = "";
                 return View("Rooms");
             }
-            if (playername == "" || playername == null)
+            if (player_id == "" || player_id == null)
             {
                 // ViewBag.errmsg = "";
-                //return Redirect("Login");
+                _logger.LogError("Rooms/addRoom id игрока отсутствует");
+                return Redirect("Login");
             }
-            string[] res = _rs.CreateRoom(roomName, playername);
+            string[] res = _rs.CreateRoom(roomName, player_id);
             if(res[0]=="Rooms")
             {
                 ViewBag.errmsg = res[1];
@@ -71,19 +72,20 @@ namespace battleship.Controllers
         }
 
         [HttpPost]
-        public IActionResult EnterTheRoom(string roomname, string playername)
+        public IActionResult EnterTheRoom(string roomname, string player_id)
         {
             if (roomname == "" || roomname == null)
             {
                 // ViewBag.errmsg = "";
                 return View("Rooms");
             }
-            if (playername == "" || playername == null)
+            if (player_id == "" || player_id == null)
             {
                 // ViewBag.errmsg = "";
-                //return Redirect("Login");
+                _logger.LogError("Rooms/EnterTheRoom id игрока отсутствует");
+                return Redirect("Login");
             }
-            string[] res = _rs.EnterTheRoom(roomname, playername);
+            string[] res = _rs.EnterTheRoom(roomname, player_id);
             if (res[0] == "Rooms")
             {
                 ViewBag.errmsg = res[1];

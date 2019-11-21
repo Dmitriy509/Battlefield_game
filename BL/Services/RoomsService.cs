@@ -15,16 +15,16 @@ namespace BL.Services
     public class RoomsService:commonSrv, IRoomsService
     {
 
-        private readonly ILogger _logger;
-        public RoomsService(ILogger logger)
+
+        public RoomsService(ILogger logger) : base(logger)
         {
-            _logger = logger;
+
         }
 
-        public string CheckGameState(string playername)
+        public string CheckGameState(string player_id)
         {
 
-            Player p = _dm.Ps.GetPlayer(playername);
+            Player p = _dm.Ps.GetPlayer(convertId(player_id));
             if (p == null) return "~/Login/Login";
             return LoginStateMachine(p);
 
@@ -33,11 +33,11 @@ namespace BL.Services
 
 
 
-        void updateRooms(string playername)
+        void updateRooms(string player_id)
         {
             // if
-            string first = _dm.Ps.GetAllPlayers().First(u => u.state == (sbyte)Player_States.signin).login;
-            if (first == playername)
+            string first = _dm.Ps.GetAllPlayers().First(u => u.state == (sbyte)Player_States.signin).id.ToString();
+            if (first == player_id)
             {
                 Task task = Task.Run(() =>
                 {
@@ -54,11 +54,11 @@ namespace BL.Services
 
         }
 
-        public RoomsList GetInfoRooms(string playername)
+        public RoomsList GetInfoRooms(string player_id)
         {
 
-            _dm.Ps.GetPlayer(playername, true);
-            updateRooms(playername);
+            _dm.Ps.GetPlayer(convertId(player_id), true);
+            updateRooms(player_id);
             RoomsList res = new RoomsList();
             res.RoomNames = _dm.Rs.GetAllRooms().Where(u => u.status == (sbyte)Game_States.waitingplayer).Select(u => u.Name).ToList();
             res.Player_Count = _dm.Ps.GetAllPlayers().Count();
@@ -68,7 +68,7 @@ namespace BL.Services
         }
 
 
-        public string [] CreateRoom(string roomName, string playername)
+        public string [] CreateRoom(string roomName, string player_id)
         {
             //string sss = getCookies();
             
@@ -79,7 +79,7 @@ namespace BL.Services
                 return new string[] { "Rooms", "Комната с таким названием уже существует" };
             }
 
-            Player player = _dm.Ps.GetPlayer(playername, true);
+            Player player = _dm.Ps.GetPlayer(convertId(player_id), true);
             if (!_dm.Rs.AddPlayer(player, room))
             {
                 _dm.Rs.DeleteRoom(room);
@@ -95,7 +95,7 @@ namespace BL.Services
         }
 
 
-        public string [] EnterTheRoom(string roomname, string playername)
+        public string [] EnterTheRoom(string roomname, string player_id)
         {
             Room room = _dm.Rs.GetRoom(roomname);
             if (room == null)
@@ -103,7 +103,7 @@ namespace BL.Services
                // ViewBag.errmsg = "Возникла ошибка попробуйте еще раз";
                 return  new string[] { "Rooms", "Возникла ошибка войдите в игру снова" };
             }
-            Player player = _dm.Ps.GetPlayer(playername, true);
+            Player player = _dm.Ps.GetPlayer(convertId(player_id), true);
             if (player == null)
             {
               //  ViewBag.errmsg = "Возникла ошибка войдите в игру снова";

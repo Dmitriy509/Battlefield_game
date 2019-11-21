@@ -24,32 +24,32 @@ namespace battleship.Controllers
 
 
         [HttpPost]
-        public IActionResult ExitGame(string playername)
+        public IActionResult ExitGame(string player_id)
         {
-            _grs.exitGame(playername);
+            _grs.exitGame(player_id);
             return Redirect("~/Rooms/Rooms");
         }
 
         [HttpPost]
-        public JsonResult ReplayGame(string playername)
+        public JsonResult ReplayGame(string player_id)
         {
-            _grs.replayGame(playername);
+            _grs.replayGame(player_id);
             return Json(new { });
         }
 
         [HttpPost]
-        public JsonResult UpdateGameResultView(string playername, bool fltimeisup)
+        public JsonResult UpdateGameResultView(string player_id, bool fltimeisup)
         {
-            string res = _grs.updateGameResult(playername, fltimeisup);
+            string res = _grs.updateGameResult(player_id, fltimeisup);
 
             return Json(new {player2status = res });
         }
 
 
         [HttpPost]
-        public JsonResult UpdatePlayer(string playername)
+        public JsonResult UpdatePlayer(string player_id)
         {
-            _grs.updatePlayer(playername);
+            _grs.updatePlayer(player_id);
             return Json(new { });
         }
 

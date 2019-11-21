@@ -82,7 +82,7 @@ function update(timeisup) {
 
     console.log("!!!!!!!!!! " + timeisup);
 
-    $.post("/GameResults/UpdateGameResultView", { playername: login, fltimeisup: timeisup })
+    $.post("/GameResults/UpdateGameResultView", { player_id: player_id, fltimeisup: timeisup })
         .done(function (data) {
           //  player2statusR.innerText = data.player2status;
             idTimer = 'timer-decision';
@@ -104,7 +104,7 @@ function update(timeisup) {
 
                      setInterval(function () {
 
-                         $.post("/GameResults/UpdatePlayer", { playername: login})
+                         $.post("/GameResults/UpdatePlayer", { player_id: player_id })
                              .done(function (data) {           
                              });
 
