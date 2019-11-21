@@ -4,6 +4,7 @@ using System.Text;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using BL.Interfaces;
 using BL.Models;
 using DL.Enums;
@@ -14,8 +15,14 @@ namespace BL.Services
    public class SetShipsService: commonSrv, ISetShipsService
     {
 
+        private readonly ILogger _logger;
+        public SetShipsService(ILogger logger)
+        {
+            _logger = logger;
+        }
 
-       public string CheckGameState(string playername)
+
+        public string CheckGameState(string playername)
         {
 
             Player p= _dm.Ps.GetPlayer(playername);

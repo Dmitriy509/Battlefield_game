@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.Extensions.Logging;
 using BL.Interfaces;
 using BL.Models;
 using DL;
@@ -11,8 +12,10 @@ namespace BL.Services
     public class GameResultsService:IGameResultsService
     {
         DataManager _dm;
-        public GameResultsService()
+        private readonly ILogger _logger;
+        public GameResultsService(ILogger logger)
         {
+            _logger = logger;
             _dm = new DataManager();
         }
 

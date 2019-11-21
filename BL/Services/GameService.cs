@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using Microsoft.Extensions.Logging;
 using BL.Interfaces;
 using BL.Models;
 using DL.Enums;
@@ -13,10 +14,10 @@ namespace BL.Services
 {
     public class GameService : commonSrv, IGameService
     {
-
-        public GameService()
+        private readonly ILogger _logger;
+        public GameService(ILogger logger)
         {
-
+            _logger = logger;
         }
 
         private int timer(DateTime t)

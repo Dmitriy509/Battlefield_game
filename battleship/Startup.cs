@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace battleship
 {
@@ -36,7 +37,7 @@ namespace battleship
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             if (env.IsDevelopment())
             {
@@ -48,7 +49,11 @@ namespace battleship
                 app.UseHsts();
             }
 
-          // app.UseDefaultFiles();
+            loggerFactory.AddFile(Configuration.GetSection("Logging").GetSection("File1"));
+            loggerFactory.AddFile(Configuration.GetSection("Logging").GetSection("File2"));
+
+
+            // app.UseDefaultFiles();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();

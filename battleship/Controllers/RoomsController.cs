@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using BL.Interfaces;
 using BL.Services;
 using BL.Models;
@@ -13,9 +14,11 @@ namespace battleship.Controllers
     {
         
         IRoomsService _rs;
-        public RoomsController()
+        private readonly ILogger _logger;
+        public RoomsController(ILoggerFactory loggerFactory)
         {
-            _rs = new RoomsService();
+            _logger = loggerFactory.CreateLogger("MyApp");
+            _rs = new RoomsService(_logger);
         }
 
         public IActionResult Rooms()

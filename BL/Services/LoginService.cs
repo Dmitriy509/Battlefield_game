@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.Extensions.Logging;
 using DL.Models;
 using BL.Interfaces;
 
@@ -10,10 +11,10 @@ namespace BL.Services
 {
     public class LoginService: commonSrv, ILoginService
     {
-        
-        public LoginService()
+        private readonly ILogger _logger;
+        public LoginService(ILogger logger)
         {
-           
+            _logger = logger;
         }
 
         public string Login(string playername)
@@ -36,7 +37,7 @@ namespace BL.Services
             {
                 return "Rooms";
             }
-
+       
         
             return "Login";  
         }

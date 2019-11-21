@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using BL.Interfaces;
 using BL.Services;
 using DL.Enums;
@@ -13,9 +14,11 @@ namespace battleship.Controllers
     public class LoginController : Controller
     {
         ILoginService _ls;
-        public LoginController()
+        private readonly ILogger _logger;
+        public LoginController(ILoggerFactory loggerFactory)
         {
-            _ls = new LoginService();
+            _logger = loggerFactory.CreateLogger("MyApp");
+            _ls = new LoginService(_logger);
         }
 
         public IActionResult Login()
@@ -55,6 +58,7 @@ namespace battleship.Controllers
                 ViewBag.playername = playername;
                //   return RedirectToAction("Rooms", "Rooms");
                 return Redirect("~/Rooms/Rooms");
+                
                // return Redirect("Rooms");
             }
 

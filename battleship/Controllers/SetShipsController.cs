@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using BL.Interfaces;
 using BL.Services;
 using BL.Models;
@@ -11,10 +12,11 @@ namespace battleship.Controllers
     public class SetShipsController : Controller
     {
         ISetShipsService _srv;
-        public SetShipsController()
+        private readonly ILogger _logger;
+        public SetShipsController(ILoggerFactory loggerFactory)
         {
-
-            _srv = new SetShipsService();
+            _logger = loggerFactory.CreateLogger("MyApp");
+            _srv = new SetShipsService(_logger);
         }
 
 

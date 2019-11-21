@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using BL.Interfaces;
 using BL.Models;
 using DL;
@@ -13,10 +14,11 @@ namespace BL.Services
 {
     public class RoomsService:commonSrv, IRoomsService
     {
-   
-        public RoomsService()
-        {
 
+        private readonly ILogger _logger;
+        public RoomsService(ILogger logger)
+        {
+            _logger = logger;
         }
 
         public string CheckGameState(string playername)

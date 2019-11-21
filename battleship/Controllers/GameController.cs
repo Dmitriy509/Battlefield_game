@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using BL.Interfaces;
 using BL.Services;
 using BL.Models;
@@ -15,11 +16,12 @@ namespace battleship.Controllers
     public class GameController : Controller
     {
         IGameService _gs;
-        public GameController()
+        private readonly ILogger _logger;
+        public GameController(ILoggerFactory loggerFactory)
         {
-   
-           // object g = new { aaa = "dsf" };
-             _gs = new GameService();
+            _logger = loggerFactory.CreateLogger("MyApp");
+            // object g = new { aaa = "dsf" };
+            _gs = new GameService(_logger);
         }
     
         public IActionResult GameView()
