@@ -75,6 +75,8 @@ namespace BL.Services
                     else r.movepriority = (sbyte)Moves_States.player2;
                 }
 
+            _logger.LogInformation("Player_Id: " + player_id + ", Room_Id: " + player.roomid + ", The player started the game");
+
             return true;
    
 
@@ -127,6 +129,8 @@ namespace BL.Services
                     if ((p1.id == r.player1id&& r.movepriority == (sbyte)Moves_States.player1)|| (p1.id == r.player2id && r.movepriority == (sbyte)Moves_States.player2))
                     {
                         p1.state = (sbyte)Player_States.loser;
+                        _logger.LogInformation("Room_Id: " + p1.roomid + " (Game over), player (Player_Id: " + p1.id + ") move time's up, player (Player_Id: " + p2.id + ") winner");
+                        _logger.LogInformation("Player_Id: " + p1.id + ", Room_Id: " + p1.roomid + ",move time's up");
                     } 
 
 
@@ -185,12 +189,14 @@ namespace BL.Services
                                 {
                                     p1.state = (sbyte)Player_States.loser;
                                     p2.state = (sbyte)Player_States.winner;
+                                    _logger.LogInformation("Room_Id: " + p1.roomid + " (Game over), player (Player_Id: " + p1.id + ") loser, player (Player_Id: " + p2.id + ") winner");
                                 }
 
                                 else
                                 {
                                     p1.state = (sbyte)Player_States.winner;
                                     p2.state = (sbyte)Player_States.loser;
+                                    _logger.LogInformation("Room_Id: " + p1.roomid + " (Game over), player (Player_Id: " + p1.id + ") winner, player (Player_Id: " + p2.id + ") loser");
                                 }
                                 break;
                             }
@@ -232,6 +238,7 @@ namespace BL.Services
                 {
                     // r.status = (sbyte)Game_States.endofgame;
                     r.status = (sbyte)Game_States.endofgame;
+               
                     return endofgame();
 
                 }
@@ -254,6 +261,7 @@ namespace BL.Services
                     else
                     {
                         r.status = (sbyte)Game_States.endofgame;
+                        _logger.LogInformation("Room_Id: " + p1.roomid + " (Game over), player (Player_Id: " + p2.id + ") disconnected, player (Player_Id: " + p1.id + ") winner");
                         if (p2.id == r.player1id) r.player1id = null; else r.player2id = null;
                             _dm.Ps.InitPlayer(p2);
                        
@@ -451,14 +459,24 @@ namespace BL.Services
 
         public void GiveUp(string player_id)
         {
-            
-
-            Player p1 = _dm.Ps.GetPlayer(convertId(player_id), true);          
+            Player p1 = _dm.Ps.GetPlayer(convertId(player_id), true);       
             Room r = _dm.Rs.GetRoom(p1.roomid);            
             Player p2 = _dm.Rs.GetPlayer2(p1,r);
+
+            _logger.LogInformation("Room_Id: " + p1.roomid + " (Game over), player (Player_Id: " + player_id + ") give up, player (Player_Id: " + p2.id + ") winner");
+
             r.status = (sbyte)Game_States.endofgame;
             p1.state = (sbyte)Player_States.giveup;
             p2.state = (sbyte)Player_States.winner;
+
+
+
+            //using (_logger.BeginScope("Game over"))
+            //{
+            //    _logger.LogInformation("Checking object state");
+            //    _logger.LogInformation("Updating object reference");
+            //    _logger.LogError("Something went wrong");
+            //}
         }
         }
 }

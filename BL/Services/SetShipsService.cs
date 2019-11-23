@@ -212,9 +212,13 @@ namespace BL.Services
             gamestates.Add((sbyte)Game_States.readytoreplay, readytoreplay);
             r.updTime = DateTime.Now;
 
-            var res = new Dictionary<string, string>(3);
 
+            if (!gamestates.ContainsKey(r.status)) return null;
+
+            var res = new Dictionary<string, string>(3);
+           // _logger.LogInformation("до вроде как , Player_Id: " + p1.id + ", Room_Id: " + p1.roomid);
             res.Add("gamestatus", gamestates[r.status]());
+           // _logger.LogInformation("до после как , Player_Id: " + p1.id + ", Room_Id: " + p1.roomid);
             res.Add("player2name", p2name);
             res.Add("player2status", p2res);
             return res;
@@ -240,6 +244,8 @@ namespace BL.Services
             }
             player.state = (sbyte)Player_States.readytoplay;
 
+            _logger.LogInformation("Player_Id: " + player_id + ", Room_Id: " + player.roomid + ", Player send ship coords");
+
             return true;
 
         }
@@ -254,6 +260,7 @@ namespace BL.Services
             if (player2 == null)
             {
                 _dm.Rs.DeleteRoom(room);
+                _logger.LogInformation("Player_Id: " + player_id + ", Room_Id: " + player.roomid + ", Player leave room, room was deleted");
                 _dm.Ps.InitPlayer(player);
 
             }
@@ -266,6 +273,8 @@ namespace BL.Services
                     room.player2id = null;
                 }
                 else room.player2id = null;
+
+                _logger.LogInformation("Player_Id: " + player_id + ", Room_Id: " + player.roomid + ", Player leave room");
                 _dm.Ps.InitPlayer(player);
                 room.status = (sbyte)Game_States.waitingplayer;
                 Task task = Task.Run(() =>
@@ -282,6 +291,7 @@ namespace BL.Services
                 });
             }
 
+           
 
         }
 

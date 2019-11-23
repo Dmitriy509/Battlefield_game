@@ -57,8 +57,9 @@ namespace battleship.Controllers
             {
                 CookiesGetSet.addCookies("Login", playername, HttpContext, Parameters.KeepLoginCokies);
                 CookiesGetSet.addCookies("Player_Id", player_id.ToString(), HttpContext, Parameters.KeepLoginCokies);
-               // ViewBag.playername = playername;
-               //   return RedirectToAction("Rooms", "Rooms");
+                // ViewBag.playername = playername;
+                //   return RedirectToAction("Rooms", "Rooms");
+                _logger.LogInformation("Player_Id: " + player_id + ", Player '" + playername + "'" + " log in");
                 return Redirect("~/Rooms/Rooms");
                 
                // return Redirect("Rooms");
@@ -72,14 +73,19 @@ namespace battleship.Controllers
         [HttpPost]
         public ActionResult Signout()
         {
-            _ls.SignOut(CookiesGetSet.getCookies("Player_Id",HttpContext));
+            string playername = CookiesGetSet.getCookies("Login", HttpContext);
+            string player_id = CookiesGetSet.getCookies("Player_Id", HttpContext);
+            _ls.SignOut(player_id);
             CookiesGetSet.deleteCookies("Player_Id",HttpContext);
             CookiesGetSet.deleteCookies("Login", HttpContext);
+            _logger.LogInformation("Player_Id: " + player_id + ", Player '" + playername + "'" + " log out");
             return Redirect("Login");
         }
 
         public ActionResult ErrorNewTab()
         {
+            string player_id = CookiesGetSet.getCookies("Player_Id", HttpContext);
+            _logger.LogInformation("Player_Id: " + player_id+", Try to open a new tab");
             return View("errorNewTab");
         }
 

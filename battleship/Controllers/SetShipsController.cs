@@ -50,7 +50,7 @@ namespace battleship.Controllers
         {
             if(player_id == ""|| player_id == null)
             {
-
+                _logger.LogError("SetShips/UpdateInfoRoom player_id is null");
             }
 
             var res = _srv.UpdateRoom(player_id); 
@@ -63,7 +63,8 @@ namespace battleship.Controllers
         public JsonResult GetShipsCoords(string player_id, int[] Xarr, int[] Yarr)
         {
 
-            if (player_id == null || player_id == "") return Json(new { status = false });
+            if (player_id == null || player_id == "")
+                return Json(new { status = false });
             if(Xarr.Length<=0|| Yarr.Length <= 0) return Json(new { status = false });
 
 
@@ -79,9 +80,12 @@ namespace battleship.Controllers
         {
             if (player_id == "" || player_id == null)
             {
+
                 Redirect("~/Login/Login");
             }
             _srv.LeaveRoom(player_id);
+
+  
             return Redirect("~/Rooms/Rooms");
         }
 

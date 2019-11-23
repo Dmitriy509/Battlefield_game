@@ -33,6 +33,7 @@ namespace BL.Services
                     player2 = _dm.Rs.GetPlayer2(player,room);
                     if (player2 != null) _dm.Ps.InitPlayer(player2);
                     _dm.Rs.DeleteRoom(room);
+                    _logger.LogInformation("Player_Id: " + player.id + ", Room_Id: " + player.roomid + ", waiting replay time is up, room was deleted");
                 }
                 _dm.Ps.InitPlayer(player);
                 return "exit"; 
@@ -90,7 +91,7 @@ namespace BL.Services
             Player p1 = _dm.Ps.GetPlayer(convertId(player_id), true);
             p1.state = (sbyte)Player_States.readytoreplay;
             _dm.Ps.InitPlayer(p1, false, false);
-          
+            _logger.LogInformation("Player_Id: " + p1.id + ", Room_Id: " + (p1.roomid==null?"-":p1.roomid.ToString()) + ", Player ready to replay ");
 
 
         }
@@ -116,8 +117,13 @@ namespace BL.Services
                         // _dm.Ps.InitPlayer(p1);
                         _dm.Rs.DeleteRoom(r);
                     }
+                    _logger.LogInformation("Player_Id: " + p1.id+", Room_Id: " + p1.roomid + ", Player left the room, room was deleted ");
                 }
             }
+            else
+              _logger.LogInformation("Player_Id: " + p1.id + ", Player left the room");
+
+
             _dm.Ps.InitPlayer(p1);
 
 

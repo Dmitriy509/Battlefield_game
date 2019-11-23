@@ -38,6 +38,7 @@ namespace battleship.Controllers
             //string name = getCookies();
             if(player_id == ""|| player_id == null)
             {
+                _logger.LogError("Rooms/GetInfoRooms player_id is null");
                 return null;
             }
             RoomsList res = _rs.GetInfoRooms(player_id);
@@ -57,16 +58,16 @@ namespace battleship.Controllers
             if (player_id == "" || player_id == null)
             {
                 // ViewBag.errmsg = "";
-                _logger.LogError("Rooms/addRoom id игрока отсутствует");
+                _logger.LogError("Rooms/addRoom player_id is null");
                 return Redirect("Login");
             }
             string[] res = _rs.CreateRoom(roomName, player_id);
             if(res[0]=="Rooms")
             {
-                ViewBag.errmsg = res[1];
+                ViewBag.errmsg = res[1];    
                 return View("Rooms");
-            }
 
+            }
             return Redirect("~/SetShips/FieldEditorView");
 
         }
@@ -77,12 +78,13 @@ namespace battleship.Controllers
             if (roomname == "" || roomname == null)
             {
                 // ViewBag.errmsg = "";
+            
                 return View("Rooms");
             }
             if (player_id == "" || player_id == null)
             {
                 // ViewBag.errmsg = "";
-                _logger.LogError("Rooms/EnterTheRoom id игрока отсутствует");
+                _logger.LogError("Rooms/EnterTheRoom player_id is null");
                 return Redirect("Login");
             }
             string[] res = _rs.EnterTheRoom(roomname, player_id);
@@ -98,6 +100,7 @@ namespace battleship.Controllers
                 return Redirect(res[0]);
 
             }
+        
             return Redirect("~/SetShips/FieldEditorView");  
             
         }

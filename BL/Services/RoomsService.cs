@@ -35,7 +35,7 @@ namespace BL.Services
 
         void updateRooms(string player_id)
         {
-            // if
+            if (!_dm.Ps.GetAllPlayers().Any()) return;
             string first = _dm.Ps.GetAllPlayers().First(u => u.state == (sbyte)Player_States.signin).id.ToString();
             if (first == player_id)
             {
@@ -91,6 +91,8 @@ namespace BL.Services
             player.state = (sbyte)Player_States.editships;
             room.status = (sbyte)Game_States.waitingplayer;
 
+            _logger.LogInformation("Player_Id: " + player_id +", Create a new room '" + roomName + "' ("+ "Room_Id: " + player.roomid +")" );
+
             return new string[] { "FieldEditorView", "" };
         }
 
@@ -118,6 +120,8 @@ namespace BL.Services
             player.roomid = room.id;
             player.state = (sbyte)Player_States.editships;
             room.status = (sbyte)Game_States.editships;
+
+            _logger.LogInformation("Player_Id: " + player_id + ", enter to the room '" + roomname + "' (" + "Room_Id: " + player.roomid + ")");
             return new string[] { "FieldEditorView","" };
         }
 
