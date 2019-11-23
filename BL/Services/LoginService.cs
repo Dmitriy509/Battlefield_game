@@ -23,7 +23,7 @@ namespace BL.Services
             if (p!=null)
             {
 
-                if(getInterval(p.date, Parameters.deletePlaeyrTimeout, '>')) return "";
+                if(getInterval(p.date, Parameters.deletePlaeyrTimeout*60, '>')) return "";
 
                 return LoginStateMachine(p);
             }
