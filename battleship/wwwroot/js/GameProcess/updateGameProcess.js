@@ -1,14 +1,13 @@
 ﻿function fireclick(td) {
 
     if (flagFire) {
-        //alert(td.cellIndex + "  " + td.parentNode.rowIndex)
-        console.log("fire!");
+
+  
         flagFire = false;
-        // let field = document.getElementById('battlefield2');
-        // startTimer("timer-move", moveTime);
+
         $.post("/Game/Fire", { player_id: player_id, x: td.cellIndex, y: td.parentNode.rowIndex })
             .done(function (data) {
-                console.log("getfiredata!");
+         
                 let f = document.getElementById("battlefield2")
                 for (let i = 0; i < data.cells.length; i++) {
                     console.log("res " + data.fireresult[i]);
@@ -66,7 +65,6 @@ function injured(td) {
 
 function miss(td) {
     let canvas = document.createElement("canvas");
-  //  let csize = 27 * 96 / 72;
     let csize = cell_size * 0.9;
     canvas.width = csize;
     canvas.height = csize;
@@ -85,17 +83,12 @@ function miss(td) {
 
 function updateBattleField(fieldname, field, flwithships)
 {
-  //  console.log("начало");
-  //  console.log(field[0][0]);
-   // console.log("this is length");
+
     let viewfield = document.getElementById(fieldname);
-    console.log(viewfield.id);
     for (let i = 0; i < field.length; i++)
         for (let j = 0; j < field.length; j++) {
-            // console.log("щас получим ячейку");
             let td = viewfield.rows[i].cells[j];
             if (td.childNodes.length > 0) continue;
-            console.log("внутри фор");
             switch (field[i][j]) {
                 case 2:  //ships
                     if (flwithships)
@@ -122,7 +115,6 @@ function updateRoom() {
 
     $.post("/Game/UpdateGameProcess", { player_id: player_id, curmovestate: (flagFire ? 1 : 2) })
         .done(function (data) {
-            console.log("time " + data.movetime);
            
             if (data.gamestatus == "") {
                 setTime(data.movetime, "timer-move");
@@ -156,7 +148,7 @@ function updateRoom() {
                             // console.log("щас получим ячейку");
                             let td = viewfield.rows[i].cells[j];
                             if (td.childNodes.length > 0) continue;
-                            console.log("внутри фор");
+                
                             switch (data.field[i][j]) {
                                 case 3:  //injured
                                     injured(td);
@@ -195,7 +187,6 @@ function updateRoom() {
 }
 
 function updateShipPanel(idShipsStat, shipsStatArr) {
-    //  var ships = timerEl.querySelectorAll(".timer-animation span");
     let ships = document.querySelectorAll("#" + idShipsStat + " > div");
     ships.forEach(function (el) {
         sunkenShips(el.childNodes.length, el);

@@ -54,7 +54,7 @@ namespace battleship.Controllers
             }
 
             var res = _srv.UpdateRoom(player_id); 
-            //room.updTime = DateTime.Now;
+            if(res==null) return Json(new { player2name = "", player2status = "", gamestatus = "" });
             return Json(new { player2name = res["player2name"], player2status = res["player2status"], gamestatus = res["gamestatus"] });
    
         }

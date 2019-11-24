@@ -46,6 +46,7 @@ namespace DL.Implementations
         }
         public Player GetPlayer(uint? id, bool update = false)
         {
+            if(id==null) return null;
             if (_ds.Players.ContainsKey((uint)id))
             {
                 Player p = _ds.Players[(uint)id];

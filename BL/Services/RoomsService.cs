@@ -31,34 +31,9 @@ namespace BL.Services
         }
 
 
-
-
-        void updateRooms(string player_id)
-        {
-            if (!_dm.Ps.GetAllPlayers().Any()) return;
-            string first = _dm.Ps.GetAllPlayers().First(u => u.state == (sbyte)Player_States.signin).id.ToString();
-            if (first == player_id)
-            {
-                Task task = Task.Run(() =>
-                {
-                    var rooms = _dm.Rs.GetAllRooms().Where(u => (DateTime.Now - u.updTime).TotalSeconds > 40);
-                    foreach (var r in rooms)
-                    {
-                        if (r.player1id != null) _dm.Ps.InitPlayer( _dm.Ps.GetPlayer(r.player1id));
-                        if (r.player2id != null) _dm.Ps.InitPlayer(_dm.Ps.GetPlayer(r.player1id));
-                        _dm.Rs.DeleteRoom(r);
-                    }
-                });
-
-            }
-
-        }
-
         public RoomsList GetInfoRooms(string player_id)
         {
-
-            _dm.Ps.GetPlayer(convertId(player_id), true);
-            updateRooms(player_id);
+            _dm.Ps.GetPlayer(convertId(player_id), true);        
             RoomsList res = new RoomsList();
             res.RoomNames = _dm.Rs.GetAllRooms().Where(u => u.status == (sbyte)Game_States.waitingplayer).Select(u => u.Name).ToList();
             res.Player_Count = _dm.Ps.GetAllPlayers().Count();

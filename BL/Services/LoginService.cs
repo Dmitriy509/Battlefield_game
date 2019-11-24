@@ -38,6 +38,7 @@ namespace BL.Services
             if (_dm.Ps.AddPlayer(playername))
             {
                 player_id= _dm.Ps.GetPlayer(playername).id;
+                BackGroundThread.Run();
                 return "Rooms";
             }
 
