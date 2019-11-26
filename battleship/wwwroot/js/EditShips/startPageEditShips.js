@@ -15,7 +15,7 @@ const field = document.getElementById('battlefield1');
 var fieldb;
 //alert(fieldb.left);
 const borderCell = 1;
-const borderTable = 3;
+const borderTable = 4;
 var cell_size = cellSizeCount();
 const player_id = get_cookie("Player_Id");
 //const login = get_cookie("Login");

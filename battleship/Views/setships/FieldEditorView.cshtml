@@ -36,43 +36,38 @@
                     </div>
                     <div class="inner-elem working-place flex-container">
                         <div id="place-battlefield">
-                            <table id="battlefield1" cellpadding="0" cellspacing="0">
-                                @for (var i = 0; i < 10; i++)
-                                {
-                                    @:<tr>
-                                        for (var j = 0; j < 10; j++)
-                                        {
-
-                                            @:<td></td>
 
 
-
-
-
-
-
-
-                                        }
-                                    @:</tr>
-                                }
-                            </table>
+                            <div id="battlefield1">
+                                @{ for (var i = 0; i < 10; i++)
+                                    {
+                                     for (var j = 0; j < 10; j++)
+                                      {
+                                        string s = "1-" + i.ToString() + "-" + j.ToString(); 
+                                        @:<div id=@s style=" float:left;"></div>
+                                      }
+                                    }}
+                                </div>
                         </div>
                         <div style="width:50%" class="flex-container control-panel flex-column">
                             <div id="place-ships">
-
-
                                 <div id="ship-container">
-                                    <table class="ships" id="fourdesk" onmousedown="dragShip(this)" ondblclick="rotateShip(this)" ondragstart="dragstShip() " cellpadding="0" cellspacing="0">
-                                        <tr><td></td><td></td><td></td><td></td></tr>
-                                    </table>
+                                    <div id="fourdesk" onmousedown="dragShip(this)" ondblclick="rotateShip(this)" ondragstart="dragstShip() ">
+                                        <div style="float:left;"></div>
+                                        <div style="float:left;"></div>
+                                        <div style="float:left;"></div>
+                                        <div style="float:left;"></div>
+                                    </div>
                                 </div>
                                 @for (var i = 1; i <= 2; i++)
                                 {
                                     string s = "tripledesk" + i;
                                     <div id="ship-container">
-                                        <table class="ships" id=@s onmousedown="dragShip(this)" ondblclick="rotateShip(this)" ondragstart="dragstShip()" cellpadding="0" cellspacing="0">
-                                            <tr><td></td><td></td><td></td></tr>
-                                        </table>
+                                        <div id=@s onmousedown="dragShip(this)" ondblclick="rotateShip(this)" ondragstart="dragstShip() ">
+                                            <div style="float:left;"></div>
+                                            <div style="float:left;"></div>
+                                            <div style="float:left;"></div>
+                                        </div>
                                     </div>
                                 }
 
@@ -80,20 +75,20 @@
                                 {
                                     string s = "doubledesk" + i;
                                     <div id="ship-container">
-                                        <table class="ships" id=@s onmousedown="dragShip(this)" ondblclick="rotateShip(this)" ondragstart="dragstShip()" cellpadding="0" cellspacing="0">
-                                            <tr><td></td><td></td></tr>
-                                        </table>
+                                        <div id=@s onmousedown="dragShip(this)" ondblclick="rotateShip(this)" ondragstart="dragstShip() ">
+                                            <div style="float:left;"></div>
+                                            <div style="float:left;"></div>
+                                        </div>
                                     </div>
                                 }
 
                                 @for (var i = 1; i <= 4; i++)
                                 {
                                     string s = "singledesk" + i;
-
                                     <div id="ship-container">
-                                        <table class="ships" id=@s onmousedown="dragShip(this)" ondblclick="rotateShip(this)" ondragstart="dragstShip()" cellpadding="0" cellspacing="0">
-                                            <tr><td></td></tr>
-                                        </table>
+                                        <div id=@s onmousedown="dragShip(this)" ondblclick="rotateShip(this)" ondragstart="dragstShip() ">
+                                            <div style="float:left;"></div> 
+                                        </div>
                                     </div>
 
                                 }

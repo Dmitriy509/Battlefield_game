@@ -1,11 +1,17 @@
 ﻿function cellSizeCount() {
     let place = document.getElementById("place-battlefield");
     let minDim = (place.offsetWidth < place.offsetHeight) ? place.offsetWidth : place.offsetHeight;
-    return Math.floor((minDim - 9 * borderCell - 2 * borderTable) / 10) + 1;
+    //console.log("cellsize "+Math.floor((minDim - 9 * borderCell - 2 * borderTable) / 10) + 1);
+
+   // if (window.devicePixelRatio>=1)
+        return Math.floor((minDim - 9 * borderCell - 2 * borderTable) / 10) ;
+   // else return Math.floor(((minDim - 9 * borderCell - 2 * borderTable) / 10) * window.devicePixelRatio) ;
+
+   
 }
 
 function setShipsCellSize() {
-    //   let arr = ["singledesk1", "singledesk2", "singledesk3", "singledesk4", "doubledesk1", "doubledesk2", "doubledesk3", "tripledesk1", "tripledesk2", "fourdesk"];
+
     for (item in arrships) {
         let desk = document.getElementById(item);
         setCellSize(desk);
@@ -13,10 +19,8 @@ function setShipsCellSize() {
         var parent = desk.parentElement;
 
         if (parent.id == "ship-container") {
-          //  document.getElementById('player2status').innerText = desk.offsetWidth + " " + desk.offsetHeight;
-
-            parent.style.width = (cell_size*5) + "px";
-            parent.style.height = desk.offsetHeight + "px";
+            //parent.style.width = (cell_size*5) + "px";
+            //parent.style.height = desk.offsetHeight + "px";
 
             parent.style.width = desk.offsetWidth + "px"; 
             parent.style.height = desk.offsetHeight  + "px";
@@ -28,23 +32,40 @@ function setShipsCellSize() {
 
 
 function setCellSize(element) {
-    element.style.border = borderTable + "px solid #402205";
-    //  let tdpadding = (cell_size - borderCell) / 2;
-    for (var i = 0; i < element.rows.length; i++) {
-        for (var j = 0; j < element.rows[0].cells.length; j++) {
-            let td = element.rows[i].cells[j];
-            td.style.border = borderCell + "px solid";
-            td.style.width = (cell_size - borderCell) + "px";
-            td.style.height = (cell_size - borderCell) + "px";
-      
-          //  td.style.padding = tdpadding+'px';
+  //  element.style.border = borderTable + "px solid #402205";
+    let count = element.children.length;
+    
+
+    if (count > 5) {
+        element.style.width = (cell_size * 10 + 2 * borderTable) + "px";
+        element.style.height = (cell_size * 10 + 2 * borderTable) + "px";
+    }
+    else {
+        element.style.width = (cell_size * count + 2 * borderTable) + "px";
+        element.style.height = (cell_size + 2 * borderTable) + "px";
+    }
+    let deskcount = Math.floor(element.offsetWidth / cell_size);
+ 
+    for (var i = 0; i < count; i++) {
+        let cell = element.children[i];
+        cell.style.border = borderCell + "px solid";
+        let ii = Math.floor(i/10);
+        let jj=i%10;
+
+
+        if (ii == 0) cell.style.borderTop=borderTable + "px solid";
+        if (jj == 0) cell.style.borderLeft = borderTable + "px solid";
+        if (ii == deskcount - 1 || count<10) cell.style.borderBottom = borderTable + "px solid";
+        if (jj == deskcount - 1) cell.style.borderRight = borderTable + "px solid";
+        
           
-      
+            cell.style.width = (cell_size - 2*borderCell) + "px";
+            cell.style.height = (cell_size - 2*borderCell) + "px";      
         }
         
     }
   
-}
+
 
 
 window.onresize = function (event) {

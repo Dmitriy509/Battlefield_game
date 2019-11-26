@@ -51,14 +51,14 @@ function getShips() {
             }
         }
 
-        let deskcount = 1;
+        let deskcount  = ship.children.length;
         let flAlign = 0 //vert-0, hor-1
-        if (ship.rows.length > ship.rows[0].cells.length) {
-            deskcount = ship.rows.length; flAlign = 0;
+    
+        if (ship.offsetWidth >= 2 * cell_size) {
+             flAlign = 1;
         }
         else {
-            deskcount = ship.rows[0].cells.length;
-            flAlign = 1;
+            flAlign = 0;
         }
 
         let x = Math.round((ship.offsetLeft - field.offsetLeft) / cell_size);
