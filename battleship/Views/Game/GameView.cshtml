@@ -2,6 +2,22 @@
 <html>
 <head>
     <title></title>
+    <style>
+        .injured-cell div {
+            background-color:rebeccapurple;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+                width:100%;
+                height:100%;
+        }
+
+        .miss-cell div{
+            display: flex;
+            align-items: center;
+            justify-content: center
+        }
+    </style>
     <link href="~/css/style.css" rel="stylesheet" />
     <link href="~/css/style_2.css" rel="stylesheet" />
     <link href="~/css/style_3.css" rel="stylesheet" />
@@ -14,6 +30,9 @@
     </script>
     <script src="~/js/GameProcess/generateShipStatisticsPlace.js"></script>
     <script src="~/js/GameProcess/updateResultWindow.js"></script>
+
+
+
 </head>
 <body>
 
@@ -135,11 +154,16 @@
             for (var i = 0; i < element.rows.length; i++) {
                 for (var j = 0; j < element.rows[0].cells.length; j++) {
                     let td = element.rows[i].cells[j];
-
+                    if (td.classList.contains("injured-cell")) {
+                        injured(td);
+                    }
+                    else if (td.classList.contains("miss-cell")) {
+                        miss(td);
+                    }
 
                     td.style.width = cell_size + 'px';
                     td.style.height  = cell_size + 'px';
-                    td.style.border = borderCell + "px solid";
+                    td.style.border =  borderCell + "px solid";
 
                 }
             }

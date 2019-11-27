@@ -40,45 +40,72 @@
 }
 
 function injured(td) {
+
+
+    let d = td.getElementsByTagName("div");
+    if (d.length > 0)
+        while (td.firstChild) {
+            td.firstChild.remove();
+        }
+
+
     td.style.backgroundColor = "rebeccapurple";
+    td.classList.add("injured-cell");
+    let div = document.createElement("div");
+   
     let canvas = document.createElement("canvas");
    // let csize = (td.offsetwidth-3)+'px';
-  
-   // let csize = 27 * 96 / 72;
-       let csize = cell_size*0.9;
-    //console.log("cell_size1 " + cell_size + "  " + td.style.width);
+    div.appendChild(canvas);
+    // let csize = 27 * 96 / 72;
+    let csize = cell_size*0.9;
+
     canvas.width = csize;
     canvas.height = csize;
-
     context = canvas.getContext("2d");
     context.beginPath();
     context.moveTo(0, 0);
-    context.lineTo(csize, csize);
-    context.moveTo(0, csize);
+    context.lineTo(csize, csize );
+    context.moveTo(0, csize );
     context.lineTo(csize, 0);
     context.strokeStyle = "red";
     context.stroke();
     context.closePath();
-    td.appendChild(canvas);
+    td.appendChild(div);
     td.onclick = null;
 }
 
-function miss(td) {
-    let canvas = document.createElement("canvas");
-    let csize = cell_size * 0.9;
-    canvas.width = csize;
-    canvas.height = csize;
-    context = canvas.getContext("2d");
-    context.beginPath();
-    context.arc(csize / 2, csize / 2, 5, 0, 2 * Math.PI, false);
-    context.fillStyle = 'black';
-    context.fill();
-    context.lineWidth = 1;
-    context.strokeStyle = 'black';
-    context.stroke();
-    context.closePath();
-    td.appendChild(canvas);
-    td.onclick = null;
+    function miss(td) {
+
+
+        let d = td.getElementsByTagName("div");
+        if (d.length > 0)
+            while (td.firstChild) {
+                td.firstChild.remove();
+            }
+
+        td.classList.add("miss-cell");
+        let div = document.createElement("div");
+       
+
+        let canvas = document.createElement("canvas");
+
+        div.appendChild(canvas);
+
+        let csize = cell_size * 0.9;
+        let r = csize / 5.5;
+        canvas.width = csize;
+        canvas.height = csize;
+        context = canvas.getContext("2d");
+        context.beginPath();
+        context.arc(csize / 2, csize / 2, r, 0, 2 * Math.PI, false);
+        context.fillStyle = 'black';
+        context.fill();
+        context.lineWidth = 1;
+        context.strokeStyle = 'black';
+        context.stroke();
+        context.closePath();
+        td.appendChild(div);
+        td.onclick = null;
 }
 
 function updateBattleField(fieldname, field, flwithships)

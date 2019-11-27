@@ -12,7 +12,7 @@ function updateRoom() {
          //   console.log("status - " + data.player2status + "  name - " + data.player2name);
 
             document.getElementById('player2status').innerHTML = data.player2status;
-            if (data.player2status == "Ожидаем игрока") {                          
+            if (data.player2status == "Ожидаем игрока" || data.player2status == "Поиск соперника") {           
                 document.getElementById("player2-ready").src = "../img/not-ready.png";               
             }
             else
