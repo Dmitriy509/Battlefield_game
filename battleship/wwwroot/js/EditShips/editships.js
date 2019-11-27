@@ -201,42 +201,43 @@ function rotateShip(ship) {
 function rotate(ship) {
 
     //borderwidth: top right bottom left
-
-    if (ship.offsetWidth >= 2 * cell_size) { //из вертикального в гор
-        let rowcount = ship.children.length;
-        if (ship.offsetLeft + rowcount * cell_size > fieldb.right) {
-            //alert(ship.offsetLeft + " " + rowcount + " " + cell_size + " " + fieldb.right);
+    let deskcount = ship.children.length;
+    if (ship.offsetWidth >= 2 * cell_size) { //из гор в верт
+        if (ship.offsetTop + deskcount * cell_size >= fieldb.bottom) {
             shakingShip(ship);
             return;
         }
 
 
-        for (let i = 0; i < rowcount; i++) {
+
+
+        for (let i = 0; i < deskcount; i++) {
             if (i == 0) ship.children[i].style.borderWidth = borderTable + "px " + borderTable + "px " + borderCell + "px " + borderTable + "px";
             else
-            if (i == rowcount - 1) ship.children[i].style.borderWidth = borderCell + "px " + borderTable + "px " + borderTable + "px " + borderTable + "px";
+                if (i == deskcount - 1) ship.children[i].style.borderWidth = borderCell + "px " + borderTable + "px " + borderTable + "px " + borderTable + "px";
             else ship.children[i].style.borderWidth = borderCell + "px " + borderTable + "px " + borderCell + "px " + borderTable + "px";
         }
         ship.style.width = (cell_size + 2 * borderTable) + "px";
-        ship.style.height = (cell_size * rowcount + 2 * borderTable) + "px";
+        ship.style.height = (cell_size * deskcount + 2 * borderTable) + "px";
     }
     else if (ship.offsetHeight >= 2 * cell_size) {
 
-        let colcount = ship.children.length;
-        if (ship.offsetTop + colcount * cell_size > fieldb.bottom) {
+
+        if (ship.offsetLeft + deskcount * cell_size >= fieldb.right) {
+
             shakingShip(ship);
             return;
         }
      
 
        
-        for (let i = 0; i < colcount; i++) {
+        for (let i = 0; i < deskcount; i++) {
             if (i == 0) ship.children[i].style.borderWidth = borderTable + "px " + borderCell + "px " + borderTable + "px " + borderTable + "px";
             else
-            if (i == colcount - 1) ship.children[i].style.borderWidth = borderTable + "px " + borderTable + "px " + borderTable + "px " + borderCell + "px";
+                if (i == deskcount - 1) ship.children[i].style.borderWidth = borderTable + "px " + borderTable + "px " + borderTable + "px " + borderCell + "px";
             else ship.children[i].style.borderWidth = borderTable + "px " + borderCell + "px " + borderTable + "px " + borderCell + "px";
         }
-        ship.style.width = (cell_size * colcount + 2 * borderTable) + "px";
+        ship.style.width = (cell_size * deskcount + 2 * borderTable) + "px";
         ship.style.height = (cell_size + 2 * borderTable) + "px";
 
     }
