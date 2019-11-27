@@ -8,23 +8,32 @@ namespace battleship.Controllers
     public class CookiesGetSet
     {
 
-        public static void addCookies(string name, HttpContext context)
+        public static void addCookies(string key, string value, HttpContext context, int expiretime)
         {
            
             var option = new CookieOptions();
-            option.Expires = DateTime.Now.AddMinutes(6);
-            context.Response.Cookies.Append("Login", name, option);
+            option.Expires = DateTime.Now.AddMinutes(expiretime);
+            context.Response.Cookies.Append(key, value, option);
 
         }
 
-        public static string getCookies(HttpContext context)
+        public static string getCookies(string key, HttpContext context)
         {
-            if (context.Request.Cookies.ContainsKey("Login"))
-                return context.Request.Cookies["Login"];
+            if (context.Request.Cookies.ContainsKey(key))
+                return context.Request.Cookies[key];
             else
                 return null;
 
+           
         }
-
+        public static bool deleteCookies(string key, HttpContext context)
+        {
+            if (context.Request.Cookies.ContainsKey(key))
+            {
+                context.Response.Cookies.Delete(key);
+                return true;
+            }
+            return false;
+        }
     }
 }

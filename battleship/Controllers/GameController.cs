@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using BL.Interfaces;
 using BL.Services;
 using BL.Models;
@@ -15,27 +16,28 @@ namespace battleship.Controllers
     public class GameController : Controller
     {
         IGameService _gs;
-        public GameController()
+        private readonly ILogger _logger;
+        public GameController(ILoggerFactory loggerFactory)
         {
-   
-           // object g = new { aaa = "dsf" };
-             _gs = new GameService();
+            _logger = loggerFactory.CreateLogger("MyApp");
+            // object g = new { aaa = "dsf" };
+            _gs = new GameService(_logger);
         }
     
         public IActionResult GameView()
         {
-            string player1name = CookiesGetSet.getCookies(HttpContext);
+            string player_id = CookiesGetSet.getCookies("Player_Id", HttpContext);
 
-            string checkres = _gs.CheckGameState(player1name);
+            string checkres = _gs.CheckGameState(player_id);
             if (checkres != "~/Game/GameView")
                  return Redirect(checkres);
 
 
 
 
-            StartGameData res= _gs.InitGame(player1name);
+            StartGameData res= _gs.InitGame(player_id);
                
-                ViewBag.player1name = player1name;
+                ViewBag.player1name = res.player1name;
                 ViewBag.player2name = res.player2name;
                 ViewBag.p1field = res.player1field;
                 ViewBag.p2field = res.player2field;
@@ -52,11 +54,14 @@ namespace battleship.Controllers
                 return View();
         }
 
+
+        
         public ActionResult StartGame()
         {
-            string playername = CookiesGetSet.getCookies(HttpContext);
+
+            string player_id = CookiesGetSet.getCookies("Player_Id", HttpContext);
             // string playername=Loginc
-            string p2 = _gs.StartGame(playername);
+            if (!_gs.StartGame(player_id)) return Redirect(_gs.CheckGameState(player_id));
           //  ViewBag.player1name = playername;
            // ViewBag.player2name = p2;
             return Redirect("GameView");
@@ -67,20 +72,20 @@ namespace battleship.Controllers
 
 
         [HttpPost]
-        public JsonResult Fire(string playername, int x, int y)
+        public JsonResult Fire(string player_id, int x, int y)
         {
 
-            FireResults res = _gs.Fire(playername, x, y);
+            FireResults res = _gs.Fire(player_id, x, y);
 
             return Json(new { cells = res.XCoords, rows = res.YCoords, movetime=res.movetime, fireresult = res.FireRes, shipcount = res.p2shipscount });
 
         }
 
         [HttpPost]
-        public JsonResult UpdateGameProcess(string playername, sbyte curmovestate)
+        public JsonResult UpdateGameProcess(string player_id, sbyte curmovestate)
         {
  
-            GameProcessData res = _gs.GameProcessStateMachine(playername, curmovestate);
+            GameProcessData res = _gs.GameProcessStateMachine(player_id, curmovestate);
             if(res.gamestatus== "results")
             {
                 return Json(new {gamestatus = res.gamestatus, gameresult = res.curmovestate==(sbyte)Moves_States.winner?"win":"def"});
@@ -91,10 +96,10 @@ namespace battleship.Controllers
 
 
         [HttpPost]
-        public JsonResult GiveUp(string playername)
+        public JsonResult GiveUp(string player_id)
         {
 
-            _gs.GiveUp(playername);
+            _gs.GiveUp(player_id);
 
          
             return Json(new {});

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.Extensions.Logging;
 using DL;
 using DL.Models;
 using BL.Interfaces;
@@ -12,10 +13,28 @@ namespace BL.Services
     public class commonSrv
     {
         protected DataManager _dm;
-        public commonSrv()
+        protected readonly ILogger _logger;
+        public commonSrv(ILogger logger)
         {
+            _logger = logger;
             _dm = new DataManager();
         }
+
+        public uint convertId(string player_id)
+        {
+            try
+            {
+                return Convert.ToUInt32(player_id);
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return 0;
+            }
+        }
+
+
+
 
         public bool getInterval(DateTime d, int sec, char sign)
         {

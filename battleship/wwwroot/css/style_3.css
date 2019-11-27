@@ -11,6 +11,8 @@
     margin-right: 0.5rem;
     margin-bottom: 2px;
     float: left;
+    height:auto;
+    background-color:rebeccapurple;
 }
 
 .ship-block-stat {

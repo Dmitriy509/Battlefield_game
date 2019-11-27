@@ -41,7 +41,7 @@
                 <input id="replaybtn" type="image" style=" width: 8rem;" src="~/img/again_btn.png" onclick="replay(this)"> 
                 <form method="post" action="~/GameResults/ExitGame">
                     <input type="image" id="exitbtn" style="width: 8rem;" src="~/img/no_btn.png">
-                    <input type="hidden" id="playerNameSend" name="playername" /><br />              
+                    <input type="hidden" id="playerIdSend" name="player_id" /><br />              
                 </form>
 
             </div>
@@ -50,7 +50,7 @@
 </div>
 <script>
     let ready = false;
-    document.getElementById('playerNameSend').value = login;
+    document.getElementById('playerIdSend').value = player_id;
 
     function openModal(modalId) {
         var modal = document.getElementById(modalId);
@@ -68,7 +68,7 @@
     }
 
     function replay(b) {
-        $.post("/GameResults/ReplayGame", { playername: login })
+        $.post("/GameResults/ReplayGame", { player_id: player_id })
             .done(function (data) {           
                 disableButton(b);
                 setBtnStatus('player-name', 'ready');              

@@ -4,6 +4,7 @@ using System.Text;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using BL.Interfaces;
 using BL.Models;
 using DL.Enums;
@@ -14,27 +15,27 @@ namespace BL.Services
    public class SetShipsService: commonSrv, ISetShipsService
     {
 
+  
+        public SetShipsService(ILogger logger) : base(logger)
+        {
+            
+        }
 
-       public string CheckGameState(string playername)
+
+        public string CheckGameState(string player_id)
         {
 
-            Player p= _dm.Ps.GetPlayer(playername);
+            Player p= _dm.Ps.GetPlayer(convertId(player_id));
             if (p == null) return "~/Login/Login";
             return LoginStateMachine(p);
 
         }
 
 
-
-        public SetShipsService()
+        public List <SendShips> CheckPlayerReady(string player_id)
         {
 
-        }
-
-        public List <SendShips> CheckPlayerReady(string playername)
-        {
-
-            Player p = _dm.Ps.GetPlayer(playername);
+            Player p = _dm.Ps.GetPlayer(convertId(player_id));
 
             if (p.state != (sbyte)Player_States.readytoplay) return null;
 
@@ -108,10 +109,10 @@ namespace BL.Services
         }
 
 
-        public Dictionary<string, string> UpdateRoom(string playername)
+        public Dictionary<string, string> UpdateRoom(string player_id)
         {
 
-            Player p1 = _dm.Ps.GetPlayer(playername, true);
+            Player p1 = _dm.Ps.GetPlayer(convertId(player_id), true);
             Room r = _dm.Rs.GetRoom(p1.roomid);
             Player p2 = _dm.Rs.GetPlayer2(p1,r);
             string p2res = "";
@@ -201,7 +202,7 @@ namespace BL.Services
                 {
                     r.status = (sbyte)Game_States.editships;
                 }
-                p2res = "Поиск соперника";
+                p2res = "Ожидаем соперника";
                 return "";
             };
             var gamestates = new Dictionary<sbyte, Func<string>>(4);
@@ -211,9 +212,13 @@ namespace BL.Services
             gamestates.Add((sbyte)Game_States.readytoreplay, readytoreplay);
             r.updTime = DateTime.Now;
 
-            var res = new Dictionary<string, string>(3);
 
+            if (!gamestates.ContainsKey(r.status)) return null;
+
+            var res = new Dictionary<string, string>(3);
+           // _logger.LogInformation("до вроде как , Player_Id: " + p1.id + ", Room_Id: " + p1.roomid);
             res.Add("gamestatus", gamestates[r.status]());
+           // _logger.LogInformation("до после как , Player_Id: " + p1.id + ", Room_Id: " + p1.roomid);
             res.Add("player2name", p2name);
             res.Add("player2status", p2res);
             return res;
@@ -221,9 +226,9 @@ namespace BL.Services
         }
 
 
-        public bool GetCoords(string playername, int[] Xarr, int[] Yarr)
+        public bool GetCoords(string player_id, int[] Xarr, int[] Yarr)
          {
-            Player player = _dm.Ps.GetPlayer(playername, true);
+            Player player = _dm.Ps.GetPlayer(convertId(player_id), true);
             if (player == null)
             {
                 //ViewBag.errmsg = "Возникла ошибка войдите в игру снова";
@@ -239,20 +244,23 @@ namespace BL.Services
             }
             player.state = (sbyte)Player_States.readytoplay;
 
+            _logger.LogInformation("Player_Id: " + player_id + ", Room_Id: " + player.roomid + ", Player send ship coords");
+
             return true;
 
         }
 
-        public void LeaveRoom(string playername)
+        public void LeaveRoom(string player_id)
         {
 
-            Player player = _dm.Ps.GetPlayer(playername, true);
+            Player player = _dm.Ps.GetPlayer(convertId(player_id), true);
             Room room =_dm.Rs.GetRoom(player.roomid);
             
             Player player2 = _dm.Rs.GetPlayer2(player, room);
             if (player2 == null)
             {
                 _dm.Rs.DeleteRoom(room);
+                _logger.LogInformation("Player_Id: " + player_id + ", Room_Id: " + player.roomid + ", Player leave room, room was deleted");
                 _dm.Ps.InitPlayer(player);
 
             }
@@ -265,6 +273,8 @@ namespace BL.Services
                     room.player2id = null;
                 }
                 else room.player2id = null;
+
+                _logger.LogInformation("Player_Id: " + player_id + ", Room_Id: " + player.roomid + ", Player leave room");
                 _dm.Ps.InitPlayer(player);
                 room.status = (sbyte)Game_States.waitingplayer;
                 Task task = Task.Run(() =>
@@ -281,6 +291,7 @@ namespace BL.Services
                 });
             }
 
+           
 
         }
 

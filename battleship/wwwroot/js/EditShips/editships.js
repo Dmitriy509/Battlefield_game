@@ -1,4 +1,5 @@
 ﻿function dragShip(b) {
+
   
 
     var coords = getCoords(b);
@@ -16,7 +17,7 @@
     b.style.position = 'absolute';
     // document.body.appendChild(b);       
     // moveAt(event);
-
+    fieldb = getElementBounds(field);
     b.style.zIndex = 1000; // над другими элементами
 
     function moveAt(event) {
@@ -31,52 +32,12 @@
             let curY = fieldb.top + Math.round((y - fieldb.top) / cell_size) * cell_size;
             b.style.left = curX + 'px';
             b.style.top = curY + 'px';
-           // let t3 = fieldb.left + cell_size; 
 
-           //// document.getElementById('opponent-name').innerText = b.offsetHeight + " " + field.offsetHeight + " " + cell_size;
-          //  let t1 = fieldb.right - b.offsetWidth - (borderTable * 2 - borderCell);
-          //  let t2 = fieldb.bottom - b.offsetHeight - (borderTable * 2 - borderCell);
-            //document.getElementById('player-name').innerText = fieldb.left + " " + fieldb.right + " " + fieldb.top + " " + fieldb.bottom + " w " + field.offsetWidth + " cs " + cell_size;
-         //   document.getElementById('player2status').innerText =
-            //    curX + ">=" + fieldb.left + " && " + curX + "<=" + t1 + " && " + curY + ">=" + fieldb.top + " && " + curY + "<=" + t2 + " cellsize " + cell_size;
-            //document.getElementById('opponent-name').innerText = " left1 " + field.rows[0].cells[0].offsetLeft +
-            //    " width1 " + field.rows[0].cells[0].offsetWidth +
-            //    " left2 " + field.rows[0].cells[1].offsetLeft +
-            //    " width2 " + field.rows[0].cells[1].offsetWidth +
-
-            //    " left3 " + field.rows[0].cells[2].offsetLeft +
-            //    " width3 " + field.rows[0].cells[2].offsetWidth +
-            //    " left4 " + field.rows[0].cells[3].offsetLeft +
-            //    " width4 " + field.rows[0].cells[3].offsetWidth +
-            //    " left5  " + field.rows[2].cells[5].offsetLeft +
-            //    " width5 " + field.rows[2].cells[5].offsetWidth +    
-            //     " top2 " + field.rows[1].cells[0].offsetTop + " height2 " + field.rows[1].cells[0].offsetHeight;
             if (curX >= fieldb.left && curX <= fieldb.right - (b.offsetWidth - (borderTable * 2 - borderCell)) && curY >= fieldb.top && curY <= fieldb.bottom - (b.offsetHeight - (borderTable * 2 - borderCell))) {
                 lastX = curX;
                 lastY = curY;
             }
-            //if (x >= fieldb.left && x <= fieldb.right - b.offsetWidth) {
-            //    lastX = fieldb.left + Math.round((x - fieldb.left) / cell_size) * cell_size;
-            //    b.style.left = lastX + 'px';
-            //}
-            //else {
-            //    b.style.left = fieldb.left + Math.round((x - fieldb.left) / cell_size) * cell_size + 'px';
-            //}
 
-            //if (y >= fieldb.top && y <= fieldb.bottom - b.offsetHeight) {
-            //    lastY = fieldb.top + Math.round((y - fieldb.top) / cell_size) * cell_size;
-            //    b.style.top = lastY + 'px';
-            //}
-            //else {
-            //    b.style.top = fieldb.top + Math.round((y - fieldb.top) / cell_size) * cell_size + 'px';
-            //}
-
-
-            //document.getElementById('player-name').innerText = lastX + " " + lastY;
-
-           // document.getElementById('opponent-name').innerText = b.offsetWidth;
-  
-            //  vivod.innerText = Math.round((x - field.offsetLeft) / 30) * 30;
         }   
         else {
             b.style.left = x + 'px';
@@ -239,55 +200,46 @@ function rotateShip(ship) {
 
 function rotate(ship) {
 
-    //let tdpadding = (cell_size - borderCell) / 2;
-
-    if (ship.rows.length > 1) { //из вертикального в гор
-        let rowcount = ship.rows.length;
-        if (ship.offsetLeft + rowcount * cell_size > fieldb.right) {
-            //alert(ship.offsetLeft + " " + rowcount + " " + cell_size + " " + fieldb.right);
+    //borderwidth: top right bottom left
+    let deskcount = ship.children.length;
+    if (ship.offsetWidth >= 2 * cell_size) { //из гор в верт
+        if (ship.offsetTop + deskcount * cell_size >= fieldb.bottom) {
             shakingShip(ship);
             return;
         }
 
 
-        for (let i = 1; i < rowcount; i++) {
-            ship.deleteRow(0);
-        }
 
-        for (let i = 1; i < rowcount; i++) {
-            let allRows = ship.getElementsByTagName("tr");
-            let cell = allRows[0].insertCell(0);
-            cell.style.border = borderCell + "px solid";
-            cell.style.width = (cell_size - borderCell) + "px";
-            cell.style.height = (cell_size - borderCell) + "px";
-         //   cell.style.padding = tdpadding + "px";
-        
-            //  cell.style.backgroundColor = 'rebeccapurple';
-        }
 
+        for (let i = 0; i < deskcount; i++) {
+            if (i == 0) ship.children[i].style.borderWidth = borderTable + "px " + borderTable + "px " + borderCell + "px " + borderTable + "px";
+            else
+                if (i == deskcount - 1) ship.children[i].style.borderWidth = borderCell + "px " + borderTable + "px " + borderTable + "px " + borderTable + "px";
+            else ship.children[i].style.borderWidth = borderCell + "px " + borderTable + "px " + borderCell + "px " + borderTable + "px";
+        }
+        ship.style.width = (cell_size + 2 * borderTable) + "px";
+        ship.style.height = (cell_size * deskcount + 2 * borderTable) + "px";
     }
-    else if (ship.rows[0].cells.length >= 2) {
+    else if (ship.offsetHeight >= 2 * cell_size) {
 
-        let colcount = ship.rows[0].cells.length;
-        if (ship.offsetTop + colcount * cell_size > fieldb.bottom) {
+
+        if (ship.offsetLeft + deskcount * cell_size >= fieldb.right) {
+
             shakingShip(ship);
             return;
         }
+     
 
-        for (let i = 1; i < colcount; i++) {
-            let allRows = ship.getElementsByTagName("tr");
-            allRows[0].deleteCell(0);
+       
+        for (let i = 0; i < deskcount; i++) {
+            if (i == 0) ship.children[i].style.borderWidth = borderTable + "px " + borderCell + "px " + borderTable + "px " + borderTable + "px";
+            else
+                if (i == deskcount - 1) ship.children[i].style.borderWidth = borderTable + "px " + borderTable + "px " + borderTable + "px " + borderCell + "px";
+            else ship.children[i].style.borderWidth = borderTable + "px " + borderCell + "px " + borderTable + "px " + borderCell + "px";
+        }
+        ship.style.width = (cell_size * deskcount + 2 * borderTable) + "px";
+        ship.style.height = (cell_size + 2 * borderTable) + "px";
 
-        }
-        for (let i = 1; i < colcount; i++) {
-            let add = ship.insertRow(0);
-            let cell = add.insertCell(0);
-           // cell.style.padding = tdpadding + "px";
-            cell.style.border = borderCell + "px solid";
-            cell.style.width = (cell_size - borderCell) + "px";
-            cell.style.height = (cell_size - borderCell) + "px";
-            //cell.style.backgroundColor = 'rebeccapurple';
-        }
     }
 }
 

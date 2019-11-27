@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using BL.Interfaces;
 using BL.Models;
 using DL;
@@ -13,50 +14,26 @@ namespace BL.Services
 {
     public class RoomsService:commonSrv, IRoomsService
     {
-   
-        public RoomsService()
+
+
+        public RoomsService(ILogger logger) : base(logger)
         {
 
         }
 
-        public string CheckGameState(string playername)
+        public string CheckGameState(string player_id)
         {
 
-            Player p = _dm.Ps.GetPlayer(playername);
+            Player p = _dm.Ps.GetPlayer(convertId(player_id));
             if (p == null) return "~/Login/Login";
             return LoginStateMachine(p);
 
         }
 
 
-
-
-        void updateRooms(string playername)
+        public RoomsList GetInfoRooms(string player_id)
         {
-            // if
-            string first = _dm.Ps.GetAllPlayers().First(u => u.state == (sbyte)Player_States.signin).login;
-            if (first == playername)
-            {
-                Task task = Task.Run(() =>
-                {
-                    var rooms = _dm.Rs.GetAllRooms().Where(u => (DateTime.Now - u.updTime).TotalSeconds > 40);
-                    foreach (var r in rooms)
-                    {
-                        if (r.player1id != null) _dm.Ps.InitPlayer( _dm.Ps.GetPlayer(r.player1id));
-                        if (r.player2id != null) _dm.Ps.InitPlayer(_dm.Ps.GetPlayer(r.player1id));
-                        _dm.Rs.DeleteRoom(r);
-                    }
-                });
-
-            }
-
-        }
-
-        public RoomsList GetInfoRooms(string playername)
-        {
-
-            _dm.Ps.GetPlayer(playername, true);
-            updateRooms(playername);
+            _dm.Ps.GetPlayer(convertId(player_id), true);        
             RoomsList res = new RoomsList();
             res.RoomNames = _dm.Rs.GetAllRooms().Where(u => u.status == (sbyte)Game_States.waitingplayer).Select(u => u.Name).ToList();
             res.Player_Count = _dm.Ps.GetAllPlayers().Count();
@@ -66,7 +43,7 @@ namespace BL.Services
         }
 
 
-        public string [] CreateRoom(string roomName, string playername)
+        public string [] CreateRoom(string roomName, string player_id)
         {
             //string sss = getCookies();
             
@@ -77,7 +54,7 @@ namespace BL.Services
                 return new string[] { "Rooms", "Комната с таким названием уже существует" };
             }
 
-            Player player = _dm.Ps.GetPlayer(playername, true);
+            Player player = _dm.Ps.GetPlayer(convertId(player_id), true);
             if (!_dm.Rs.AddPlayer(player, room))
             {
                 _dm.Rs.DeleteRoom(room);
@@ -89,11 +66,13 @@ namespace BL.Services
             player.state = (sbyte)Player_States.editships;
             room.status = (sbyte)Game_States.waitingplayer;
 
+            _logger.LogInformation("Player_Id: " + player_id +", Create a new room '" + roomName + "' ("+ "Room_Id: " + player.roomid +")" );
+
             return new string[] { "FieldEditorView", "" };
         }
 
 
-        public string [] EnterTheRoom(string roomname, string playername)
+        public string [] EnterTheRoom(string roomname, string player_id)
         {
             Room room = _dm.Rs.GetRoom(roomname);
             if (room == null)
@@ -101,7 +80,7 @@ namespace BL.Services
                // ViewBag.errmsg = "Возникла ошибка попробуйте еще раз";
                 return  new string[] { "Rooms", "Возникла ошибка войдите в игру снова" };
             }
-            Player player = _dm.Ps.GetPlayer(playername, true);
+            Player player = _dm.Ps.GetPlayer(convertId(player_id), true);
             if (player == null)
             {
               //  ViewBag.errmsg = "Возникла ошибка войдите в игру снова";
@@ -116,6 +95,8 @@ namespace BL.Services
             player.roomid = room.id;
             player.state = (sbyte)Player_States.editships;
             room.status = (sbyte)Game_States.editships;
+
+            _logger.LogInformation("Player_Id: " + player_id + ", enter to the room '" + roomname + "' (" + "Room_Id: " + player.roomid + ")");
             return new string[] { "FieldEditorView","" };
         }
 

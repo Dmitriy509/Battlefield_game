@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using Microsoft.Extensions.Logging;
 using BL.Interfaces;
 using BL.Models;
 using DL.Enums;
@@ -13,10 +14,10 @@ namespace BL.Services
 {
     public class GameService : commonSrv, IGameService
     {
-
-        public GameService()
+   
+        public GameService(ILogger logger) : base(logger)
         {
-
+            
         }
 
         private int timer(DateTime t)
@@ -33,24 +34,27 @@ namespace BL.Services
             return Parameters.MoveTime;
         }
 
-        public string CheckGameState(string playername)
+        public string CheckGameState(string player_id)
         {
 
-            Player p = _dm.Ps.GetPlayer(playername);
+            Player p = _dm.Ps.GetPlayer(convertId(player_id));
             if (p == null) return "~/Login/Login";
             return LoginStateMachine(p);
 
         }
 
 
-        public string StartGame(string playername)
+        public bool StartGame(string player_id)
         {
 
             //ViewBag.coordsField = _gamesrv.Ps.GetPlayer(playername).field;
             ////(sbyte)Moves_States.undefined;
-            Player player = _dm.Ps.GetPlayer(playername, true);
+            Player player = _dm.Ps.GetPlayer(convertId(player_id), true);
+            if(player.roomid==null) return false;
             Room r = _dm.Rs.GetRoom(player.roomid);
             Player player2 = _dm.Rs.GetPlayer2(player, r);
+
+            if (player2 == null || r.status != (sbyte)Game_States.readytoplay) return false;
 
             for (sbyte i = 0; i < 4; i++) player.shipcount[i] = (sbyte)(4 - i);
             r.updTime = DateTime.Now;
@@ -71,20 +75,22 @@ namespace BL.Services
                     else r.movepriority = (sbyte)Moves_States.player2;
                 }
 
-            return _dm.Rs.GetPlayer2(player,r).login;
+            _logger.LogInformation("Player_Id: " + player_id + ", Room_Id: " + player.roomid + ", The player started the game");
+
+            return true;
    
 
         }
 
 
-        public StartGameData InitGame(string playername)
+        public StartGameData InitGame(string player_id)
         {
             StartGameData res = new StartGameData();
-            Player player = _dm.Ps.GetPlayer(playername, true);
+            Player player = _dm.Ps.GetPlayer(convertId(player_id), true);
             Room r = _dm.Rs.GetRoom(player.roomid);
             Player player2 = _dm.Rs.GetPlayer2(player, r);
             res.player2name = player2.login;
-            res.player1name = playername;
+            res.player1name = player.login;
             res.player1field = player.field;
             res.player2field = player2.field;
 
@@ -93,21 +99,21 @@ namespace BL.Services
 
 
 
-        public string GetPlayer2name(string playername)
-        {
-            Player player = _dm.Ps.GetPlayer(playername, true);
-            Room r = _dm.Rs.GetRoom(player.roomid);
-            return _dm.Rs.GetPlayer2(player, r).login;
-        }
+        //public string GetPlayer2name(string playername)
+        //{
+        //    Player player = _dm.Ps.GetPlayer(playername, true);
+        //    Room r = _dm.Rs.GetRoom(player.roomid);
+        //    return _dm.Rs.GetPlayer2(player, r).login;
+        //}
 
 
 
-        public GameProcessData GameProcessStateMachine(string playername, sbyte curmovestate)
+        public GameProcessData GameProcessStateMachine(string player_id, sbyte curmovestate)
         {
             GameProcessData res = new GameProcessData();
             res.curmovestate = curmovestate;
             res.movetime = -100;
-            Player p1 = _dm.Ps.GetPlayer(playername, true);
+            Player p1 = _dm.Ps.GetPlayer(convertId(player_id), true);
             Room r = _dm.Rs.GetRoom(p1.roomid);
             if (r != null) r.updTime = DateTime.Now;
             Player p2 = _dm.Rs.GetPlayer2(p1,r);
@@ -123,6 +129,8 @@ namespace BL.Services
                     if ((p1.id == r.player1id&& r.movepriority == (sbyte)Moves_States.player1)|| (p1.id == r.player2id && r.movepriority == (sbyte)Moves_States.player2))
                     {
                         p1.state = (sbyte)Player_States.loser;
+                        _logger.LogInformation("Room_Id: " + p1.roomid + " (Game over), player (Player_Id: " + p1.id + ") move time's up, player (Player_Id: " + p2.id + ") winner");
+                        _logger.LogInformation("Player_Id: " + p1.id + ", Room_Id: " + p1.roomid + ",move time's up");
                     } 
 
 
@@ -181,12 +189,14 @@ namespace BL.Services
                                 {
                                     p1.state = (sbyte)Player_States.loser;
                                     p2.state = (sbyte)Player_States.winner;
+                                    _logger.LogInformation("Room_Id: " + p1.roomid + " (Game over), player (Player_Id: " + p1.id + ") loser, player (Player_Id: " + p2.id + ") winner");
                                 }
 
                                 else
                                 {
                                     p1.state = (sbyte)Player_States.winner;
                                     p2.state = (sbyte)Player_States.loser;
+                                    _logger.LogInformation("Room_Id: " + p1.roomid + " (Game over), player (Player_Id: " + p1.id + ") winner, player (Player_Id: " + p2.id + ") loser");
                                 }
                                 break;
                             }
@@ -228,6 +238,7 @@ namespace BL.Services
                 {
                     // r.status = (sbyte)Game_States.endofgame;
                     r.status = (sbyte)Game_States.endofgame;
+               
                     return endofgame();
 
                 }
@@ -250,6 +261,7 @@ namespace BL.Services
                     else
                     {
                         r.status = (sbyte)Game_States.endofgame;
+                        _logger.LogInformation("Room_Id: " + p1.roomid + " (Game over), player (Player_Id: " + p2.id + ") disconnected, player (Player_Id: " + p1.id + ") winner");
                         if (p2.id == r.player1id) r.player1id = null; else r.player2id = null;
                             _dm.Ps.InitPlayer(p2);
                        
@@ -403,9 +415,9 @@ namespace BL.Services
 
         }
 
-        public FireResults Fire(string playername, int x, int y)
+        public FireResults Fire(string player_id, int x, int y)
         {
-            Player player = _dm.Ps.GetPlayer(playername, true);
+            Player player = _dm.Ps.GetPlayer(convertId(player_id), true);
             Room room = _dm.Rs.GetRoom(player.roomid);
             Player player2 = _dm.Rs.GetPlayer2(player, room);
             string s = player.login;
@@ -445,16 +457,26 @@ namespace BL.Services
             return res;
         }
 
-        public void GiveUp(string playername)
+        public void GiveUp(string player_id)
         {
-            
-
-            Player p1 = _dm.Ps.GetPlayer(playername, true);          
+            Player p1 = _dm.Ps.GetPlayer(convertId(player_id), true);       
             Room r = _dm.Rs.GetRoom(p1.roomid);            
             Player p2 = _dm.Rs.GetPlayer2(p1,r);
+
+            _logger.LogInformation("Room_Id: " + p1.roomid + " (Game over), player (Player_Id: " + player_id + ") give up, player (Player_Id: " + p2.id + ") winner");
+
             r.status = (sbyte)Game_States.endofgame;
             p1.state = (sbyte)Player_States.giveup;
             p2.state = (sbyte)Player_States.winner;
+
+
+
+            //using (_logger.BeginScope("Game over"))
+            //{
+            //    _logger.LogInformation("Checking object state");
+            //    _logger.LogInformation("Updating object reference");
+            //    _logger.LogError("Something went wrong");
+            //}
         }
         }
 }

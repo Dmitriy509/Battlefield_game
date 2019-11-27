@@ -1,27 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.Extensions.Logging;
 using DL.Models;
 using BL.Interfaces;
-
+using DL.Enums;
 
 
 namespace BL.Services
 {
     public class LoginService: commonSrv, ILoginService
     {
-        
-        public LoginService()
+     
+        public LoginService(ILogger logger):base(logger)
         {
            
         }
 
-        public string Login(string playername)
+        public string Login(string player_id)
         {
-            if (_dm.Ps.checkPlayer(playername))
+            Player p = _dm.Ps.GetPlayer(convertId(player_id));
+            if (p!=null)
             {
-                Player p = _dm.Ps.GetPlayer(playername);
-                //    return View(_dm.Sts.loginview(p, _gamesrv));
+
+                if(getInterval(p.date, Parameters.deletePlaeyrTimeout*60, '>')) return "";
+
                 return LoginStateMachine(p);
             }
 
@@ -29,21 +32,26 @@ namespace BL.Services
         }
 
 
-        public string SignIn(string playername)
+        public string SignIn(string playername, out uint player_id)
         {
-            //   bool fl = _gamesrv.Ps.AddPlayer(username);
+
             if (_dm.Ps.AddPlayer(playername))
             {
-              //  addCookies(username);
-              //  ViewBag.playername = username;
+                player_id= _dm.Ps.GetPlayer(playername).id;
+                BackGroundThread.Run();
                 return "Rooms";
             }
 
-            //ViewBag.errormsg = "Игрок с таким именем уже есть на сервере!";
-            return "Login";
-
-    
+            player_id = 0;
+            return "Login";  
         }
+
+        public bool SignOut(string player_id)
+        {
+           return _dm.Ps.DeletePlayer(_dm.Ps.GetPlayer(convertId(player_id)));                 
+        }
+
+
 
 
     }

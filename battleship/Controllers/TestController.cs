@@ -55,11 +55,12 @@ namespace battleship.Controllers
 
 
 
-        public JsonResult Ready(string playername)
+        public JsonResult Ready(string player_id)
         {
 
             //Redirect(ResultWindow)
-            Player player = _dm.Ps.GetPlayer(playername, true);
+         
+            Player player = _dm.Ps.GetPlayer(Convert.ToUInt32(player_id), true);
             Room r = _dm.Rs.GetRoom(player.roomid);
             // _gamesrv.Ps.AddPlayer("bbb");
             //  Player player2 = _gamesrv.Rs.GetPlayer2();

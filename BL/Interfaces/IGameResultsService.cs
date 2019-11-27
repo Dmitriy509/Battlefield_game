@@ -7,8 +7,9 @@ namespace BL.Interfaces
 {
     public interface IGameResultsService
     {
-        string updateGameResult(string playername, bool timeisup);
-        void replayGame(string playername);
-        void exitGame(string playername);
+        string updateGameResult(string player_id, bool timeisup);
+        void replayGame(string player_id);
+        void exitGame(string player_id);
+        void updatePlayer(string player_id);
     }
 }

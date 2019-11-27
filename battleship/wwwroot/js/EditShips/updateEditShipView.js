@@ -1,7 +1,7 @@
 ﻿
 function updateRoom() {
 
-    $.post("/SetShips/UpdateInfoRoom", { playername: login })
+    $.post("/SetShips/UpdateInfoRoom", { player_id: player_id })
         .done(function (data) {
             //  console.log("ответ запроса");
             if (data.player2name == "")
@@ -12,7 +12,7 @@ function updateRoom() {
          //   console.log("status - " + data.player2status + "  name - " + data.player2name);
 
             document.getElementById('player2status').innerHTML = data.player2status;
-            if (data.player2status == "Ожидаем игрока") {                          
+            if (data.player2status == "Ожидаем игрока" || data.player2status == "Поиск соперника") {           
                 document.getElementById("player2-ready").src = "../img/not-ready.png";               
             }
             else
@@ -51,14 +51,14 @@ function getShips() {
             }
         }
 
-        let deskcount = 1;
+        let deskcount  = ship.children.length;
         let flAlign = 0 //vert-0, hor-1
-        if (ship.rows.length > ship.rows[0].cells.length) {
-            deskcount = ship.rows.length; flAlign = 0;
+    
+        if (ship.offsetWidth >= 2 * cell_size) {
+             flAlign = 1;
         }
         else {
-            deskcount = ship.rows[0].cells.length;
-            flAlign = 1;
+            flAlign = 0;
         }
 
         let x = Math.round((ship.offsetLeft - field.offsetLeft) / cell_size);
@@ -77,7 +77,7 @@ function getShips() {
 
     }
 
-    $.post("/SetShips/GetShipsCoords", { playername: login, Xarr: Xcoords, Yarr: Ycoords })
+    $.post("/SetShips/GetShipsCoords", { player_id: player_id, Xarr: Xcoords, Yarr: Ycoords })
         .done(function (data1) {
           //  document.getElementById('user1').innerText = login + "- Готов";
             document.getElementById('btn-ready').disabled = true;

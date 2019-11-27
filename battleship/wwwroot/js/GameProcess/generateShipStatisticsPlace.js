@@ -15,6 +15,7 @@
 }
 function shipMini(size) {
     const ship = document.createElement('div');
+
     ship.setAttribute("class", "ship-miniature");
     for (var i = 0; i < size; i++) {
         const ship_block = document.createElement('div');

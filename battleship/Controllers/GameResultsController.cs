@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using BL.Interfaces;
 using BL.Services;
 using BL.Models;
@@ -13,34 +14,43 @@ namespace battleship.Controllers
     public class GameResultsController : Controller
     {
         IGameResultsService _grs;
-        public GameResultsController()
+        private readonly ILogger _logger;
+        public GameResultsController(ILoggerFactory loggerFactory)
         {
-
+            _logger = loggerFactory.CreateLogger("MyApp");
             // object g = new { aaa = "dsf" };
-            _grs = new GameResultsService();
+            _grs = new GameResultsService(_logger);
         }
 
 
-
-        public IActionResult ExitGame(string playername)
+        [HttpPost]
+        public IActionResult ExitGame(string player_id)
         {
-            _grs.exitGame(playername);
+            _grs.exitGame(player_id);
             return Redirect("~/Rooms/Rooms");
         }
 
         [HttpPost]
-        public JsonResult ReplayGame(string playername)
+        public JsonResult ReplayGame(string player_id)
         {
-            _grs.replayGame(playername);
+            _grs.replayGame(player_id);
             return Json(new { });
         }
 
-
-        public JsonResult UpdateGameResultView(string playername, bool fltimeisup)
+        [HttpPost]
+        public JsonResult UpdateGameResultView(string player_id, bool fltimeisup)
         {
-            string res = _grs.updateGameResult(playername, fltimeisup);
+            string res = _grs.updateGameResult(player_id, fltimeisup);
 
             return Json(new {player2status = res });
+        }
+
+
+        [HttpPost]
+        public JsonResult UpdatePlayer(string player_id)
+        {
+            _grs.updatePlayer(player_id);
+            return Json(new { });
         }
 
     }

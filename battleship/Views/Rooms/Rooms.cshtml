@@ -17,14 +17,14 @@
                     <div>
                         <input class="icon-btn close-btn" type="image" src="~/img/icon_close.png" onclick="closeModal('create-room-modal');">
                     </div>
-                    <div class="modal-content">
-                        <form method="post" action="~/Rooms/AddRoom">
-                            <input id="new-room-name" name="RoomName" type="text" class="input-text" placeholder="название комнаты">
+                   
+                        <form method="post" action="~/Rooms/AddRoom" class="modal-content">
+                            <input id="new-room-name" name="RoomName" type="text" class="input-text" placeholder="название комнаты">                            
                             <input type="image" src="~/img/room_create.png" class="modal-btn" />
-                            <input type="hidden" id="playerNameSend" name="playername" /><br />
+                            <input type="hidden" id="playerIdSend" name="player_id" />
                         </form>
 
-                    </div>
+              
                 </div>
             </div>
         </div>
@@ -32,8 +32,10 @@
         <div id="top-menu">
             <img src="~/img/logo.png">
             <div id="btn-panel">
-                <input type="image" class="icon-btn" src="~/img/out.png">
-                <input type="image" class="icon-btn" src="~/img/sound.png">
+                <form method="post" action="~/Login/Signout">
+                    <input type="image" class="icon-btn" src="~/img/out.png">
+                </form>
+                    <input type="image" class="icon-btn" src="~/img/sound.png">
             </div>
         </div>
         <div id="field" class="flex-container flex-column">
@@ -69,15 +71,15 @@
         }
 
 
-        var login = get_cookie("Login");
-
-        if (login == null) {
+      //  var login = get_cookie("Login");
+        var player_id = get_cookie("Player_Id");
+        if (player_id == null) {
             window.location.href = '/Login/Login';
         }
         else {
-            document.getElementById('playerNameSend').value = login;
+            document.getElementById('playerIdSend').value = player_id;
         }
-        document.getElementById('player-name').childNodes[0].innerHTML = login;
+        document.getElementById('player-name').childNodes[0].innerHTML = get_cookie("Login");
     </script>
 
     <script src="~/js/updateRooms.js"></script>

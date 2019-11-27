@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.Extensions.Logging;
 using BL.Interfaces;
 using BL.Models;
 using DL;
@@ -8,17 +9,17 @@ using DL.Models;
 using static DL.Enums.StateEnums;
 namespace BL.Services
 {
-    public class GameResultsService:IGameResultsService
+    public class GameResultsService: commonSrv, IGameResultsService
     {
-        DataManager _dm;
-        public GameResultsService()
+
+        public GameResultsService(ILogger logger) : base(logger)
         {
-            _dm = new DataManager();
+
         }
 
-        public string updateGameResult(string playername, bool fltimeisup)
+        public string updateGameResult(string player_id, bool fltimeisup)
         {
-            Player player = _dm.Ps.GetPlayer(playername, true);
+            Player player = _dm.Ps.GetPlayer(convertId(player_id), true);
 
 
             Room room = _dm.Rs.GetRoom(player.roomid);
@@ -32,6 +33,7 @@ namespace BL.Services
                     player2 = _dm.Rs.GetPlayer2(player,room);
                     if (player2 != null) _dm.Ps.InitPlayer(player2);
                     _dm.Rs.DeleteRoom(room);
+                    _logger.LogInformation("Player_Id: " + player.id + ", Room_Id: " + player.roomid + ", waiting replay time is up, room was deleted");
                 }
                 _dm.Ps.InitPlayer(player);
                 return "exit"; 
@@ -82,21 +84,21 @@ namespace BL.Services
             return res;
         }
 
-        public void replayGame(string playername)
+        public void replayGame(string player_id)
         {
 
         
-            Player p1 = _dm.Ps.GetPlayer(playername, true);
+            Player p1 = _dm.Ps.GetPlayer(convertId(player_id), true);
             p1.state = (sbyte)Player_States.readytoreplay;
             _dm.Ps.InitPlayer(p1, false, false);
-          
+            _logger.LogInformation("Player_Id: " + p1.id + ", Room_Id: " + (p1.roomid==null?"-":p1.roomid.ToString()) + ", Player ready to replay ");
 
 
         }
 
-        public void exitGame(string playername)
+        public void exitGame(string player_id)
         {
-            Player p1 = _dm.Ps.GetPlayer(playername, true);
+            Player p1 = _dm.Ps.GetPlayer(convertId(player_id), true);
 
             if (p1.roomid != null)
             {
@@ -115,11 +117,22 @@ namespace BL.Services
                         // _dm.Ps.InitPlayer(p1);
                         _dm.Rs.DeleteRoom(r);
                     }
+                    _logger.LogInformation("Player_Id: " + p1.id+", Room_Id: " + p1.roomid + ", Player left the room, room was deleted ");
                 }
             }
+            else
+              _logger.LogInformation("Player_Id: " + p1.id + ", Player left the room");
+
+
             _dm.Ps.InitPlayer(p1);
 
 
+        }
+
+
+        public void updatePlayer(string player_id)
+        {
+            _dm.Ps.GetPlayer(player_id, true);
         }
 
     }
