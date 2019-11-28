@@ -21,116 +21,119 @@
                 <input class="icon-btn" type="image" src="~/img/sound.png">
             </div>
         </div>
-        <div id="field" class="flex-container flex-column flex-column">
-            <div>
-                <img class="h1" src="~/img/label_preparation.png">
-            </div>
-            <div id="field-preparation" class="flex-container">
-                <div id="place-player" class="flex-container flex-column">
-                    <div class="inner-elem top-place-player">
-                        <div style="display: inline-block; float: left;">
-                            <div id="player-name" class="player-name"><label></label></div>
-                            <img id="player1-ready" class="icon-player-ready" src="~/img/not-ready.png">
+        <div class="field-wrapper">
+            <div class="paper-background"></div>
+            <div id="field" class="flex-container flex-column flex-column field">
+                <div class="title" style="width:25rem;">
+                    <label>РАССТАНОВКА ФЛОТА</label>
+                </div>
+                <div id="field-preparation" class="flex-container">
+                    <div id="place-player" class="flex-container flex-column">
+                        <div class="inner-elem top-place-player">
+                            <div style="display: inline-block; float: left;">
+                                <div id="player-name" class="player-name"><label></label></div>
+                                <img id="player1-ready" class="icon-player-ready" src="~/img/not-ready.png">
+                            </div>
+                            <input id="btn-ready" class="btn" type="button" value="готов!" onclick="getShips()">
                         </div>
-                        <input id="btn-ready" type="image" onclick="getShips()" src="~/img/ready_btn.png">                     
-                    </div>
-                    <div class="inner-elem working-place flex-container">
-                        <div id="place-battlefield">
+                        <div class="inner-elem working-place flex-container">
+                            <div id="place-battlefield">
 
 
-                            <div id="battlefield1">
-                                @{ for (var i = 0; i < 10; i++)
+                                <div id="battlefield1">
+                                    @{ for (var i = 0; i < 10; i++)
+                                        {
+                                            for (var j = 0; j < 10; j++)
+                                            {
+                                                string s = "1-" + i.ToString() + "-" + j.ToString();
+                                                @:<div id=@s style=" float:left;"></div>
+                                            }
+                                        }}
+                                </div>
+                            </div>
+                            <div style="width:50%" class="flex-container control-panel flex-column">
+                                <div id="place-ships">
+                                    <div id="ship-container">
+                                        <div id="fourdesk" onmousedown="dragShip(this)" ondblclick="rotateShip(this)" ondragstart="dragstShip() ">
+                                            <div style="float:left;"></div>
+                                            <div style="float:left;"></div>
+                                            <div style="float:left;"></div>
+                                            <div style="float:left;"></div>
+                                        </div>
+                                    </div>
+                                    @for (var i = 1; i <= 2; i++)
                                     {
-                                     for (var j = 0; j < 10; j++)
-                                      {
-                                        string s = "1-" + i.ToString() + "-" + j.ToString(); 
-                                        @:<div id=@s style=" float:left;"></div>
-                                      }
-                                    }}
-                                </div>
-                        </div>
-                        <div style="width:50%" class="flex-container control-panel flex-column">
-                            <div id="place-ships">
-                                <div id="ship-container">
-                                    <div id="fourdesk" onmousedown="dragShip(this)" ondblclick="rotateShip(this)" ondragstart="dragstShip() ">
-                                        <div style="float:left;"></div>
-                                        <div style="float:left;"></div>
-                                        <div style="float:left;"></div>
-                                        <div style="float:left;"></div>
-                                    </div>
-                                </div>
-                                @for (var i = 1; i <= 2; i++)
-                                {
-                                    string s = "tripledesk" + i;
-                                    <div id="ship-container">
-                                        <div id=@s onmousedown="dragShip(this)" ondblclick="rotateShip(this)" ondragstart="dragstShip() ">
-                                            <div style="float:left;"></div>
-                                            <div style="float:left;"></div>
-                                            <div style="float:left;"></div>
+                                        string s = "tripledesk" + i;
+                                        <div id="ship-container">
+                                            <div id=@s onmousedown="dragShip(this)" ondblclick="rotateShip(this)" ondragstart="dragstShip() ">
+                                                <div style="float:left;"></div>
+                                                <div style="float:left;"></div>
+                                                <div style="float:left;"></div>
+                                            </div>
                                         </div>
-                                    </div>
-                                }
+                                    }
 
-                                @for (var i = 1; i <= 3; i++)
-                                {
-                                    string s = "doubledesk" + i;
-                                    <div id="ship-container">
-                                        <div id=@s onmousedown="dragShip(this)" ondblclick="rotateShip(this)" ondragstart="dragstShip() ">
-                                            <div style="float:left;"></div>
-                                            <div style="float:left;"></div>
+                                    @for (var i = 1; i <= 3; i++)
+                                    {
+                                        string s = "doubledesk" + i;
+                                        <div id="ship-container">
+                                            <div id=@s onmousedown="dragShip(this)" ondblclick="rotateShip(this)" ondragstart="dragstShip() ">
+                                                <div style="float:left;"></div>
+                                                <div style="float:left;"></div>
+                                            </div>
                                         </div>
-                                    </div>
-                                }
+                                    }
 
-                                @for (var i = 1; i <= 4; i++)
-                                {
-                                    string s = "singledesk" + i;
-                                    <div id="ship-container">
-                                        <div id=@s onmousedown="dragShip(this)" ondblclick="rotateShip(this)" ondragstart="dragstShip() ">
-                                            <div style="float:left;"></div> 
+                                    @for (var i = 1; i <= 4; i++)
+                                    {
+                                        string s = "singledesk" + i;
+                                        <div id="ship-container">
+                                            <div id=@s onmousedown="dragShip(this)" ondblclick="rotateShip(this)" ondragstart="dragstShip() ">
+                                                <div style="float:left;"></div>
+                                            </div>
                                         </div>
-                                    </div>
 
-                                }
+                                    }
 
 
-                            </div>
-                            <div class="hint">
-                                <div style="width: 10%;">
-                                    <img id="icon-dbl-click" class="icon" src="~/img/icon_dbl_click.png">
                                 </div>
-                                <div style="width: 90%;">
-                                    <label>Поворот корабля - двойной клик</label>
+                                <div class="hint">
+                                    <div style="width: 10%;">
+                                        <img id="icon-dbl-click" class="icon" src="~/img/icon_dbl_click.png">
+                                    </div>
+                                    <div style="width: 90%;">
+                                        <label>Поворот корабля - двойной клик</label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div id="place-opponent" class="flex-container flex-column">
-                    <div class="inner-elem top-place-player reverse flex-container">
-                        <div id="opponent-name" class="player-name"><label>нет соперника</label></div>
-                        <div class="icon-player-ready">
-                            <img id="player2-ready" src="~/img/not-ready.png">
+                    <div id="place-opponent" class="flex-container flex-column">
+                        <div class="inner-elem top-place-player reverse flex-container">
+                            <div id="opponent-name" class="player-name"><label>нет соперника</label></div>
+                            <div class="icon-player-ready">
+                                <img id="player2-ready" src="~/img/not-ready.png">
+                            </div>
                         </div>
-                    </div>
-                    <div id="opponent-status" class="inner-elem working-place flex-container">
-                        <div class="hint" style="width: 100%; height: auto;" id="player2status">Поиск соперника</div>
+                        <div id="opponent-status" class="inner-elem working-place flex-container">
+                            <div class="hint" style="width: 100%; height: auto;" id="player2status">Поиск соперника</div>
+                        </div>
                     </div>
                 </div>
             </div>
+            </div>
+            <input type='button' onclick="test()" value='и игру тест' style="margin:0 0 0 30%;height:45pt; width:110pt; " />
         </div>
-        <input type='button' onclick="test()" value='и игру тест' style="margin:0 0 0 30%;height:45pt; width:110pt; " />
-    </div>
-    <script>
+        <script>
         var flagPlayerReady =@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(@ViewBag.Ready))
         var PlayerShips =@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(@ViewBag.Ships))
 
-    </script>
+        </script>
 
-    <script src="~/js/EditShips/editships.js"></script>
-    <script src="~/js/EditShips/pageEditShipsResize.js"></script>
-    <script src="~/js/EditShips/updateEditShipView.js"></script>
-    <script src="~/js/EditShips/startPageEditShips.js"></script>
+        <script src="~/js/EditShips/editships.js"></script>
+        <script src="~/js/EditShips/pageEditShipsResize.js"></script>
+        <script src="~/js/EditShips/updateEditShipView.js"></script>
+        <script src="~/js/EditShips/startPageEditShips.js"></script>
 
 
 </body>

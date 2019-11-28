@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,700,800&display=swap&subset=cyrillic,cyrillic-ext');
 
 :root {
-  /*--f-family: "Verdana", sans-serif;*/
+  --f-family: 'Montserrat';
   --f-size: 14pt;
   --icon-size: 3rem;
   --common-padding: 18pt;
@@ -10,8 +10,8 @@
 /* BASIC */
 
 body {
-  /*font-family: var(--f-family);*/
-  font-family:'Montserrat';
+  font-family: var(--f-family);
+  /*font-family:'Montserrat';*/
   font-weight: 400;
   font-size: var(--f-size);
   height: 100vh;

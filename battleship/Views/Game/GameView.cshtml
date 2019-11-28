@@ -47,83 +47,86 @@
                 <input class="icon-btn" type="image" name="sound_img" src="~/img/sound.png">
             </div>
         </div>
-        <div id="field" class="flex-container flex-column">
-            <div>
-                <img class="h1" src="~/img/label_battle.png">
+        <div class="field-wrapper">
+            <div class="paper-background"></div>
+            <div id="field" class="flex-container flex-column field">
+                <div class="title" style="width:10rem;">
+                    <label>БИТВА</label>
+                </div>
+                <div id="battlefield" class="flex-container flex-column">
+
+                    <div class="inner-elem top-place-player flex-container flex-between">
+                        <div class="flex-container">
+
+                            <div id="player-name" class="flex-container player-name">
+                                <label>@ViewBag.player1name</label>
+                            </div>
+                            <div id="player-move" class="icon-player-ready">
+                                <img src="~/img/my_move.png">
+                            </div>
+                        </div>
+                        <div id="timer-move" class="flex-container player-name" style="width: 3rem;">
+                            <label>@ViewBag.movetime</label>
+                        </div>
+                        <div class="flex-container">
+                            <div id="opponent-move" class="icon-player-ready" style="opacity: 0.3;">
+                                <img style="transform: scale(-1, 1)" src="~/img/my_move.png">
+                            </div>
+                            <div id="opponent-name" class="flex-container player-name">
+                                <label>@ViewBag.player2name</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex-container flex-between" style="height: auto;">
+                        <div id="player-ships-stat" class="inner-elem stat-hint">
+                            <script type="text/javascript">
+                                genPlaceShipStat("player-ships-stat");
+                            </script>
+                        </div>
+                        <div id="opponent-ships-stat" class="inner-elem stat-hint">
+                            <script type="text/javascript">
+                                genPlaceShipStat("opponent-ships-stat");
+                            </script>
+                        </div>
+                    </div>
+
+                    <div class="flex-container flex-between inner-elem">
+                        <div id="player-battlefield" class="battlefield">
+                            <table id="battlefield1">
+
+                                @for (var i = 0; i < 10; i++)
+                                {
+                                    @:<tr>
+                                        for (var j = 0; j < 10; j++)
+                                        {
+                                            @:<td></td>
+                                        }
+                                    @:</tr>
+                                }
+                            </table>
+                        </div>
+                        <div id="opponent-battlefield" class="battlefield">
+                            <table id="battlefield2">
+                                @for (var i = 0; i < 10; i++)
+                                {
+                                    @:<tr>
+                                        for (var j = 0; j < 10; j++)
+                                        {
+                                            <td onclick="fireclick(this)"></td>
+                                        }
+                                    @:</tr>
+                                }
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
             </div>
-            <div id="battlefield" class="flex-container flex-column">
-
-                <div class="inner-elem top-place-player flex-container flex-between">
-                    <div class="flex-container">
-
-                        <div id="player-name" class="flex-container player-name">
-                            <label>@ViewBag.player1name</label>
-                        </div>
-                        <div id="player-move" class="icon-player-ready">
-                            <img src="~/img/my_move.png">
-                        </div>
-                    </div>
-                    <div id="timer-move" class="flex-container player-name" style="width: 3rem;">
-                        <label>@ViewBag.movetime</label>
-                    </div>
-                    <div class="flex-container">
-                        <div id="opponent-move" class="icon-player-ready" style="opacity: 0.3;">
-                            <img src="~/img/my_move.png">
-                        </div>
-                        <div id="opponent-name" class="flex-container player-name">
-                            <label>@ViewBag.player2name</label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="flex-container flex-between" style="height: auto;">
-                    <div id="player-ships-stat" class="inner-elem stat-hint">
-                        <script type="text/javascript">
-                            genPlaceShipStat("player-ships-stat");
-                        </script>
-                    </div>
-                    <div id="opponent-ships-stat" class="inner-elem stat-hint">
-                        <script type="text/javascript">
-                            genPlaceShipStat("opponent-ships-stat");
-                        </script>
-                    </div>
-                </div>
-
-                <div class="flex-container flex-between inner-elem">
-                    <div id="player-battlefield" class="battlefield">
-                        <table id="battlefield1">
-
-                            @for (var i = 0; i < 10; i++)
-                            {
-                                @:<tr>
-                                    for (var j = 0; j < 10; j++)
-                                    {
-                                        @:<td></td>
-                                    }
-                                @:</tr>
-                            }
-                        </table>
-                    </div>
-                    <div id="opponent-battlefield" class="battlefield">
-                        <table id="battlefield2">
-                            @for (var i = 0; i < 10; i++)
-                            {
-                                @:<tr>
-                                    for (var j = 0; j < 10; j++)
-                                    {
-                                        <td onclick="fireclick(this)"></td>
-                                    }
-                                @:</tr>
-                            }
-                        </table>
-                    </div>
-                </div>
-
             </div>
         </div>
-    </div>
-    <script src="~/js/GameProcess/updateGameProcess.js"></script>
-    <script type="text/javascript">
+        <script src="~/js/GameProcess/updateGameProcess.js"></script>
+        <script type="text/javascript">
 
         const borderCell = 1;
         const borderTable = 2;
@@ -180,7 +183,7 @@
             setCellSize(f2);
 
         };
-    </script>
+        </script>
 
 </body>
 </html> 
