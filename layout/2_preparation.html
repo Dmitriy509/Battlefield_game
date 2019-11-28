@@ -6,7 +6,7 @@
   <link href='./style_2.css' rel='stylesheet' type='text/css'>
   <script src="script.js"></script>
   <script>
-      window.onresize = function( event ) {
+    window.onresize = function( event ) {
       tableCreate('place-battlefield');
       shipsCreate('place-ships');
     };
@@ -22,9 +22,11 @@
         <input class="icon-btn" type="image" name="sound_img" src="./img/sound.png">
       </div>
     </div>
-    <div id="field" class="flex-container flex-column flex-column">
-      <div>
-        <img class="h1" src="./img/label_preparation.png">
+    <div class="field-wrapper">
+     <div class="paper-background"></div>
+     <div id="field" class="flex-container flex-column flex-column field">
+      <div class="title" style="width:25rem;"> 
+        <label>РАССТАНОВКА ФЛОТА</label>
       </div>
       <div id="field-preparation" class="flex-container">
         <div id="place-player" class="flex-container flex-column">
@@ -33,7 +35,7 @@
               <div id="player-name" class="player-name"><label>имя игрока</label></div>
               <img class="icon-player-ready" src="./img/not-ready.png">
             </div>
-            <input id="btn-ready" type="image" src="./img/ready_btn.png">
+            <input class="btn" id="btn-ready" type="button" value="готов!">
           </div>
           <div class="inner-elem working-place flex-container">
             <div id="place-battlefield">
@@ -60,7 +62,7 @@
          <div class="inner-elem top-place-player reverse flex-container"> 
           <div id="opponent-name" class="player-name"><label>нет соперника</label></div>
           <div class="icon-player-ready">
-            <img src="./img/not-ready.png">
+            <img src="./img/ready.png">
           </div>
         </div>
         <div id="opponent-status" class="inner-elem working-place flex-container">
@@ -69,6 +71,7 @@
       </div>
     </div>
   </div>
+</div>
 </div>
 
 </body>

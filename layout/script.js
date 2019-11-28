@@ -15,8 +15,10 @@
         var tr = document.createElement('tr');
         for (var j = 0; j < y; j++) {
           var td = document.createElement('td');
+          td.onclick = fight;
           td.style.padding = cell_size + "px";
           td.style.border = borderCell + "px solid";
+          td.setAttribute("class", "blackouted");
           tr.appendChild(td)
         }
         tbdy.appendChild(tr);
@@ -200,4 +202,18 @@
     function disableButton(el) {
       el.disabled = true;
       el.style.opacity = '0.5';
+    }
+
+    function fight(isMiss) {
+      if (!this.firstChild) {
+        if(isMiss) {
+      var resultWrapper = document.createElement('div');
+      resultWrapper.className="fight-result";
+      var result = document.createElement('div');
+      result.className= "miss";
+      resultWrapper.appendChild(result);
+      this.appendChild(resultWrapper); } else {
+        
+      }
+    }
     }
