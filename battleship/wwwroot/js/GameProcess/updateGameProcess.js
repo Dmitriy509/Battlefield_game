@@ -49,7 +49,7 @@ function injured(td) {
         }
 
 
-    td.style.backgroundColor = "rebeccapurple";
+    td.style.backgroundColor = "#c68850";
     td.classList.add("injured-cell");
     let div = document.createElement("div");
    
@@ -63,6 +63,7 @@ function injured(td) {
     canvas.height = csize;
     context = canvas.getContext("2d");
     context.beginPath();
+    context.lineWidth = 3;
     context.moveTo(0, 0);
     context.lineTo(csize, csize );
     context.moveTo(0, csize );
@@ -119,7 +120,7 @@ function updateBattleField(fieldname, field, flwithships)
             switch (field[i][j]) {
                 case 2:  //ships
                     if (flwithships)
-                    td.style.backgroundColor = "rebeccapurple";
+                        td.style.backgroundColor = "#c68850";
                     break;
                 case 3:  //injured
                     injured(td);

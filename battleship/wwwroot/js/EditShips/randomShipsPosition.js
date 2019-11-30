@@ -147,11 +147,11 @@ function randomPosition() {
 
 function setSipsPositions(ships)
 {
-    console.log("----------------");
+   // console.log("----------------");
     for (let i = 0; i < ships.length; i++) {
         let ship = document.getElementById(ships[i].name)
         ship.style.position = 'absolute';
-        console.log(ships[i].x + " " + ships[i].y + " " + ships[i].name)
+    //    console.log(ships[i].x + " " + ships[i].y + " " + ships[i].name)
         ship.style.left = field.offsetLeft + ships[i].x * cell_size + 'px';
         ship.style.top = field.offsetTop + ships[i].y * cell_size + 'px';
         if (ships[i].align == 0) {

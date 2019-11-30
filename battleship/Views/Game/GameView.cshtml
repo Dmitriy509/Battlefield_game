@@ -2,22 +2,6 @@
 <html>
 <head>
     <title></title>
-    <style>
-        .injured-cell div {
-            background-color:rebeccapurple;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-                width:100%;
-                height:100%;
-        }
-
-        .miss-cell div{
-            display: flex;
-            align-items: center;
-            justify-content: center
-        }
-    </style>
     <link href="~/css/style.css" rel="stylesheet" />
     <link href="~/css/style_2.css" rel="stylesheet" />
     <link href="~/css/style_3.css" rel="stylesheet" />
@@ -30,9 +14,6 @@
     </script>
     <script src="~/js/GameProcess/generateShipStatisticsPlace.js"></script>
     <script src="~/js/GameProcess/updateResultWindow.js"></script>
-
-
-
 </head>
 <body>
 
@@ -113,7 +94,7 @@
                                     @:<tr>
                                         for (var j = 0; j < 10; j++)
                                         {
-                                            <td onclick="fireclick(this)"></td>
+                                            <td  class="blackouted" onclick="fireclick(this)"></td>
                                         }
                                     @:</tr>
                                 }

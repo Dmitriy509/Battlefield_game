@@ -132,7 +132,8 @@ namespace BL.Services
 
         public void updatePlayer(string player_id)
         {
-            _dm.Ps.GetPlayer(player_id, true);
+           _dm.Ps.GetPlayer(convertId(player_id), true);
+
         }
 
     }

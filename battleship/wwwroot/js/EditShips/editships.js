@@ -16,7 +16,7 @@
     b.style.position = 'absolute';
     // document.body.appendChild(b);       
     // moveAt(event);
-    fieldb = getElementBounds(field);
+    let fieldb = getElementBounds(field);
     b.style.zIndex = 1000; // над другими элементами
 
     function moveAt(event) {
@@ -151,7 +151,7 @@ function checkshipPosition(currentdesk, id) {
 
         let desk = getElementBounds(document.getElementById(item));
 
-        if (!checkFieldBounds(desk, fieldb)) continue;
+        if (!checkFieldBounds(desk, getElementBounds(field))) continue;
   
 
         let x = Math.round(desk.left / cell_size);
@@ -181,7 +181,7 @@ function checkshipPosition(currentdesk, id) {
 function rotateShip(ship) {
 
     let shipbounds = getElementBounds(ship);
-    if (!checkFieldBounds(shipbounds, fieldb)) {
+    if (!checkFieldBounds(shipbounds, getElementBounds(field))) {
         //alert("222");
         shakingShip(ship);
 
@@ -200,6 +200,7 @@ function rotateShip(ship) {
 
 function rotate(ship) {
 
+    let fieldb = getElementBounds(field);
     //borderwidth: top right bottom left
     let deskcount = ship.children.length;
     if (ship.offsetWidth >= 2 * cell_size) { //из гор в верт
@@ -217,8 +218,8 @@ function rotate(ship) {
                 if (i == deskcount - 1) ship.children[i].style.borderWidth = borderCell + "px " + borderTable + "px " + borderTable + "px " + borderTable + "px";
             else ship.children[i].style.borderWidth = borderCell + "px " + borderTable + "px " + borderCell + "px " + borderTable + "px";
         }
-        ship.style.width = (cell_size + 2 * borderTable) + "px";
-        ship.style.height = (cell_size * deskcount + 2 * borderTable) + "px";
+        ship.style.width = (cell_size + 2 * (borderTable - borderCell)) + "px";
+        ship.style.height = (cell_size * deskcount + 2 * (borderTable - borderCell)) + "px";
     }
     else if (ship.offsetHeight >= 2 * cell_size) {
 
@@ -237,8 +238,8 @@ function rotate(ship) {
                 if (i == deskcount - 1) ship.children[i].style.borderWidth = borderTable + "px " + borderTable + "px " + borderTable + "px " + borderCell + "px";
             else ship.children[i].style.borderWidth = borderTable + "px " + borderCell + "px " + borderTable + "px " + borderCell + "px";
         }
-        ship.style.width = (cell_size * deskcount + 2 * borderTable) + "px";
-        ship.style.height = (cell_size + 2 * borderTable) + "px";
+        ship.style.width = (cell_size * deskcount + 2 * (borderTable - borderCell)) + "px";
+        ship.style.height = (cell_size + 2 * (borderTable - borderCell)) + "px";
 
     }
 }

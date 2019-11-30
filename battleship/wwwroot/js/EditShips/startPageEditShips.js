@@ -12,7 +12,7 @@
 };
 //alert("aaa");
 const field = document.getElementById('battlefield1');
-var fieldb;
+
 //alert(fieldb.left);
 const borderCell = 1;
 const borderTable = 4;
@@ -31,7 +31,7 @@ else {
 
 //pageEditShipsResize.js
 setCellSize(field);
-fieldb = getElementBounds(field);
+
 setShipsCellSize();
 
 
@@ -46,9 +46,10 @@ let timerId = setInterval(function () { updateRoom(); }, 1000);
 
 
 function setPlayerReadyState() {
-    // console.log(PlayerShips[0].x + "  " + PlayerShips[0].y);
 
+    // console.log(PlayerShips[0].x + "  " + PlayerShips[0].y);
     if (flagPlayerReady) {
+        let fieldb = getElementBounds(field);
         for (var i = 0; i < PlayerShips.length; i++) {
 
             arrships[PlayerShips[i].shipname].x = PlayerShips[i].x;

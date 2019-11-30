@@ -35,7 +35,7 @@
                                 <img id="player1-ready" class="icon-player-ready" src="~/img/not-ready.png">
                             </div>
                             <input id="btn-ready" class="btn btn-green" type="button" value="готов!" onclick="getShips()" style="width: 10rem;">
-                            <input type='button' class="btn" onclick="randomPosition()" value='случайно' style="width: 10rem; float: right; margin-right: 2rem;"/>
+                            <input id="btn-random" type='button' class="btn" onclick="randomPosition()" value='случайно' style="width: 10rem; float: right; margin-right: 2rem;"/>
                         </div>
                         <div class="inner-elem working-place flex-container">
                             <div id="place-battlefield">
@@ -55,7 +55,7 @@
                             <div style="width:50%" class="flex-container control-panel flex-column">
                                 <div id="place-ships">
                                     <div id="ship-container">
-                                        <div id="fourdesk" onmousedown="dragShip(this)" ondblclick="rotateShip(this)" ondragstart="dragstShip() ">
+                                        <div id="fourdesk" class="ship" onmousedown="dragShip(this)" ondblclick="rotateShip(this)" ondragstart="dragstShip() ">
                                             <div style="float:left;"></div>
                                             <div style="float:left;"></div>
                                             <div style="float:left;"></div>
@@ -66,7 +66,7 @@
                                     {
                                         string s = "tripledesk" + i;
                                         <div id="ship-container">
-                                            <div id=@s onmousedown="dragShip(this)" ondblclick="rotateShip(this)" ondragstart="dragstShip() ">
+                                            <div id=@s  class="ship" onmousedown="dragShip(this)" ondblclick="rotateShip(this)" ondragstart="dragstShip() ">
                                                 <div style="float:left;"></div>
                                                 <div style="float:left;"></div>
                                                 <div style="float:left;"></div>
@@ -78,7 +78,7 @@
                                     {
                                         string s = "doubledesk" + i;
                                         <div id="ship-container">
-                                            <div id=@s onmousedown="dragShip(this)" ondblclick="rotateShip(this)" ondragstart="dragstShip() ">
+                                            <div id=@s class="ship" onmousedown="dragShip(this)" ondblclick="rotateShip(this)" ondragstart="dragstShip() ">
                                                 <div style="float:left;"></div>
                                                 <div style="float:left;"></div>
                                             </div>
@@ -88,8 +88,8 @@
                                     @for (var i = 1; i <= 4; i++)
                                     {
                                         string s = "singledesk" + i;
-                                        <div id="ship-container">
-                                            <div id=@s onmousedown="dragShip(this)" ondblclick="rotateShip(this)" ondragstart="dragstShip() ">
+                                        <div  id="ship-container">
+                                            <div id=@s class="ship" onmousedown="dragShip(this)" ondblclick="rotateShip(this)" ondragstart="dragstShip() ">
                                                 <div style="float:left;"></div>
                                             </div>
                                         </div>
