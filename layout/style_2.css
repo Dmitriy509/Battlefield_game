@@ -1,13 +1,13 @@
 #place-player {
 	width: 70%;
-	border: 2px solid #EB984E;
+	/*border: 2px solid #EB984E;*/
 	border-radius: 9pt;
 }
 
 #place-opponent {
 	width: 30%;
 	height: 100%;
-	border: 2px solid #EB984E;
+	/*border: 2px solid #EB984E;*/
 	border-radius: 9pt;
 	margin-left: 1rem;
 }
@@ -19,7 +19,7 @@
 }
 
 .top-place-player {
-	height: 2.5rem;
+	height: 3rem;
 }
 
 .top-place-player > * {
@@ -28,6 +28,7 @@
 
 #btn-ready {
 	float:right;
+	width:8rem;
 }
 
 #player-name {
@@ -78,4 +79,9 @@
 	width: 1rem;
 	height: 1rem;
 	vertical-align: middle;
+}
+
+#new_challenge_btn {
+	float: right;
+	width: 13rem;
 }

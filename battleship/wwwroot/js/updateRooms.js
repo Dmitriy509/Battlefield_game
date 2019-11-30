@@ -27,7 +27,7 @@ function getInfoRooms() {
                 cell = row.insertCell(1);
                 cell.classList.add("room-selection-button");
                 row.cells[0].innerHTML = data.roomnames[i];
-                let h = "<form method='POST' action='/Rooms/EnterTheRoom'><input type = 'hidden' name = 'roomname' value = '" + data.roomnames[i] + "' /><input type = 'hidden' name = 'player_id' value = '" + player_id + "' /><input type='image' name='take_challenge' src='../img/take_challenge.png'></form >"
+                let h = "<form method='POST' action='/Rooms/EnterTheRoom'><input type = 'hidden' name = 'roomname' value = '" + data.roomnames[i] + "' /><input type = 'hidden' name = 'player_id' value = '" + player_id + "' /> <input type='submit' class='btn' name='take_challenge' value='принять вызов'></form >"
                 row.cells[1].innerHTML = h;
 
             }

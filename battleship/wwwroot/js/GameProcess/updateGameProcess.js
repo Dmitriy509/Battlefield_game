@@ -201,9 +201,9 @@ function updateRoom() {
                 clearInterval(timerId)
                 flagFire = false;
                 if (data.gameresult == "win")
-                    document.getElementById('gamestatus').src = "../img/label_win.png";
+                    document.querySelector('#gamestatus label').innerHTML = "ПОБЕДА";
                 else
-                    document.getElementById('gamestatus').src = "../img/label_defeat.png";
+                    document.querySelector('#gamestatus label').innerHTML = "ПОРАЖЕНИЕ";;
 
                 openResultModal("result-modal");
             }

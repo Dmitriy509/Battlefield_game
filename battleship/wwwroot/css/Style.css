@@ -1,5 +1,7 @@
-﻿:root {
-    --f-family: "Verdana", sans-serif;
+﻿@import url('https://fonts.googleapis.com/css?family=Montserrat:400,700,800&display=swap&subset=cyrillic,cyrillic-ext');
+
+:root {
+    --f-family: 'Montserrat';
     --f-size: 12pt;
     --icon-size: 3rem;
     --common-padding: 18pt;
@@ -9,6 +11,7 @@
 
 body {
     font-family: var(--f-family);
+    font-weight: 400;
     font-size: var(--f-size);
     height: 100vh;
     margin: 0;
@@ -43,16 +46,6 @@ input[type="text"] {
     font-family: var(--f-family);
     font-size: var(--f-size);
     width: 100%;
-}
-
-input[type="submit"] {
-    font-family: var(--f-family);
-    font-size: var(--f-size);
-    font-weight: bold;
-    width: 50%;
-    background: transparent;
-    border: transparent;
-    background-position: center;
 }
 
 .login_block {
@@ -113,9 +106,8 @@ input[type="submit"] {
 }
 
 #login-btn {
-    height: 2.5rem;
     min-height: var(--f-size);
-    width: auto;
+    width: 10rem;
 }
 
 #top-menu {
@@ -126,20 +118,37 @@ input[type="submit"] {
     margin-top: 1rem;
 }
 
-#field {
-    margin: var(--common-padding);
-    margin-top: var(--common-padding);
-    margin-bottom: var(--common-padding);
-    margin-right: 10%;
-    margin-left: 10%;
-    padding: 1rem;
-    background-image: url('../img/paper-background.png');
-    background-size: 100% auto;
-    background-repeat: repeat;
-    background-position: center;
-    text-align: center;
-    height: 100%;
-    align-items: center;
+.field {
+  margin: var(--common-padding);
+  margin-right: 10%;
+  margin-left: 10%;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  text-align: center;
+  height: 100%;
+  align-items: center;
+  z-index: 2;
+}
+
+.paper-background {
+  position: absolute;
+  margin: var(--common-padding);
+  margin-right: 6%;
+  margin-left: 6%;
+  background-image: url('../img/paper-background.png');
+  background-size:  100% 100%;
+  background-repeat: no-repeat;
+  background-position: center; 
+  left:0; top:0; right:0; bottom:0;
+  z-index: 1;
+}
+
+.field-wrapper {
+  height: 100%; 
+  width: 100%; 
+  display: flex; 
+  flex-direction: column; 
+  position: relative;
 }
 
     #field > * {
@@ -256,4 +265,52 @@ table, td {
     border-radius: 0.8rem;
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
     background-color: #D62929;
+}
+
+.btn {
+  font-weight: 800;
+  font-size: 16pt;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: #80400b;
+  color: #fcd1ad;
+  cursor:pointer;
+  border: none;
+  background: url(../img/button.png) no-repeat;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 2rem;
+  box-shadow: 0 4px 8px 0 rgba(52, 28, 10, 0.2), 0 6px 20px 0 rgba(52, 28, 10, 0.19);
+  outline: none;
+}
+
+.btn:hover{
+  background-image: linear-gradient(to top, rgba(104,48,17,.3), transparent 100%), url(../img/button.png);
+  outline: none;
+}
+
+.btn:active {
+   box-shadow: 0 1px 2px 0 rgba(52, 28, 10, 0.2), 0 3px 10px 0 rgba(52, 28, 10, 0.19);;
+   outline: none;
+}
+
+btn-green {
+    background-image: url(../img/button_green.png);
+}
+
+.title {
+  font-size: 14pt;
+  color: #6a301f;
+  background: url(../img/background_title.png) no-repeat;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
+  height: 3rem;
+}
+
+.blackout {
+  background-color: rgba(104, 48, 17, .5);
 }

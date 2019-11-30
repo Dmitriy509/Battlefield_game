@@ -1,52 +1,53 @@
 ﻿<div id="result-modal" class="modal">
-    <div class="modal-view" style="width: 40rem;">
+    <div class="modal-view" style="width: 35rem; height:30rem;">
         <img class="modal-background-image" src="~/img/paper_modal.png">
-        <div class="flex-container flex-column modal-inner" style="width: 90%; height: 90%">
-            <div>
-                <img class="h1" id="gamestatus" src="~/img/label_defeat.png">
-            </div>
-
-            <div>
-                <img src="~/img/defeat_illustration.png" style="width: 20rem; height: 11rem;">
-            </div>
-
-            <div class="top-place-player inner-elem  centered-flex">
-                <div id="player-name" style="display: flex; justify-content: flex-end; margin-right: 1rem;">
-                    <div class="player-name">
-                        <label>@ViewBag.player1name</label>
-                    </div>
-                    <img class="icon-player-ready" src="~/img/not-ready.png">
-                </div>
-
-                <div id="opponent-name" style="display: flex; margin-left: 1rem;">
-                    <img class="icon-player-ready" src="~/img/not-ready.png">
-                    <div class="player-name">
-                        <label>@ViewBag.player2name</label>
-                    </div>
+        <div class="flex-container flex-column modal-inner" style="width: 90%; height: 80%">
+            <div class="centered-flex" style="margin-bottom: 1rem;">
+                <div id="gamestatus" class="title" style="width:20rem;">
+                    <label>ПОРАЖЕНИЕ</label>
                 </div>
             </div>
-            <div class="centered-flex">
-                <div class="timer-group">
-                    <div class="timer-animation">
-                        <div class="hand"><span></span></div>
-                        <div class="hand"><span></span></div>
+
+                <div>
+                    <img src="~/img/defeat_illustration.png" style="width: 20rem; height: 11rem;">
+                </div>
+
+                <div class="top-place-player inner-elem  centered-flex">
+                    <div id="player-name" style="display: flex; justify-content: flex-end; margin-right: 1rem;">
+                        <div class="player-name">
+                            <label>@ViewBag.player1name</label>
+                        </div>
+                        <img class="icon-player-ready" src="~/img/not-ready.png">
                     </div>
-                    <div id="timer-decision" class="timer-count">
-                        <label>@ViewBag.waitreplay</label>
-                        <input type="hidden" id="timerMod" value="run" /><br />
+
+                    <div id="opponent-name" style="display: flex; margin-left: 1rem;">
+                        <img class="icon-player-ready" src="~/img/not-ready.png">
+                        <div class="player-name">
+                            <label>@ViewBag.player2name</label>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div style="display: flex; justify-content: space-around;">
-                <input id="replaybtn" type="image" style=" width: 8rem;" src="~/img/again_btn.png" onclick="replay(this)"> 
-                <form method="post" action="~/GameResults/ExitGame">
-                    <input type="image" id="exitbtn" style="width: 8rem;" src="~/img/no_btn.png">
-                    <input type="hidden" id="playerIdSend" name="player_id" /><br />              
-                </form>
-
+                <div class="centered-flex">
+                    <div class="timer-group">
+                        <div class="timer-animation">
+                            <div class="hand"><span></span></div>
+                            <div class="hand"><span></span></div>
+                        </div>
+                        <div id="timer-decision" class="timer-count">
+                            <label>@ViewBag.waitreplay</label>
+                            <input type="hidden" id="timerMod" value="run" /><br />
+                        </div>
+                    </div>
+                </div>
+                <div style="display: flex; justify-content: space-around;">
+                    <input id="replaybtn" type="button" class="btn btn-green" style=" width: 8rem;" value="еще раз" onclick="replay(this)">
+                    <form method="post" action="~/GameResults/ExitGame">
+                        <input type="submit" id="exitbtn" class="btn" value="отмена" style="width: 8rem; background-image: url('../img/button_red.png');">
+                        <input type="hidden" id="playerIdSend" name="player_id" /><br />
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
 </div>
 <script>
     let ready = false;
