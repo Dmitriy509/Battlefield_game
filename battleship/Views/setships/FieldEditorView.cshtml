@@ -34,7 +34,8 @@
                                 <div id="player-name" class="player-name"><label></label></div>
                                 <img id="player1-ready" class="icon-player-ready" src="~/img/not-ready.png">
                             </div>
-                            <input id="btn-ready" class="btn" type="button" value="готов!" onclick="getShips()">
+                            <input id="btn-ready" class="btn btn-green" type="button" value="готов!" onclick="getShips()" style="width: 10rem;">
+                            <input type='button' class="btn" onclick="test()" value='случайно' style="width: 10rem; float: right; margin-right: 2rem;"/>
                         </div>
                         <div class="inner-elem working-place flex-container">
                             <div id="place-battlefield">
@@ -122,7 +123,6 @@
                 </div>
             </div>
             </div>
-            <input type='button' onclick="test()" value='и игру тест' style="margin:0 0 0 30%;height:45pt; width:110pt; " />
         </div>
         <script>
         var flagPlayerReady =@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(@ViewBag.Ready))

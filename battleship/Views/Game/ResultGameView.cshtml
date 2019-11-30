@@ -40,9 +40,9 @@
                     </div>
                 </div>
                 <div style="display: flex; justify-content: space-around;">
-                    <input id="replaybtn" type="button" class="btn" style=" width: 8rem; background-image: url(../img/button_green.png);" value="еще раз" onclick="replay(this)">
+                    <input id="replaybtn" type="button" class="btn btn-green" style=" width: 8rem;" value="еще раз" onclick="replay(this)">
                     <form method="post" action="~/GameResults/ExitGame">
-                        <input type="button" id="exitbtn" class="btn" value="отмена" style="width: 8rem; background-image: url('../img/button_red.png');">
+                        <input type="submit" id="exitbtn" class="btn" value="отмена" style="width: 8rem; background-image: url('../img/button_red.png');">
                         <input type="hidden" id="playerIdSend" name="player_id" /><br />
                     </form>
                 </div>

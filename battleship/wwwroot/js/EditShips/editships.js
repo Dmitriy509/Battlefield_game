@@ -1,19 +1,18 @@
 ﻿function dragShip(b) {
 
-  
-
     var coords = getCoords(b);
     b.style.margin = 0 + 'px';
+    let parentConteiner = document.getElementsByClassName('field-wrapper')[0];
     var shiftX = event.pageX - coords.left;
-    var shiftY = event.pageY - coords.top;
-
+    var shiftY = event.pageY - coords.top + parentConteiner.offsetTop;
+ 
   //  alert(coords.left + " "+coords.top + " " + event.pageX + " " + event.pageY);
 
     var lastX = coords.left;
-    var lastY = coords.top;
+    var lastY = coords.top - parentConteiner.offsetTop;
 
     var lastXChecking = coords.left;
-    var lastYChecking = coords.top;
+    var lastYChecking = coords.top - parentConteiner.offsetTop;
     b.style.position = 'absolute';
     // document.body.appendChild(b);       
     // moveAt(event);
@@ -22,9 +21,9 @@
 
     function moveAt(event) {
         let x = event.pageX - shiftX;
-        let y = event.pageY - shiftY;
+        let y = event.pageY - shiftY ;
 
-        //  document.getElementById('');
+     //   document.getElementById('player-name').innerText = event.pageX + " " + event.pageY + "  " + b.offsetTop;
       
         if (x > fieldb.left - cell_size && x < fieldb.right && y > fieldb.top - cell_size && y < fieldb.bottom) {
 
@@ -40,6 +39,7 @@
 
         }   
         else {
+
             b.style.left = x + 'px';
             b.style.top = y + 'px';
         }

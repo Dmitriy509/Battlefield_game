@@ -294,6 +294,10 @@ table, td {
    outline: none;
 }
 
+btn-green {
+    background-image: url(../img/button_green.png);
+}
+
 .title {
   font-size: 14pt;
   color: #6a301f;
