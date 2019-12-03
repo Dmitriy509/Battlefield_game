@@ -14,6 +14,7 @@
     </script>
     <script src="~/js/GameProcess/generateShipStatisticsPlace.js"></script>
     <script src="~/js/GameProcess/updateResultWindow.js"></script>
+    <script src="~/js/GameProcess/scriptGenBattlefield.js"></script>
 </head>
 <body>
 
@@ -34,73 +35,139 @@
                 <div class="title" style="width:10rem;">
                     <label>БИТВА</label>
                 </div>
-                <div id="battlefield" class="flex-container flex-column">
+                <div id="battlefield" class="flex-container flex-between">
 
-                    <div class="inner-elem top-place-player flex-container flex-between">
-                        <div class="flex-container">
-
-                            <div id="player-name" class="flex-container player-name">
-                                <label>@ViewBag.player1name</label>
+                    <div class="flex-container flex-column" style="width: 48%;">
+                        <div class="inner-elem top-place-player flex-container flex-between">
+                            <div class="flex-container">
+                                <div id="player-name" class="flex-container player-name">
+                                    <label>@ViewBag.player1name</label>
+                                </div>
+                                <div id="player-move" class="icon-player-ready">
+                                    <img src="~/img/my_move.png">
+                                </div>
                             </div>
-                            <div id="player-move" class="icon-player-ready">
-                                <img src="~/img/my_move.png">
+                            <div id="timer-move" class="timer-move flex-container player-name" style="width: 3rem;">
+                                <label>@ViewBag.movetime</label>
                             </div>
                         </div>
-                        <div id="timer-move" class="flex-container player-name" style="width: 3rem;">
-                            <label>@ViewBag.movetime</label>
+                        <div class="flex-container flex-between" style="height: auto;">
+                            <div id="player-ships-stat" class="inner-elem stat-hint"></div>
                         </div>
-                        <div class="flex-container">
-                            <div id="opponent-move" class="icon-player-ready" style="opacity: 0.3;">
-                                <img style="transform: scale(-1, 1)" src="~/img/my_move.png">
-                            </div>
-                            <div id="opponent-name" class="flex-container player-name">
-                                <label>@ViewBag.player2name</label>
+                        <div class="flex-container flex-between inner-elem">
+                            <div id="player-battlefield" style="width: 100%;">
+                                <table id="battlefield1">
+                                    @for (var i = 0; i < 10; i++)
+                                    {
+                                        @:<tr>
+                                            for (var j = 0; j < 10; j++)
+                                            {
+                                                @:<td></td>
+                                            }
+                                        @:</tr>
+                                    }
+                                </table>
                             </div>
                         </div>
                     </div>
 
-                    <div class="flex-container flex-between" style="height: auto;">
-                        <div id="player-ships-stat" class="inner-elem stat-hint">
-                            <script type="text/javascript">
-                                genPlaceShipStat("player-ships-stat");
-                            </script>
+                    <div class="flex-container flex-column" style="width: 48%;">
+                        <div class="inner-elem top-place-player flex-container flex-between">
+                            <div class="timer-move flex-container player-name" style="width: 3rem; visibility: hidden;">
+                                <label>0:00</label>
+                            </div>
+                            <div class="flex-container">
+                                <div id="opponent-move" class="icon-player-ready" style="opacity: 0.3;">
+                                    <img style="transform: scale(-1, 1)" src="~/img/my_move.png">
+                                </div>
+                                <div id="opponent-name" class="flex-container player-name"><label>@ViewBag.player2name</label></div>
+                            </div>
                         </div>
-                        <div id="opponent-ships-stat" class="inner-elem stat-hint">
-                            <script type="text/javascript">
-                                genPlaceShipStat("opponent-ships-stat");
-                            </script>
+                        <div class="flex-container flex-between" style="height: auto;">
+                            <div id="opponent-ships-stat" class="inner-elem stat-hint"></div>
+                        </div>
+                        <div class="flex-container flex-between inner-elem">
+                            <div id="opponent-battlefield" style="width: 100%;">
+                                <table id="battlefield2">
+                                    @for (var i = 0; i < 10; i++)
+                                    {
+                                        @:<tr>
+                                            for (var j = 0; j < 10; j++)
+                                            {
+                                                <td class="blackouted" onclick="fireclick(this)"></td>
+                                            }
+                                        @:</tr>
+                                    }
+                                </table>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="flex-container flex-between inner-elem">
-                        <div id="player-battlefield" class="battlefield">
-                            <table id="battlefield1">
+                    @*<div class="inner-elem top-place-player flex-container flex-between">
+            <div class="flex-container">
 
-                                @for (var i = 0; i < 10; i++)
-                                {
-                                    @:<tr>
-                                        for (var j = 0; j < 10; j++)
-                                        {
-                                            @:<td></td>
-                                        }
-                                    @:</tr>
-                                }
-                            </table>
-                        </div>
-                        <div id="opponent-battlefield" class="battlefield">
-                            <table id="battlefield2">
-                                @for (var i = 0; i < 10; i++)
-                                {
-                                    @:<tr>
-                                        for (var j = 0; j < 10; j++)
-                                        {
-                                            <td  class="blackouted" onclick="fireclick(this)"></td>
-                                        }
-                                    @:</tr>
-                                }
-                            </table>
-                        </div>
-                    </div>
+                <div id="player-name" class="flex-container player-name">
+                    <label>@ViewBag.player1name</label>
+                </div>
+                <div id="player-move" class="icon-player-ready">
+                    <img src="~/img/my_move.png">
+                </div>
+            </div>
+            <div id="timer-move" class="flex-container player-name" style="width: 3rem;">
+                <label>@ViewBag.movetime</label>
+            </div>
+            <div class="flex-container">
+                <div id="opponent-move" class="icon-player-ready" style="opacity: 0.3;">
+                    <img style="transform: scale(-1, 1)" src="~/img/my_move.png">
+                </div>
+                <div id="opponent-name" class="flex-container player-name">
+                    <label>@ViewBag.player2name</label>
+                </div>
+            </div>
+        </div>*@
+
+                    @*<div class="flex-container flex-between" style="height: auto;">
+            <div id="player-ships-stat" class="inner-elem stat-hint">
+                <script type="text/javascript">
+                    genPlaceShipStat("player-ships-stat");
+                </script>
+            </div>
+            <div id="opponent-ships-stat" class="inner-elem stat-hint">
+                <script type="text/javascript">
+                    genPlaceShipStat("opponent-ships-stat");
+                </script>
+            </div>
+        </div>*@
+
+                    @*<div class="flex-container flex-between inner-elem">
+            <div id="player-battlefield" class="battlefield">
+                <table id="battlefield1">
+
+                    @for (var i = 0; i < 10; i++)
+                    {
+                        @:<tr>
+                            for (var j = 0; j < 10; j++)
+                            {
+                                @:<td></td>
+                            }
+                        @:</tr>
+                    }
+                </table>
+            </div>
+            <div id="opponent-battlefield" class="battlefield">
+                <table id="battlefield2">
+                    @for (var i = 0; i < 10; i++)
+                    {
+                        @:<tr>
+                            for (var j = 0; j < 10; j++)
+                            {
+                                <td  class="blackouted" onclick="fireclick(this)"></td>
+                            }
+                        @:</tr>
+                    }
+                </table>
+            </div>
+        </div>*@
 
                 </div>
             </div>
@@ -111,7 +178,7 @@
 
         const borderCell = 1;
         const borderTable = 2;
-
+            redrawBattlefield();
         var cell_size = cellSizeCount();
 
         setCellSize(document.getElementById('battlefield1'));
@@ -128,7 +195,11 @@
             let place = document.getElementById("player-battlefield");
 
             let minDim = (place.offsetWidth < place.offsetHeight) ? place.offsetWidth : place.offsetHeight;
-            return Math.floor((minDim - 9 * borderCell - 2 * borderTable) / 10) -5;
+            console.log("place.offsetWidth" + place.offsetWidth);
+            console.log("place.offsetHeight" + place.offsetHeight);
+            console.log(Math.floor((minDim - 9 * borderCell - 2 * borderTable) / 10));
+            console.log(minDim);
+            return Math.floor((minDim - 9 * borderCell - 2 * borderTable) / 10);
 
         }
 
