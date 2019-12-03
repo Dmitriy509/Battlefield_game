@@ -83,11 +83,11 @@
                                 <div id="opponent-name" class="flex-container player-name"><label>@ViewBag.player2name</label></div>
                             </div>
                         </div>
-                        <div class="flex-container flex-between" style="height: auto;">
+                        <div class="flex-container flex-between" style="height: auto; justify-content: flex-end;">
                             <div id="opponent-ships-stat" class="inner-elem stat-hint"></div>
                         </div>
-                        <div class="flex-container flex-between inner-elem">
-                            <div id="opponent-battlefield" style="width: 100%;">
+                        <div class="flex-container inner-elem" style="justify-content: flex-end;">
+                            <div id="opponent-battlefield">
                                 <table id="battlefield2">
                                     @for (var i = 0; i < 10; i++)
                                     {
@@ -102,72 +102,6 @@
                             </div>
                         </div>
                     </div>
-
-                    @*<div class="inner-elem top-place-player flex-container flex-between">
-            <div class="flex-container">
-
-                <div id="player-name" class="flex-container player-name">
-                    <label>@ViewBag.player1name</label>
-                </div>
-                <div id="player-move" class="icon-player-ready">
-                    <img src="~/img/my_move.png">
-                </div>
-            </div>
-            <div id="timer-move" class="flex-container player-name" style="width: 3rem;">
-                <label>@ViewBag.movetime</label>
-            </div>
-            <div class="flex-container">
-                <div id="opponent-move" class="icon-player-ready" style="opacity: 0.3;">
-                    <img style="transform: scale(-1, 1)" src="~/img/my_move.png">
-                </div>
-                <div id="opponent-name" class="flex-container player-name">
-                    <label>@ViewBag.player2name</label>
-                </div>
-            </div>
-        </div>*@
-
-                    @*<div class="flex-container flex-between" style="height: auto;">
-            <div id="player-ships-stat" class="inner-elem stat-hint">
-                <script type="text/javascript">
-                    genPlaceShipStat("player-ships-stat");
-                </script>
-            </div>
-            <div id="opponent-ships-stat" class="inner-elem stat-hint">
-                <script type="text/javascript">
-                    genPlaceShipStat("opponent-ships-stat");
-                </script>
-            </div>
-        </div>*@
-
-                    @*<div class="flex-container flex-between inner-elem">
-            <div id="player-battlefield" class="battlefield">
-                <table id="battlefield1">
-
-                    @for (var i = 0; i < 10; i++)
-                    {
-                        @:<tr>
-                            for (var j = 0; j < 10; j++)
-                            {
-                                @:<td></td>
-                            }
-                        @:</tr>
-                    }
-                </table>
-            </div>
-            <div id="opponent-battlefield" class="battlefield">
-                <table id="battlefield2">
-                    @for (var i = 0; i < 10; i++)
-                    {
-                        @:<tr>
-                            for (var j = 0; j < 10; j++)
-                            {
-                                <td  class="blackouted" onclick="fireclick(this)"></td>
-                            }
-                        @:</tr>
-                    }
-                </table>
-            </div>
-        </div>*@
 
                 </div>
             </div>
@@ -225,14 +159,14 @@
         }
 
         window.onresize = function (event) {
-
-            cell_size = cellSizeCount();
+            window.location.reload(false); 
+          /*  cell_size = cellSizeCount();
             //   tableCreate('place-battlefield');
 
             var f1 = document.getElementById('battlefield1');
             var f2 = document.getElementById('battlefield2');
             setCellSize(f1);
-            setCellSize(f2);
+            setCellSize(f2);*/
 
         };
         </script>

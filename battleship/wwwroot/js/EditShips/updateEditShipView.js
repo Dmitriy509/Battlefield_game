@@ -80,8 +80,8 @@ function getShips() {
     $.post("/SetShips/GetShipsCoords", { player_id: player_id, Xarr: Xcoords, Yarr: Ycoords })
         .done(function (data1) {
           //  document.getElementById('user1').innerText = login + "- Готов";
-            document.getElementById('btn-ready').disabled = true;
-            document.getElementById('btn-random').disabled = true;
+            disableButton(document.getElementById('btn-ready'));
+            disableButton(document.getElementById('btn-random'));
             document.getElementById("player1-ready").src = "../img/ready.png";
             disableMoveShips();
             //  window.location.href = 'GameView';

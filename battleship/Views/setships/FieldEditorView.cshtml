@@ -7,7 +7,6 @@
     <link href="~/css/style_2.css" rel="stylesheet" />
     <script src="~/js/getcookies.js"></script>
 
-
 </head>
 <body>
     <div class="body">
@@ -34,10 +33,8 @@
                                 <div id="player-name" class="player-name"><label></label></div>
                                 <img id="player1-ready" class="icon-player-ready" src="~/img/not-ready.png">
                             </div>
-                            <input id="btn-ready" class="btn btn-green" type="button" value="готов!" onclick="getShips()" style="width: 10rem;">
-                            <input id="btn-random" type='button' class="btn" onclick="randomPosition()" value='случайно' style="width: 10rem; float: right; margin-right: 2rem;"/>
                         </div>
-                        <div class="inner-elem working-place flex-container">
+                        <div id="fleet_preparation" class="inner-elem working-place flex-container">
                             <div id="place-battlefield">
 
 
@@ -52,7 +49,7 @@
                                         }}
                                 </div>
                             </div>
-                            <div style="width:50%" class="flex-container control-panel flex-column">
+                            <div class="flex-container control-panel flex-column">
                                 <div id="place-ships">
                                     <div id="ship-container">
                                         <div id="fourdesk" class="ship" onmousedown="dragShip(this)" ondblclick="rotateShip(this)" ondragstart="dragstShip() ">
@@ -66,7 +63,7 @@
                                     {
                                         string s = "tripledesk" + i;
                                         <div id="ship-container">
-                                            <div id=@s  class="ship" onmousedown="dragShip(this)" ondblclick="rotateShip(this)" ondragstart="dragstShip() ">
+                                            <div id=@s class="ship" onmousedown="dragShip(this)" ondblclick="rotateShip(this)" ondragstart="dragstShip() ">
                                                 <div style="float:left;"></div>
                                                 <div style="float:left;"></div>
                                                 <div style="float:left;"></div>
@@ -88,7 +85,7 @@
                                     @for (var i = 1; i <= 4; i++)
                                     {
                                         string s = "singledesk" + i;
-                                        <div  id="ship-container">
+                                        <div id="ship-container">
                                             <div id=@s class="ship" onmousedown="dragShip(this)" ondblclick="rotateShip(this)" ondragstart="dragstShip() ">
                                                 <div style="float:left;"></div>
                                             </div>
@@ -106,6 +103,10 @@
                                         <label>Поворот корабля - двойной клик</label>
                                     </div>
                                 </div>
+                                <div id="btn-arrange">
+                                    <input id="btn-random" type='button' class="btn" onclick="randomPosition()" value='случайно' style="width: 10rem;" />
+                                    <input class="btn" id="btn-ready" onclick="getShips()" type="button" value="готов!">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -122,19 +123,21 @@
                     </div>
                 </div>
             </div>
-            </div>
         </div>
-        <script>
+    </div>
+    <script>
         var flagPlayerReady =@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(@ViewBag.Ready))
         var PlayerShips =@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(@ViewBag.Ships))
 
-        </script>
+    </script>
 
-        <script src="~/js/EditShips/editships.js"></script>
-        <script src="~/js/EditShips/pageEditShipsResize.js"></script>
-        <script src="~/js/EditShips/updateEditShipView.js"></script>
-        <script src="~/js/EditShips/startPageEditShips.js"></script>
-        <script src="~/js/EditShips/randomShipsPosition.js"></script>
+    <script src="~/js/EditShips/editships.js"></script>
+    <script src="~/js/EditShips/script_gen_vertical.js"></script>
+    <script src="~/js/EditShips/pageEditShipsResize.js"></script>
+    <script src="~/js/EditShips/updateEditShipView.js"></script>
+    <script src="~/js/EditShips/startPageEditShips.js"></script>
+    <script src="~/js/EditShips/randomShipsPosition.js"></script>
+
 
 </body>
 

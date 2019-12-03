@@ -12,7 +12,7 @@
 };
 //alert("aaa");
 const field = document.getElementById('battlefield1');
-
+fleetPreparationLocation();
 //alert(fieldb.left);
 const borderCell = 1;
 const borderTable = 4;
@@ -65,7 +65,8 @@ function setPlayerReadyState() {
             }
 
         }
-        document.getElementById('btn-ready').disabled = true;
+        disableButton(document.getElementById('btn-ready'));
+        disableButton(document.getElementById('btn-random'));
         document.getElementById("player1-ready").src = "../img/ready.png";
         PlayerShips = null;
     }
@@ -73,6 +74,11 @@ function setPlayerReadyState() {
 
 
 
+}
+
+function disableButton(el) {
+    el.disabled = true;
+    el.style.opacity = '0.5';
 }
 
 

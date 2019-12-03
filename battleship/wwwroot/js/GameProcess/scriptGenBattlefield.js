@@ -21,7 +21,9 @@ function battlefieldLocation() {
 		playerBattlefield.style.justifyContent = "center";
 		playerBattlefield.style.display = "flex";
 		opponentBattlefield.style.justifyContent = "center";
-		opponentBattlefield.style.display = "flex";
+        opponentBattlefield.style.display = "flex";
+        document.getElementById("opponent-ships-stat").parentElement.style.justifyContent = "flex-end";
+        document.getElementById("opponent-battlefield").parentElement.style.justifyContent = "center";
 	} else  {
 		elParent.classList.toggle("flex-column", false);
 	}

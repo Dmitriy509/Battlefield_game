@@ -16,12 +16,12 @@
 }
 
 .top-place-player {
-    height: 2.5rem;
+    height: 3rem;
 }
 
-    .top-place-player > * {
-        height: 100%;
-    }
+.top-place-player > * {
+    height: 100%;
+}
 
 #btn-ready {
     float: right;
@@ -67,8 +67,11 @@
 #place-ships {
     display: flex;
     flex-wrap: wrap;
-    height: 50%;
     width: 100%;
+}
+
+#place-ships > div {
+    margin-bottom: 1rem;
 }
 
 #icon-dbl-click {
@@ -84,4 +87,10 @@
 
 .ship {
     background-color: #c68850;
+}
+
+#btn-arrange > input {
+    margin-top: 1rem;
+    float: left;
+    margin-right: 1rem;
 }

@@ -79,12 +79,16 @@ function setCellSize(element) {
 
 window.onresize = function (event) {
 
+    window.location.reload(false); 
+/*
+
+   // fleetPreparationLocation();
     cell_size = cellSizeCount();
-    //   tableCreate('place-battlefield');
-    //  shipsCreate('place-ships');
-    //  var t = document.getElementById('battlefield1');
     setCellSize(field);
     setShipsCellSize();
+
+
+
     let fieldb = getElementBounds(field);
     for (key in arrships) {
         if (arrships[key].x != -1) {
@@ -93,7 +97,7 @@ window.onresize = function (event) {
             ship.style.top = fieldb.top + arrships[key].y * cell_size+ "px"
          
         }
-
-    }
-
+       
+    } */
+    
 };

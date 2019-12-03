@@ -7,7 +7,7 @@
 }
 
 .ship-miniature {
-    height: 1.3rem;
+    /*height: 1.3rem;*/
     margin-right: 0.5rem;
     margin-bottom: 2px;
     float: left;
@@ -42,14 +42,6 @@
 
 #opponent-ships-stat > .ship-miniature {
     float: right;
-}
-
-#player-battlefield {
-    margin-right: 5%;
-}
-
-#opponent-battlefield {
-    margin-left: 5%;
 }
 
 .blackouted {
