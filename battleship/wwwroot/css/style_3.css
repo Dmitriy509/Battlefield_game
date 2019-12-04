@@ -7,7 +7,7 @@
 }
 
 .ship-miniature {
-    height: 1.3rem;
+    /*height: 1.3rem;*/
     margin-right: 0.5rem;
     margin-bottom: 2px;
     float: left;
@@ -44,38 +44,29 @@
     float: right;
 }
 
-#player-battlefield {
-    margin-right: 5%;
-}
-
-#opponent-battlefield {
-    margin-left: 5%;
-}
-
 .blackouted {
 
     position: relative;
 }
 
-    .blackouted::after {
-        content: '';
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        background: rgba(104,48,17,0.3);
-        left: 0;
-        top: 0;
-        opacity: 0;
-     
-    }
+.blackouted::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(104,48,17,0.3);
+    left: 0;
+    top: 0;
+    opacity: 0;
+}
 
 .blackouted:hover::after {
     opacity: 0.5;
 }
 
 
-.injured-cell div {
-    background-color: #c68850;
+/*.injured-cell div {
+  
     display: flex;
     align-items: center;
     justify-content: center;
@@ -87,5 +78,6 @@
     display: flex;
     align-items: center;
     justify-content: center
-}
+}*/
+
 
