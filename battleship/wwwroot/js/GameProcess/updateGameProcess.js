@@ -1,4 +1,31 @@
-﻿function fireclick(td) {
+﻿function fightAnimation(el, isMiss, flAnimation) {
+        var resultWrapper = document.createElement('div');
+        resultWrapper.className = "fight-result";
+    var result = document.createElement('div');
+
+    if (isMiss) {
+
+        if (flAnimation)
+        {
+            var rWrapper = document.createElement('div');
+            rWrapper.className = "fight-result";
+            var r = document.createElement('div');
+            r.className = "miss";
+            rWrapper.appendChild(r);
+            el.appendChild(rWrapper);
+            result.className = "miss animate-fight-miss";
+        }
+        else result.className = "miss";
+    } else
+        if (flAnimation)
+            result.className = "injured animate-fight-injured";
+        else result.className = "injured";
+        resultWrapper.appendChild(result);
+      //  resultWrapper.style.zIndex = 100;
+        el.appendChild(resultWrapper);
+} 
+
+function fireclick(td) {
 
     if (flagFire) {
 
@@ -13,11 +40,15 @@
                     console.log("res " + data.fireresult[i]);
                     switch (data.fireresult[i]) {
                         case 3:  //injured
-                            injured(f.rows[data.rows[i]].cells[data.cells[i]]);
+                            injured(f.rows[data.rows[i]].cells[data.cells[i]], true);
                             flagFire = true;
+                      //      fightAnimation(f.rows[data.rows[i]].cells[data.cells[i]], true);
                             break;
                         case 4: //miss
-                            miss(f.rows[data.rows[i]].cells[data.cells[i]]);
+                            miss(f.rows[data.rows[i]].cells[data.cells[i]], true);
+                           // fightAnimation(f.rows[data.rows[i]].cells[data.cells[i]], true);
+         
+
                             break;
                         default:
 
@@ -39,74 +70,17 @@
 
 }
 
-function injured(td) {
-
-
-    let d = td.getElementsByTagName("div");
-    if (d.length > 0)
-        while (td.firstChild) {
-            td.firstChild.remove();
-        }
-
+function injured(td, flAnimation) {
 
     td.style.backgroundColor = "#c68850";
-    td.classList.add("injured-cell");
-    let div = document.createElement("div");
-   
-    let canvas = document.createElement("canvas");
-   // let csize = (td.offsetwidth-3)+'px';
-    div.appendChild(canvas);
-    // let csize = 27 * 96 / 72;
-    let csize = cell_size*0.9;
-
-    canvas.width = csize;
-    canvas.height = csize;
-    context = canvas.getContext("2d");
-    context.beginPath();
-    context.lineWidth = 3;
-    context.moveTo(0, 0);
-    context.lineTo(csize, csize );
-    context.moveTo(0, csize );
-    context.lineTo(csize, 0);
-    context.strokeStyle = "red";
-    context.stroke();
-    context.closePath();
-    td.appendChild(div);
+    fightAnimation(td, false, flAnimation);
     td.onclick = null;
 }
 
-    function miss(td) {
+function miss(td, flAnimation) {
 
-
-        let d = td.getElementsByTagName("div");
-        if (d.length > 0)
-            while (td.firstChild) {
-                td.firstChild.remove();
-            }
-
-        td.classList.add("miss-cell");
-        let div = document.createElement("div");
-       
-
-        let canvas = document.createElement("canvas");
-
-        div.appendChild(canvas);
-
-        let csize = cell_size * 0.9;
-        let r = csize / 5.5;
-        canvas.width = csize;
-        canvas.height = csize;
-        context = canvas.getContext("2d");
-        context.beginPath();
-        context.arc(csize / 2, csize / 2, r, 0, 2 * Math.PI, false);
-        context.fillStyle = 'black';
-        context.fill();
-        context.lineWidth = 1;
-        context.strokeStyle = 'black';
-        context.stroke();
-        context.closePath();
-        td.appendChild(div);
-        td.onclick = null;
+    fightAnimation(td, true, flAnimation);
+    td.onclick = null;
 }
 
 function updateBattleField(fieldname, field, flwithships)
@@ -123,10 +97,10 @@ function updateBattleField(fieldname, field, flwithships)
                         td.style.backgroundColor = "#c68850";
                     break;
                 case 3:  //injured
-                    injured(td);
+                    injured(td, false);
                     break;
                 case 4: //miss
-                    miss(td);
+                    miss(td, false);
                     break;
                 default:
 
@@ -178,11 +152,11 @@ function updateRoom() {
                             if (td.childNodes.length > 0) continue;
                 
                             switch (data.field[i][j]) {
-                                case 3:  //injured
-                                    injured(td);
+                                case 3:  //injured                                 
+                                        injured(td, true);
                                     break;
                                 case 4: //miss
-                                    miss(td);
+                                        miss(td, true);   
                                     break;
                                 default:
 

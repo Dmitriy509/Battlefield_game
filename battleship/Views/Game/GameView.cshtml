@@ -7,6 +7,7 @@
     <link href="~/css/style_3.css" rel="stylesheet" />
     <link href="~/css/style_modal.css" rel="stylesheet" />
     <link href="~/css/style_timer.css" rel="stylesheet" />
+    <link href="~/css/style_animation.css" rel="stylesheet"/>
     <script src="~/lib/jquery/dist/jquery.min.js" type="text/javascript"></script>
     <script src="~/js/getcookies.js"></script>
     <script>
@@ -62,7 +63,7 @@
                                         @:<tr>
                                             for (var j = 0; j < 10; j++)
                                             {
-                                                @:<td></td>
+                                                @:<td style="position: relative;"></td>
                                             }
                                         @:</tr>
                                     }
@@ -129,11 +130,11 @@
             let place = document.getElementById("player-battlefield");
 
             let minDim = (place.offsetWidth < place.offsetHeight) ? place.offsetWidth : place.offsetHeight;
-            console.log("place.offsetWidth" + place.offsetWidth);
-            console.log("place.offsetHeight" + place.offsetHeight);
-            console.log(Math.floor((minDim - 9 * borderCell - 2 * borderTable) / 10));
-            console.log(minDim);
-            return Math.floor((minDim - 9 * borderCell - 2 * borderTable) / 10);
+            //console.log("place.offsetWidth" + place.offsetWidth);
+            //console.log("place.offsetHeight" + place.offsetHeight);
+            //console.log(Math.floor((minDim - 9 * borderCell - 2 * borderTable) / 10));
+            //console.log(minDim);
+            return Math.floor((minDim - 9 * borderCell - 2 * borderTable) / 10)-5;
 
         }
 
