@@ -1,31 +1,27 @@
 ﻿#place-player {
     width: 70%;
-    border: 2px solid #EB984E;
     border-radius: 9pt;
 }
 
 #place-opponent {
     width: 30%;
     height: 100%;
-    border: 2px solid #EB984E;
     border-radius: 9pt;
     margin-left: 1rem;
 }
 
 .inner-elem {
-    margin-right: 1rem;
-    margin-left: 1rem;
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
 }
 
 .top-place-player {
-    height: 2.5rem;
+    height: 3rem;
 }
 
-    .top-place-player > * {
-        height: 100%;
-    }
+.top-place-player > * {
+    height: 100%;
+}
 
 #btn-ready {
     float: right;
@@ -71,12 +67,30 @@
 #place-ships {
     display: flex;
     flex-wrap: wrap;
-    height: 50%;
     width: 100%;
+}
+
+#place-ships > div {
+    margin-bottom: 1rem;
 }
 
 #icon-dbl-click {
     width: 1rem;
     height: 1rem;
     vertical-align: middle;
+}
+
+#new_challenge_btn {
+    float: right;
+    width: 13rem;
+}
+
+.ship {
+    background-color: #c68850;
+}
+
+#btn-arrange > input {
+    margin-top: 1rem;
+    float: left;
+    margin-right: 1rem;
 }

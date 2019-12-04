@@ -9,7 +9,7 @@
 </head>
 <body>
 
-  <div class="body">
+  <div class="body" >
 
     <div id="create-room-modal" class="modal">
       <div class="modal-view">
@@ -20,7 +20,7 @@
           </div>
           <div class="modal-content">
             <input id="new-room-name" type="text" class="input-text" placeholder="название комнаты">
-            <input type="image" src="./img/room_create.png" class="modal-btn"/>
+            <input type="button" value="создать" class="modal-btn btn"/>
           </div>
         </div>
       </div>
@@ -33,62 +33,68 @@
         <input class="icon-btn" type="image" src="./img/sound.png">
       </div>
     </div>
-    <div id="field" class="flex-container flex-column">
-      <div><img class="h1" src="./img/label_select_rival.png"></div>
-      <div class="top-place-player">
-        <div id="player-name" class="player-name" style="float: left;"><label>имя игрока</label></div>
-        <label style="padding-right: 2%">2 игрока онлайн</label>
-        <label>0 битв идёт</label>
-        <input type="image" src="./img/challenge.png" style="float: right;" onclick="openModal('create-room-modal');">
+    <div class="field-wrapper">
+     <div class="paper-background"></div>
+     <div id="field" class="flex-container flex-column field">
+      <div class="title" style="width:20rem;"> 
+        <label>ВЫБОР СОПЕРНИКА</label>
+      </div>
+      <div class="top-place-player" style="position: relative;">
+        <div id="player-name" class="player-name" ><label>имя игрока</label></div>
+        <input id="new_challenge_btn" type="button" class="btn" onclick="openModal('create-room-modal');"  value="бросить вызов">
+      </div>
+      <div> <label style="padding-right: 2%;">2 игрока онлайн</label>
+        <label> 0 битв идёт</label>
       </div>
       <div id="room-selection-wrapper" class="working-place style-2">
         <table>
           <tbody>
             <tr>
               <td class="room-selection-name">комната 1</td>
-              <td class="room-selection-button"><input type="image" name="take_challenge" src="./img/take_challenge.png"></td>
+              <td class="room-selection-button"><input type="button" class="btn" name="take_challenge" value="принять вызов"></td>
             </tr>
             <tr>
               <td class="room-selection-name">комната 1</td>
-              <td class="room-selection-button"><input type="image" name="take_challenge" src="./img/take_challenge.png"></td>
+              <td class="room-selection-button"><input type="button" class="btn" name="take_challenge" value="принять вызов"></td>
             </tr>
             <tr>
               <td class="room-selection-name">комната 1</td>
-              <td class="room-selection-button"><input type="image" name="take_challenge" src="./img/take_challenge.png"></td>
+              <td class="room-selection-button"><input type="button" class="btn" name="take_challenge" value="принять вызов"></td>
             </tr>
             <tr>
               <td class="room-selection-name">комната 1</td>
-              <td class="room-selection-button"><input type="image" name="take_challenge" src="./img/take_challenge.png"></td>
+              <td class="room-selection-button"><input type="button" class="btn" name="take_challenge" value="принять вызов"></td>
             </tr>
             <tr>
               <td class="room-selection-name">комната 1</td>
-              <td class="room-selection-button"><input type="image" name="take_challenge" src="./img/take_challenge.png"></td>
+              <td class="room-selection-button"><input type="button" class="btn" name="take_challenge" value="принять вызов"></td>
             </tr>
             <tr>
               <td class="room-selection-name">комната 1</td>
-              <td class="room-selection-button"><input type="image" name="take_challenge" src="./img/take_challenge.png"></td>
+              <td class="room-selection-button"><input type="button" class="btn" name="take_challenge" value="принять вызов"></td>
             </tr>
             <tr>
               <td class="room-selection-name">комната 1</td>
-              <td class="room-selection-button"><input type="image" name="take_challenge" src="./img/take_challenge.png"></td>
+              <td class="room-selection-button"><input type="button" class="btn" name="take_challenge" value="принять вызов"></td>
             </tr>
             <tr>
               <td class="room-selection-name">комната 1</td>
-              <td class="room-selection-button"><input type="image" name="take_challenge" src="./img/take_challenge.png"></td>
+              <td class="room-selection-button"><input type="button" class="btn" name="take_challenge" value="принять вызов"></td>
             </tr>
             <tr>
               <td class="room-selection-name">комната 1</td>
-              <td class="room-selection-button"><input type="image" name="take_challenge" src="./img/take_challenge.png"></td>
+              <td class="room-selection-button"><input type="button" class="btn" name="take_challenge" value="принять вызов"></td>
             </tr>
             <tr>
               <td class="room-selection-name">комната 1</td>
-              <td class="room-selection-button"><input type="image" name="take_challenge" src="./img/take_challenge.png"></td>
+              <td class="room-selection-button"><input type="button" class="btn" name="take_challenge" value="принять вызов"></td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
   </div>
+</div>
 
 </body>
 </html>

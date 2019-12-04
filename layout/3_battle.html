@@ -7,6 +7,7 @@
   <link href='./style_3.css' rel='stylesheet' type='text/css'>
   <link href='./style_modal.css' rel='stylesheet' type='text/css'>
   <link href='./style_timer.css' rel='stylesheet' type='text/css'>
+  <link href='./style_animation.css' rel='stylesheet' type='text/css'>
   <script src="./script.js"></script>
 
 </head>
@@ -14,11 +15,13 @@
 
   <!--modal result -->
   <div id="result-modal" class="modal">
-    <div class="modal-view"  style="width: 40rem;">
+    <div class="modal-view"  style="width: 35rem; height:30rem;">
       <img class="modal-background-image" src="./img/paper_modal.png">
-      <div class="flex-container flex-column modal-inner" style="width: 90%; height: 90%">
-        <div>
-          <img class="h1" src="./img/label_defeat.png">
+      <div class="flex-container flex-column modal-inner" style="width: 90%; height: 80%">
+        <div class="centered-flex" style="margin-bottom: 1rem;">
+        <div class="title" style="width:20rem;"> 
+             <label>ПОРАЖЕНИЕ</label>
+        </div>
         </div>
 
         <div>
@@ -52,8 +55,8 @@
           </div>    
         </div>
         <div style="display: flex; justify-content: space-around;">
-          <input id="btn-again" type="image" style=" width: 8rem;" src="./img/again_btn.png" onclick=" {readySet('player-name'); disableButton(this);}">
-          <input type="image" style="width: 8rem;" src="./img/no_btn.png" onclick="closeModal('result-modal');">
+          <input id="btn-again" type="button" class="btn" style=" width: 8rem; background-image: url(./img/button_green.png);" value="еще раз" onclick=" {readySet('player-name'); disableButton(this);}">
+          <input type="button" class="btn" value="отмена" style="width: 8rem; background-image: url('./img/button_red.png');" onclick="closeModal('result-modal');">
         </div>
       </div>
     </div>
@@ -67,9 +70,11 @@
         <input class="icon-btn" type="image" name="sound_img" src="./img/sound.png">
       </div>
     </div>
-    <div id="field" class="flex-container flex-column">
-      <div>
-        <img class="h1" src="./img/label_battle.png">
+        <div class="field-wrapper">
+     <div class="paper-background"></div>
+    <div id="field" class="flex-container flex-column field">
+      <div class="title" style="width:10rem;"> 
+        <label>БИТВА</label>
       </div>
       <div id="battlefield" class="flex-container flex-column">
 
@@ -88,7 +93,7 @@
         </div>
         <div class="flex-container"> 
           <div id="opponent-move" class="icon-player-ready" style="opacity: 0.3;">
-            <img src="./img/my_move.png">
+            <img style="transform: scale(-1, 1)" src="./img/my_move.png">
           </div>
           <div id="opponent-name" class="flex-container player-name"><label>соперник</label></div>
         </div>
@@ -117,6 +122,7 @@
       </div>
 
     </div>
+  </div>
   </div>
 </div>
 

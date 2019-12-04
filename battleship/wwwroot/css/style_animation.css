@@ -1,0 +1,90 @@
+@-webkit-keyframes animate-circle {
+    from {
+        -webkit-transform: scale(1);
+                transform: scale(1);
+        opacity: 1;
+    }
+    to {
+        -webkit-transform: scale(3);
+                transform: scale(3);
+        opacity: 0;
+        /*z-index: -1;*/
+    }
+}
+
+.fight-result {
+    position: absolute; 
+    width: 100%; 
+    height: 100%; 
+    left: 0; 
+    top: 0; 
+    opacity: 1;
+    display: flex; 
+    align-items: center; 
+    justify-content: center
+}
+
+    .fight-result .miss {
+        content: '';
+        opacity: 1;
+        position: absolute;
+        background: black;
+        border-radius: 100%;
+        /*animation: animate-circle 1s 1;*/
+        width: 30%;
+        height: 30%;
+    }
+
+.animate-fight-miss  {
+       animation: animate-circle 1s 1;
+    }
+
+.animate-fight-injured {
+    animation: animate-text 1s 1
+}
+
+.fight-result .injured {
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 1;
+    /*animation: animate-text 1s 1;*/
+}
+
+    .fight-result .injured::before,
+    .fight-result .injured::after {
+        position: absolute;
+        display: block;
+        width: 100%;
+        height: 0.3rem;
+        background-color: #ff3264;
+        content: "";
+    }
+
+    .fight-result .injured::before {
+        transform: rotate(45deg);
+        bottom: 50%;
+    }
+
+    .fight-result .injured::after {
+        transform: rotate(-45deg);
+        bottom: 50%;
+    }
+
+
+@-webkit-keyframes animate-text {
+    from {
+        transform: scale(0);
+        opacity: 0;
+    }
+
+    80% {
+        transform: scale(1.3);
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}

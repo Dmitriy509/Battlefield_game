@@ -41,24 +41,33 @@ function setCellSize(element) {
         element.style.height = (cell_size * 10 + 2 * borderTable) + "px";
     }
     else {
-        element.style.width = (cell_size * count + 2 * borderTable) + "px";
-        element.style.height = (cell_size + 2 * borderTable) + "px";
+        if (element.offsetWidth < element.offsetHeight) {
+            element.style.width = (cell_size + 2 * (borderTable-borderCell)) + "px";
+            element.style.height = (cell_size * count + 2 * (borderTable - borderCell)) + "px";
+        }
+        else {
+
+            element.style.width = (cell_size * count + 2 * (borderTable - borderCell)) + "px";
+            element.style.height = (cell_size + 2 * (borderTable - borderCell)) + "px";
+        }
     }
     let deskcount = Math.floor(element.offsetWidth / cell_size);
- 
+    let firstcellheight = element.children[0].offsetHeight;
     for (var i = 0; i < count; i++) {
         let cell = element.children[i];
-        cell.style.border = borderCell + "px solid";
-        let ii = Math.floor(i/10);
-        let jj=i%10;
+        if (firstcellheight ==0) {
+            cell.style.border = borderCell + "px solid";
+            let ii = Math.floor(i / 10);
+            let jj = i % 10;
 
 
-        if (ii == 0) cell.style.borderTop=borderTable + "px solid";
-        if (jj == 0) cell.style.borderLeft = borderTable + "px solid";
-        if (ii == deskcount - 1 || count<10) cell.style.borderBottom = borderTable + "px solid";
-        if (jj == deskcount - 1) cell.style.borderRight = borderTable + "px solid";
-        
-          
+
+            if (ii == 0) cell.style.borderTop = borderTable + "px solid";
+            if (jj == 0) cell.style.borderLeft = borderTable + "px solid";
+            if (ii == deskcount - 1 || count < 10) cell.style.borderBottom = borderTable + "px solid";
+            if (jj == deskcount - 1) cell.style.borderRight = borderTable + "px solid";
+
+        }
             cell.style.width = (cell_size - 2*borderCell) + "px";
             cell.style.height = (cell_size - 2*borderCell) + "px";      
         }
@@ -70,13 +79,17 @@ function setCellSize(element) {
 
 window.onresize = function (event) {
 
+    window.location.reload(false); 
+/*
+
+   // fleetPreparationLocation();
     cell_size = cellSizeCount();
-    //   tableCreate('place-battlefield');
-    //  shipsCreate('place-ships');
-    //  var t = document.getElementById('battlefield1');
     setCellSize(field);
     setShipsCellSize();
-    fieldb = getElementBounds(field);
+
+
+
+    let fieldb = getElementBounds(field);
     for (key in arrships) {
         if (arrships[key].x != -1) {
             let ship = document.getElementById(key);
@@ -84,7 +97,7 @@ window.onresize = function (event) {
             ship.style.top = fieldb.top + arrships[key].y * cell_size+ "px"
          
         }
-
-    }
-
+       
+    } */
+    
 };

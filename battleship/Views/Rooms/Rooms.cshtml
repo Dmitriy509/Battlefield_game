@@ -17,14 +17,14 @@
                     <div>
                         <input class="icon-btn close-btn" type="image" src="~/img/icon_close.png" onclick="closeModal('create-room-modal');">
                     </div>
-                   
-                        <form method="post" action="~/Rooms/AddRoom" class="modal-content">
-                            <input id="new-room-name" name="RoomName" type="text" class="input-text" placeholder="название комнаты">                            
-                            <input type="image" src="~/img/room_create.png" class="modal-btn" />
-                            <input type="hidden" id="playerIdSend" name="player_id" />
-                        </form>
 
-              
+                    <form method="post" action="~/Rooms/AddRoom" class="modal-content">
+                        <input id="new-room-name" name="RoomName" type="text" class="input-text" placeholder="название комнаты">
+                        <input type="submit" value="создать" class="modal-btn btn"/>
+                        <input type="hidden" id="playerIdSend" name="player_id" />
+                    </form>
+
+
                 </div>
             </div>
         </div>
@@ -35,56 +35,59 @@
                 <form method="post" action="~/Login/Signout">
                     <input type="image" class="icon-btn" src="~/img/out.png">
                 </form>
-                    <input type="image" class="icon-btn" src="~/img/sound.png">
+                <input type="image" class="icon-btn" src="~/img/sound.png">
             </div>
         </div>
-        <div id="field" class="flex-container flex-column">
-            <div><img class="h1" src="~/img/label_select_rival.png"></div>
-            <div class="top-place-player" style="position: relative;">
-                <div id="player-name" class="player-name" style="float: left;"><label>имя игрока</label></div>
-                <input type="image" src="~/img/challenge.png" style="float: right;" onclick="openModal('create-room-modal');">
-            </div>
-            <div>
-                <label id="online-players" style="padding-right: 2%;">0 игрока онлайн</label>
-                <label id="current-battles"> 0 битв идёт</label>
-            </div>
-            <div id="room-selection-wrapper" class="working-place style-2">
-                <table id="roomslist"></table>
+        <div class="field-wrapper">
+            <div class="paper-background"></div>
+            <div id="field" class="flex-container flex-column field">
+                <div class="title" style="width:20rem;">
+                    <label>ВЫБОР СОПЕРНИКА</label>
+                </div>
+                <div class="top-place-player" style="position: relative;">
+                    <div id="player-name" class="player-name" style="float: left;"><label>имя игрока</label></div>
+                    <input id="new_challenge_btn" type="button" class="btn" onclick="openModal('create-room-modal');" value="бросить вызов">
+                </div>
+                <div>
+                    <label id="online-players" style="padding-right: 2%;">0 игрока онлайн</label>
+                    <label id="current-battles"> 0 битв идёт</label>
+                </div>
+                <div id="room-selection-wrapper" class="working-place style-2">
+                    <table id="roomslist"></table>
+                </div>
             </div>
         </div>
-    </div>
-    <script type="text/javascript">
-        // document.getElementById("loginModal").modal('show');
+        </div>
+        <script type="text/javascript">
+            // document.getElementById("loginModal").modal('show');
+     
+
+            function openModal(modalId) {
+                var modal = document.getElementById(modalId);
+                var inputs = document.querySelectorAll("#" + modalId + " input[type='text']");
+                inputs.forEach(function (el) {
+                    el.value = "";
+                });
+                modal.style.display = "flex";
+            }
+
+            function closeModal(modalId) {
+                document.getElementById(modalId).style.display = "none";
+            }
 
 
-        function openModal(modalId) {
-            var modal = document.getElementById(modalId);
-            var inputs = document.querySelectorAll("#" + modalId + " input[type='text']");
-            inputs.forEach(function (el) {
-                el.value = "";
-            });
-            modal.style.display = "flex";
-        }
+            //  var login = get_cookie("Login");
+            var player_id = get_cookie("Player_Id");
+            if (player_id == null) {
+                window.location.href = '/Login/Login';
+            }
+            else {
+                document.getElementById('playerIdSend').value = player_id;
+            }
+            document.getElementById('player-name').childNodes[0].innerHTML = get_cookie("Login");
+        </script>
 
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = "none";
-        }
-
-
-      //  var login = get_cookie("Login");
-        var player_id = get_cookie("Player_Id");
-        if (player_id == null) {
-            window.location.href = '/Login/Login';
-        }
-        else {
-            document.getElementById('playerIdSend').value = player_id;
-        }
-        document.getElementById('player-name').childNodes[0].innerHTML = get_cookie("Login");
-    </script>
-
-    <script src="~/js/updateRooms.js"></script>
-
-
-
+        <script src="~/js/updateRooms.js"></script>
+    
 </body>
 </html>

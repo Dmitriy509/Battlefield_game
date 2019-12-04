@@ -20,16 +20,16 @@ function set_cookie(cookie_name, cookie_val, expireSec) {
 var flFirstTab = true;
 
 if (get_cookie("logged_in") == null || get_cookie("logged_in") == 'no')
-    //   document.cookie = "logged_in=yes;";
+{   //   document.cookie = "logged_in=yes;";
     set_cookie("logged_in", "yes", 7200);
-
+}
 else {
     window.location.href = "/Login/ErrorNewTab";
 }
 
 
 window.addEventListener('beforeunload', function (e) {
-    if (flFirstTab) { set_cookie("logged_in", "no", 20); }
+    if (flFirstTab) { set_cookie("logged_in", "no", -20);  }
 }, false);
 
 

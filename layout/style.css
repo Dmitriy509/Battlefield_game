@@ -1,7 +1,9 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,700,800&display=swap&subset=cyrillic,cyrillic-ext');
+
 :root {
-  --f-family: "Verdana", sans-serif;
-  --f-size: 12pt;
-  --icon-size: 36pt;
+  --f-family: 'Montserrat';
+  --f-size: 14pt;
+  --icon-size: 3rem;
   --common-padding: 18pt;
 }
 
@@ -9,6 +11,8 @@
 
 body {
   font-family: var(--f-family);
+  /*font-family:'Montserrat';*/
+  font-weight: 400;
   font-size: var(--f-size);
   height: 100vh;
   margin:0;
@@ -56,10 +60,8 @@ input[type="submit"] {
 }
 
 .login_block {
-  top: 0;
-  left: 0;
-  position: absolute;
-  z-index: 1;
+  display: flex;
+  justify-content: center;
   width: 100%;
   height: 100%;
 }
@@ -85,8 +87,8 @@ input[type="submit"] {
 /* STRUCTURE */
 
 #formContent {
-  width: 80%;
-  height: 80%;
+  width: 30rem;
+  min-width: 20rem;
   display: flex;
   background: transparent;
   text-align: center; 
@@ -102,11 +104,10 @@ input[type="submit"] {
   flex-flow: column wrap;
   justify-content: center;
   align-items: center;
-  margin: 5%;
 }
 
 #formContent > form  * {
-  margin-bottom:5%;
+  margin-bottom:2rem;
 }
 
 .input-text {
@@ -116,32 +117,49 @@ input[type="submit"] {
 }
 
 #login-btn  {
-  height: auto;
   min-height: var(--f-size);
-  width: 50%;
+  width: 10rem;
 }
 
 #top-menu {
   display: flex;
+  align-items: center;
   margin-left: 10%;
   margin-right: 10%;
   margin-top: 1rem;
 }
 
-#field {
+.field {
   margin: var(--common-padding);
-  margin-top: var(--common-padding);
-  margin-bottom: var(--common-padding);
   margin-right: 10%;
   margin-left: 10%;
-  padding: 1rem;
-  background-image: url('./img/paper-background.png');
-  background-size:  100% auto;
-  background-repeat: repeat;
-  background-position: center; 
+  padding-top: 2rem;
+  padding-bottom: 2rem;
   text-align: center;
   height: 100%;
   align-items: center;
+  z-index: 2;
+}
+
+.paper-background {
+  position: absolute;
+  margin: var(--common-padding);
+  margin-right: 6%;
+  margin-left: 6%;
+  background-image: url('./img/paper-background.png');
+  background-size:  100% 100%;
+  background-repeat: no-repeat;
+  background-position: center; 
+  left:0; top:0; right:0; bottom:0;
+  z-index: 1;
+}
+
+.field-wrapper {
+  height: 100%; 
+  width: 100%; 
+  display: flex; 
+  flex-direction: column; 
+  position: relative;
 }
 
 #field > * {
@@ -159,12 +177,16 @@ input[type="submit"] {
 }
 
 table, td {
-  border: 2px solid #402205;
+  border: 2px solid #a07b70;
   border-collapse: collapse;
 }
 
 #room-selection-wrapper table {
   width: 100%;
+}
+
+#room-selection-wrapper input {
+  width: 15rem;
 }
 
 .room-selection-button, .room-selection-name {
@@ -185,7 +207,6 @@ table, td {
 
 .room-selection-name {
   text-align: left; 
-  font-weight: bold;
   color: #402205;
 }
 
@@ -236,7 +257,7 @@ table, td {
 }
 
 .icon-btn {
-  width: 2rem;
+  width: var(--icon-size);
   height: auto;
 }
 
@@ -260,5 +281,49 @@ table, td {
 {
   border-radius: 0.8rem;
   -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
-  background-color: #D62929;
+  background-color: #a48076;
+}
+
+.btn {
+  font-weight: 800;
+  font-size: 16pt;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: #80400b;
+  color: #fcd1ad;
+  cursor:pointer;
+  border: none;
+  background: url(./img/button.png) no-repeat;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 2rem;
+  box-shadow: 0 4px 8px 0 rgba(52, 28, 10, 0.2), 0 6px 20px 0 rgba(52, 28, 10, 0.19);
+  outline: none;
+}
+
+.btn:hover{
+  background-image: linear-gradient(to top, rgba(104,48,17,.3), transparent 100%), url(./img/button.png);
+  outline: none;
+}
+
+.btn:active {
+   box-shadow: 0 1px 2px 0 rgba(52, 28, 10, 0.2), 0 3px 10px 0 rgba(52, 28, 10, 0.19);;
+   outline: none;
+}
+
+.title {
+  font-size: 14pt;
+  color: #6a301f;
+  background: url(./img/background_title.png) no-repeat;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
+  height: 3rem;
+}
+
+.blackout {
+  background-color: rgba(104, 48, 17, .5);
 }

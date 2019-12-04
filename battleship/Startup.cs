@@ -39,15 +39,19 @@ namespace battleship
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            #if RELEASE
+            env.EnvironmentName = "Production";
+            #endif
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-                app.UseHsts();
-            }
+            //else
+            //{
+            //    app.UseExceptionHandler("/Home/Error");
+            //    app.UseHsts();
+            //}
 
             loggerFactory.AddFile(Configuration.GetSection("Logging").GetSection("File1"));
             loggerFactory.AddFile(Configuration.GetSection("Logging").GetSection("File2"));
@@ -62,7 +66,7 @@ namespace battleship
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Login}/{action=Login}/{id?}");
+                    template: "{controller=Login}/{action=Login}");
             });
         }
     }

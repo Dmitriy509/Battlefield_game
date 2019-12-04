@@ -1,0 +1,53 @@
+@-webkit-keyframes animate-circle {
+    from {
+        -webkit-transform: scale(0);
+                transform: scale(0);
+        opacity: 1;
+    }
+    to {
+        -webkit-transform: scale(1);
+                transform: scale(1);
+        opacity: 0;
+    }
+}
+
+/*@keyframes animate-circle {
+    from {
+        -webkit-transform: scale(0);
+                transform: scale(0);
+        opacity: 1;
+    }
+    to {
+        -webkit-transform: scale(1);
+                transform: scale(1);
+        opacity: 0;
+    }
+}*/
+
+body {
+    background: #A53860;
+}
+
+/*.loader {
+    --size: 10rem;
+    
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    height: var(--size);
+    width: var(--size);
+    -webkit-transform: translateX(-50%) translateY(-50%);
+            transform: translateX(-50%) translateY(-50%);
+}
+*/
+.circle {
+    opacity: 0;
+    --duration: 0.5s;
+    position: absolute;
+    height: 10rem;
+    width: 10rem;
+    background: #FFA5AB;
+    border-radius: 50%;
+    /*-webkit-animation: animate-circle var(--duration) cubic-bezier(.9,.24,.62,.79) 1;*/
+   animation: animate-circle var(--duration) 1;
+}

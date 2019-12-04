@@ -31,7 +31,7 @@ function updateRoom() {
 
 function getShips() {
     let arr = ["singledesk1", "singledesk2", "singledesk3", "singledesk4", "doubledesk1", "doubledesk2", "doubledesk3", "tripledesk1", "tripledesk2", "fourdesk"];
-
+    let fieldb = getElementBounds(field);
     let Xcoords = new Array(20);
     let Ycoords = new Array(20);
     let index = 0;
@@ -80,7 +80,8 @@ function getShips() {
     $.post("/SetShips/GetShipsCoords", { player_id: player_id, Xarr: Xcoords, Yarr: Ycoords })
         .done(function (data1) {
           //  document.getElementById('user1').innerText = login + "- Готов";
-            document.getElementById('btn-ready').disabled = true;
+            disableButton(document.getElementById('btn-ready'));
+            disableButton(document.getElementById('btn-random'));
             document.getElementById("player1-ready").src = "../img/ready.png";
             disableMoveShips();
             //  window.location.href = 'GameView';
