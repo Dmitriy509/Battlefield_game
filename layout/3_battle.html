@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <link href='./style.css' rel='stylesheet' type='text/css'>
+  <link href='./style_2.css' rel='stylesheet' type='text/css'>
+  <link href='./style_3.css' rel='stylesheet' type='text/css'>
+  <link href='./style_modal.css' rel='stylesheet' type='text/css'>
+  <link href='./style_timer.css' rel='stylesheet' type='text/css'>
+  <link href='./style_animation.css' rel='stylesheet' type='text/css'>
+  <script src="./script.js"></script>
+
+</head>
+<body>
+
+  <!--modal result -->
+  <div id="result-modal" class="modal">
+    <div class="modal-view"  style="width: 35rem; height:30rem;">
+      <img class="modal-background-image" src="./img/paper_modal.png">
+      <div class="flex-container flex-column modal-inner" style="width: 90%; height: 80%">
+        <div class="centered-flex" style="margin-bottom: 1rem;">
+        <div class="title" style="width:20rem;"> 
+             <label>ПОРАЖЕНИЕ</label>
+        </div>
+        </div>
+
+        <div>
+          <img src="./img/defeat_illustration.png" style="width: 20rem; height: 11rem;">
+        </div>
+
+        <div class="top-place-player inner-elem  centered-flex"> 
+          <div id="player-name" style="display: flex; justify-content: flex-end; margin-right: 1rem;">
+            <div class="player-name">
+              <label>игрок</label>
+            </div>
+            <img class="icon-player-ready" src="./img/not-ready.png">
+          </div>
+
+          <div id="opponent-name" style="display: flex; margin-left: 1rem;">
+            <img class="icon-player-ready" src="./img/not-ready.png">
+            <div class="player-name">
+              <label>противник</label>
+            </div>
+          </div>
+        </div>
+        <div class="centered-flex">
+          <div class="timer-group">
+            <div class="timer-animation">
+              <div class="hand"><span></span></div>
+              <div class="hand"><span></span></div>
+            </div>
+            <div id="timer-decision" class="timer-count">
+              <label>0:00</label>  
+            </div>
+          </div>    
+        </div>
+        <div style="display: flex; justify-content: space-around;">
+          <input id="btn-again" type="button" class="btn" style=" width: 8rem; background-image: url(./img/button_green.png);" value="еще раз" onclick=" {readySet('player-name'); disableButton(this);}">
+          <input type="button" class="btn" value="отмена" style="width: 8rem; background-image: url('./img/button_red.png');" onclick="closeModal('result-modal');">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="body">
+    <div id="top-menu">
+      <img src="./img/logo.png">
+      <div id="btn-panel">
+        <input class="icon-btn" type="image" name="sound_img" src="./img/white_flag.png">
+        <input class="icon-btn" type="image" name="sound_img" src="./img/sound.png">
+      </div>
+    </div>
+        <div class="field-wrapper">
+     <div class="paper-background"></div>
+    <div id="field" class="flex-container flex-column field">
+      <div class="title" style="width:10rem;"> 
+        <label>БИТВА</label>
+      </div>
+      <div id="battlefield" class="flex-container flex-column">
+
+       <div class="inner-elem top-place-player flex-container flex-between"">
+        <div class="flex-container">
+          <div id="player-name" class="flex-container player-name">
+            <label>игрок</label>
+          </div>
+          <div id="player-move" class="icon-player-ready">
+            <img src="./img/my_move.png">
+          </div>
+        </div>
+        <div id="timer-move" class="flex-container player-name" style="width: 3rem;">
+          <label>0:00</label>
+          <script type="text/javascript">timerMove('timer-move',5, 'result-modal');</script>
+        </div>
+        <div class="flex-container"> 
+          <div id="opponent-move" class="icon-player-ready" style="opacity: 0.3;">
+            <img style="transform: scale(-1, 1)" src="./img/my_move.png">
+          </div>
+          <div id="opponent-name" class="flex-container player-name"><label>соперник</label></div>
+        </div>
+      </div>
+
+      <div class="flex-container flex-between" style="height: auto;">
+        <div id="player-ships-stat" class="inner-elem stat-hint">
+          <script type="text/javascript">genPlaceShipStat("player-ships-stat");</script>
+        </div>
+        <div id="opponent-ships-stat" class="inner-elem stat-hint">
+          <script type="text/javascript">genPlaceShipStat("opponent-ships-stat");</script>
+        </div>
+      </div>
+
+      <div class="flex-container flex-between inner-elem">
+        <div id="player-battlefield" class="battlefield reverse">
+          <script type="text/javascript">
+            tableCreate('player-battlefield');
+          </script>
+        </div>
+        <div id="opponent-battlefield" class="battlefield">
+          <script type="text/javascript">
+            tableCreate('opponent-battlefield');
+          </script>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  </div>
+</div>
+
+</body>
+</html>

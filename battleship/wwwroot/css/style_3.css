@@ -1,0 +1,83 @@
+﻿.player-zone {
+    width: 45%;
+}
+
+.battlefield {
+    width: 45%;
+}
+
+.ship-miniature {
+    /*height: 1.3rem;*/
+    margin-right: 0.5rem;
+    margin-bottom: 2px;
+    float: left;
+    height: auto;
+    background-color: #c68850;
+}
+
+.ship-block-stat {
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    border-left: 1px solid black;
+    float: left;
+    width: 1rem;
+    height: 1rem;
+}
+
+.ship-miniature div:last-child {
+    border-right: 1px solid black;
+}
+
+.stat-hint {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+#timer-move {
+    background-image: url('../img/timer_board.png');
+}
+
+.flex-between {
+    justify-content: space-between;
+}
+
+#opponent-ships-stat > .ship-miniature {
+    float: right;
+}
+
+.blackouted {
+
+    position: relative;
+}
+
+.blackouted::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(104,48,17,0.3);
+    left: 0;
+    top: 0;
+    opacity: 0;
+}
+
+.blackouted:hover::after {
+    opacity: 0.5;
+}
+
+
+/*.injured-cell div {
+  
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+.miss-cell div {
+    display: flex;
+    align-items: center;
+    justify-content: center
+}*/
+
+
